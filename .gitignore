@@ -1,6 +1,7 @@
 .project
 .classpath
 factoryConfiguration.json
+*.ini
 
 ### Java ###
 # Compiled class file
