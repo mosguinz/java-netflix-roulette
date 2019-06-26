@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package AppPackage;
+package com.mosguinz.javanetflixroulette;
 
 /**
  *
@@ -27,13 +27,17 @@ public class HomeGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        rollButton = new javax.swing.JButton();
         titleLabel = new javax.swing.JLabel();
+        rollButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Netflix roulette");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        titleLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
+        titleLabel.setText("Netflix roulette");
+        getContentPane().add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
 
         rollButton.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
         rollButton.setText("Roll");
@@ -44,16 +48,15 @@ public class HomeGUI extends javax.swing.JFrame {
         });
         getContentPane().add(rollButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
 
-        titleLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
-        titleLabel.setText("Netflix roulette");
-        getContentPane().add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
-
         setSize(new java.awt.Dimension(618, 347));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void rollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rollButtonActionPerformed
         // TODO add your handling code here:
+        NetflixTitle title = new NetflixTitle("Scarface");
+        System.out.println(title.title);
+        GetNetflixTitles titleFetcher = new GetNetflixTitles();
     }//GEN-LAST:event_rollButtonActionPerformed
 
     /**

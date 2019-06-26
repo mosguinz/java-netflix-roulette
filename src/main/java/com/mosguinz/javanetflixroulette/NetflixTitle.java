@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package AppPackage;
+package com.mosguinz.javanetflixroulette;
 
 /**
  *
@@ -18,6 +18,17 @@ public class NetflixTitle {
     final String type;
     final String releaseYear;
     final String runtime;
+    
+    NetflixTitle(String title) {
+        this.netflixID = "netflixID";
+        this.title = title;
+        this.imageURL = "imageURL";
+        this.synopsis = "synopsis";
+        this.rating = "rating";
+        this.type = "type";
+        this.releaseYear = "releaseYear";
+        this.runtime = "runtime";
+    }
     
     NetflixTitle(String netflixID, String title, String imageURL,
             String synopsis, String rating, String type, String releaseYear,
