@@ -7,6 +7,7 @@ package com.mosguinz.javanetflixroulette;
 
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
@@ -56,9 +57,30 @@ public class GetNetflixTitles {
             .header("X-RapidAPI-Key", this.X_RAPID_API_KEY)
             .asJson();
         
+        // Get the list of titles from the key "ITEMS" from the response body.
         JSONObject respObject = response.getBody().getObject();
         JSONArray titles = respObject.getJSONArray("ITEMS");
-        System.out.println(titles);
+        
+        // Select a random title from the list of titles.
+        Random r = new Random();
+        int randomIndex = r.nextInt(titles.length());
+        JSONObject selectedTitle = titles.getJSONObject(randomIndex);
+        
+        // Turn selected title with its attributes into an instance
+        // of NetflixTitle.
+        // TODO: handle NullPointers (with defaultValue arg doesn't seem to work?)
+        NetflixTitle selectedNetflixTitle = new NetflixTitle(
+                selectedTitle.getString("netflixid"),
+                selectedTitle.getString("title"),
+                selectedTitle.getString("image"),
+                selectedTitle.getString("synopsis"),
+                selectedTitle.getString("rating"),
+                selectedTitle.getString("type"),
+                selectedTitle.getString("released"),
+                selectedTitle.getString("runtime")
+        );
+        
+        System.out.println(selectedNetflixTitle.title);
         
         
         
