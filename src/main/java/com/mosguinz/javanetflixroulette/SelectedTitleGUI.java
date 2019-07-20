@@ -5,17 +5,36 @@
  */
 package com.mosguinz.javanetflixroulette;
 
+import java.net.URL;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import java.io.IOException;
+import java.awt.Image;
+
 /**
  *
  * @author Mos
  */
 public class SelectedTitleGUI extends javax.swing.JFrame {
 
+    private final NetflixTitle selectedTitle;
+    
     /**
      * Creates new form SelectedTitleGUI
+     * @param selectedTitle
      */
-    public SelectedTitleGUI() {
+    public SelectedTitleGUI(NetflixTitle selectedTitle) {
         initComponents();
+        this.selectedTitle = selectedTitle;
+        
+        // Display poster image for selected title.
+        try {
+            URL url = new URL("");
+            Image image = ImageIO.read(url);
+            selectedTitleImage.setIcon(new ImageIcon(image));
+        } catch (IOException e) {
+            selectedTitleImage.setText("Image not available");
+        }
     }
 
     /**
@@ -27,27 +46,25 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        selectedTitleImage = new javax.swing.JPanel();
-        label1 = new java.awt.Label();
+        selectedTitleImage = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout selectedTitleImageLayout = new javax.swing.GroupLayout(selectedTitleImage);
-        selectedTitleImage.setLayout(selectedTitleImageLayout);
-        selectedTitleImageLayout.setHorizontalGroup(
-            selectedTitleImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 195, Short.MAX_VALUE)
-        );
-        selectedTitleImageLayout.setVerticalGroup(
-            selectedTitleImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 281, Short.MAX_VALUE)
-        );
-
+        selectedTitleImage.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
+        selectedTitleImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        selectedTitleImage.setText("Title image");
+        selectedTitleImage.setPreferredSize(new java.awt.Dimension(166, 233));
         getContentPane().add(selectedTitleImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
-        label1.setText("Testing");
-        getContentPane().add(label1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 300, 70));
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel1.setText("jLabel1");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, 410, 50));
+
+        setSize(new java.awt.Dimension(663, 347));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -86,7 +103,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Label label1;
-    private javax.swing.JPanel selectedTitleImage;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel selectedTitleImage;
     // End of variables declaration//GEN-END:variables
 }

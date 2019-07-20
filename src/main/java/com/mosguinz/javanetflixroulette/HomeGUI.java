@@ -5,17 +5,22 @@
  */
 package com.mosguinz.javanetflixroulette;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Mos
  */
 public class HomeGUI extends javax.swing.JFrame {
+    
+    private NetflixLibrary netflixLibrary;
 
     /**
      * Creates new form HomeGUI
      */
     public HomeGUI() {
         initComponents();
+        netflixLibrary = new NetflixLibrary();
     }
 
     /**
@@ -53,10 +58,21 @@ public class HomeGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void rollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rollButtonActionPerformed
-        // TODO add your handling code here:
-        NetflixLibrary titleFetcher = new NetflixLibrary();
-        this.dispose();
-        new SelectedTitleGUI().setVisible(true);
+        // Fetch Netflix library and select a random title.
+        ArrayList<NetflixTitle> netflixTitles = netflixLibrary.fetchTitles();
+        NetflixTitle selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
+        
+        System.out.println(selectedTitle.netflixID);
+        System.out.println(selectedTitle.title);
+        System.out.println(selectedTitle.imageURL);
+        System.out.println(selectedTitle.synopsis);
+        System.out.println(selectedTitle.rating);
+        System.out.println(selectedTitle.type);
+        System.out.println(selectedTitle.releaseYear);
+        System.out.println(selectedTitle.runtime);
+//        
+//        this.dispose();
+        new SelectedTitleGUI(selectedTitle).setVisible(true);
     }//GEN-LAST:event_rollButtonActionPerformed
 
     /**

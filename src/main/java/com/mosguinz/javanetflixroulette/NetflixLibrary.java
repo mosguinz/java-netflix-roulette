@@ -26,7 +26,6 @@ public class NetflixLibrary {
     
     NetflixLibrary() {
         this.X_RAPID_API_KEY = getXRapidAPIKey();
-        this.fetchTitles();
     }
     
     private static String getXRapidAPIKey() {
@@ -48,7 +47,7 @@ public class NetflixLibrary {
         return key;
     }
     
-    private ArrayList<NetflixTitle> fetchTitles() {
+    public ArrayList<NetflixTitle> fetchTitles() {
         // Request URLs with parameters to return all titles.
         String requestURL = "https://unogs-unogs-v1.p.mashape.com/aaapi.cgi?q=-!0,3000-!0,5-!,10-!0-!Any-!Any-!Any-!-!&t=ns&cl=23&st=adv&ob=Relevance&p=&sa=or";
  
@@ -88,7 +87,7 @@ public class NetflixLibrary {
         return netflixTitles;
     }
     
-    private NetflixTitle selectRandomTitle(ArrayList<NetflixTitle> titles) {
+    public static NetflixTitle selectRandomTitle(ArrayList<NetflixTitle> titles) {
         // Select a random title from the list of titles.
         Random r = new Random();
         int randomIndex = r.nextInt(titles.size());
