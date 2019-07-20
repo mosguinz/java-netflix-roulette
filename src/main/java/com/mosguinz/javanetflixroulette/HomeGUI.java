@@ -54,7 +54,7 @@ public class HomeGUI extends javax.swing.JFrame {
 
     private void rollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rollButtonActionPerformed
         // TODO add your handling code here:
-        GetNetflixTitles titleFetcher = new GetNetflixTitles();
+        NetflixLibrary titleFetcher = new NetflixLibrary();
         this.dispose();
         new SelectedTitleGUI().setVisible(true);
     }//GEN-LAST:event_rollButtonActionPerformed

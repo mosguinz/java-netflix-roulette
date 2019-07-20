@@ -20,13 +20,13 @@ import org.json.JSONObject;
  *
  * @author Mos
  */
-public class GetNetflixTitles {
+public class NetflixLibrary {
     
     private final String X_RAPID_API_KEY;
     
-    GetNetflixTitles() {
+    NetflixLibrary() {
         this.X_RAPID_API_KEY = getXRapidAPIKey();
-        this.getNetflixTitles();
+        this.fetchTitles();
     }
     
     private static String getXRapidAPIKey() {
@@ -48,7 +48,7 @@ public class GetNetflixTitles {
         return key;
     }
     
-    private ArrayList<NetflixTitle> getNetflixTitles() {
+    private ArrayList<NetflixTitle> fetchTitles() {
         // Request URLs with parameters to return all titles.
         String requestURL = "https://unogs-unogs-v1.p.mashape.com/aaapi.cgi?q=-!0,3000-!0,5-!,10-!0-!Any-!Any-!Any-!-!&t=ns&cl=23&st=adv&ob=Relevance&p=&sa=or";
  
