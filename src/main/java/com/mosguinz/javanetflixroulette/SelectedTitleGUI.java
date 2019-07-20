@@ -9,12 +9,12 @@ package com.mosguinz.javanetflixroulette;
  *
  * @author Mos
  */
-public class HomeGUI extends javax.swing.JFrame {
+public class SelectedTitleGUI extends javax.swing.JFrame {
 
     /**
-     * Creates new form HomeGUI
+     * Creates new form SelectedTitleGUI
      */
-    public HomeGUI() {
+    public SelectedTitleGUI() {
         initComponents();
     }
 
@@ -27,37 +27,28 @@ public class HomeGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        titleLabel = new javax.swing.JLabel();
-        rollButton = new javax.swing.JButton();
+        selectedTitleImage = new javax.swing.JPanel();
+        label1 = new java.awt.Label();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Netflix roulette");
-        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        titleLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
-        titleLabel.setText("Netflix roulette");
-        getContentPane().add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+        javax.swing.GroupLayout selectedTitleImageLayout = new javax.swing.GroupLayout(selectedTitleImage);
+        selectedTitleImage.setLayout(selectedTitleImageLayout);
+        selectedTitleImageLayout.setHorizontalGroup(
+            selectedTitleImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 195, Short.MAX_VALUE)
+        );
+        selectedTitleImageLayout.setVerticalGroup(
+            selectedTitleImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 281, Short.MAX_VALUE)
+        );
 
-        rollButton.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
-        rollButton.setText("Roll");
-        rollButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rollButtonActionPerformed(evt);
-            }
-        });
-        getContentPane().add(rollButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
+        getContentPane().add(selectedTitleImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
-        setSize(new java.awt.Dimension(618, 347));
-        setLocationRelativeTo(null);
+        label1.setText("Testing");
+        getContentPane().add(label1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 300, 70));
     }// </editor-fold>//GEN-END:initComponents
-
-    private void rollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rollButtonActionPerformed
-        // TODO add your handling code here:
-        GetNetflixTitles titleFetcher = new GetNetflixTitles();
-        this.dispose();
-        new SelectedTitleGUI().setVisible(true);
-    }//GEN-LAST:event_rollButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -76,26 +67,26 @@ public class HomeGUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(HomeGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectedTitleGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(HomeGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectedTitleGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(HomeGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectedTitleGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(HomeGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectedTitleGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HomeGUI().setVisible(true);
+                new SelectedTitleGUI().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton rollButton;
-    private javax.swing.JLabel titleLabel;
+    private java.awt.Label label1;
+    private javax.swing.JPanel selectedTitleImage;
     // End of variables declaration//GEN-END:variables
 }

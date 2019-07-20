@@ -59,35 +59,42 @@ public class GetNetflixTitles {
         
         // Get the list of titles from the key "ITEMS" from the response body.
         JSONObject respObject = response.getBody().getObject();
-        JSONArray titles = respObject.getJSONArray("ITEMS");
+        JSONArray returnedTitles = respObject.getJSONArray("ITEMS");
         
-        // Select a random title from the list of titles.
-        Random r = new Random();
-        int randomIndex = r.nextInt(titles.length());
-        JSONObject selectedTitle = titles.getJSONObject(randomIndex);
+        // Create empty ArrayList to hold titles.
+        ArrayList<NetflixTitle> netflixTitles = new ArrayList<>();
         
-        // Turn selected title with its attributes into an instance
+        // Turn each title with its attributes into an instance
         // of NetflixTitle.
         // TODO: handle NullPointers (with defaultValue arg doesn't seem to work?)
-        NetflixTitle selectedNetflixTitle = new NetflixTitle(
-                selectedTitle.getString("netflixid"),
-                selectedTitle.getString("title"),
-                selectedTitle.getString("image"),
-                selectedTitle.getString("synopsis"),
-                selectedTitle.getString("rating"),
-                selectedTitle.getString("type"),
-                selectedTitle.getString("released"),
-                selectedTitle.getString("runtime")
-        );
+        for (int i = 0; i < returnedTitles.length(); i++) {
+            JSONObject t = returnedTitles.getJSONObject(i);
+            NetflixTitle title = new NetflixTitle(
+                t.getString("netflixid"),
+                t.getString("title"),
+                t.getString("image"),
+                t.getString("synopsis"),
+                t.getString("rating"),
+                t.getString("type"),
+                t.getString("released"),
+                t.getString("runtime")
+            );
+            
+            // Append created title to ArrayList.
+            netflixTitles.add(title);
+            
+        }
         
-        System.out.println(selectedNetflixTitle.title);
+        return netflixTitles;
+    }
+    
+    private NetflixTitle selectRandomTitle(ArrayList<NetflixTitle> titles) {
+        // Select a random title from the list of titles.
+        Random r = new Random();
+        int randomIndex = r.nextInt(titles.size());
+        NetflixTitle selectedTitle = titles.get(randomIndex);
         
-        
-        
-        
-        
-        
-        return null;
+        return selectedTitle;
     }
     
     
