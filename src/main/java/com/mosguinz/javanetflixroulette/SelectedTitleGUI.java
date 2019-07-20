@@ -28,13 +28,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         this.selectedTitle = selectedTitle;
         
         // Display poster image for selected title.
-        try {
-            URL url = new URL("");
-            Image image = ImageIO.read(url);
-            selectedTitleImage.setIcon(new ImageIcon(image));
-        } catch (IOException e) {
-            selectedTitleImage.setText("Image not available");
-        }
+        setTitlePosterImage();
     }
 
     /**
@@ -46,22 +40,22 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        selectedTitleImage = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        titlePosterImage = new javax.swing.JLabel();
+        titleName = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        selectedTitleImage.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
-        selectedTitleImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        selectedTitleImage.setText("Title image");
-        selectedTitleImage.setPreferredSize(new java.awt.Dimension(166, 233));
-        getContentPane().add(selectedTitleImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+        titlePosterImage.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
+        titlePosterImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titlePosterImage.setText("Title poster image");
+        titlePosterImage.setPreferredSize(new java.awt.Dimension(166, 233));
+        getContentPane().add(titlePosterImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
-        jLabel1.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, 410, 50));
+        titleName.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
+        titleName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        titleName.setText("Title name");
+        getContentPane().add(titleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, 410, 50));
 
         setSize(new java.awt.Dimension(663, 347));
         setLocationRelativeTo(null);
@@ -101,9 +95,20 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void setTitlePosterImage() {
+        try {
+            URL url = new URL(selectedTitle.imageURL);
+            Image image = ImageIO.read(url);
+            titlePosterImage.setIcon(new ImageIcon(image));
+        } catch (IOException e) {
+            titlePosterImage.setText("Image not available");
+        }
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel selectedTitleImage;
+    private javax.swing.JLabel titleName;
+    private javax.swing.JLabel titlePosterImage;
     // End of variables declaration//GEN-END:variables
 }
