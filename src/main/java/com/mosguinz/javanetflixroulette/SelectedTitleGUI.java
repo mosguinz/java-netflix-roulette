@@ -161,7 +161,16 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     
     private void setTitleInfo() {
         titleName.setText("<html>" + selectedTitle.title + "</html>");
-        titleSubtext.setText(selectedTitle.releaseYear + " · " + selectedTitle.runtime);
+        
+        // Add runtime info in subtext if title is a movie.
+        String subtext = selectedTitle.releaseYear;
+        if (selectedTitle.type.equals("movie")) {
+            subtext += " · Movie · " + selectedTitle.runtime;
+        } else {
+            subtext += " · Series";
+        }
+        
+        titleSubtext.setText(subtext);
         titleSynopsis.setText("<html><p style=\"line-height: 2%;\">" + selectedTitle.synopsis + "</p></html>");
         
     }
