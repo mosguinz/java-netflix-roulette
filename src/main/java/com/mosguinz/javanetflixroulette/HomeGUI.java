@@ -70,8 +70,7 @@ public class HomeGUI extends javax.swing.JFrame {
         System.out.println(selectedTitle.type);
         System.out.println(selectedTitle.releaseYear);
         System.out.println(selectedTitle.runtime);
-//        
-//        this.dispose();
+
         new SelectedTitleGUI(selectedTitle).setVisible(true);
     }//GEN-LAST:event_rollButtonActionPerformed
 

@@ -10,6 +10,10 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.io.IOException;
 import java.awt.Image;
+import java.awt.Desktop;
+
+();
+
 
 /**
  *
@@ -46,8 +50,10 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         titleName = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         titleSynopsis = new javax.swing.JLabel();
+        returnToMainButton = new javax.swing.JButton();
+        watchOnNetflixButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         titlePosterImage.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
@@ -71,9 +77,39 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         titleSynopsis.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         getContentPane().add(titleSynopsis, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, 420, 160));
 
+        returnToMainButton.setText("Return to Main");
+        returnToMainButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnToMainButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(returnToMainButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 260, -1, -1));
+
+        watchOnNetflixButton.setText("Watch on Netflix");
+        watchOnNetflixButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                watchOnNetflixButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(watchOnNetflixButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 260, -1, -1));
+
         setSize(new java.awt.Dimension(663, 347));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void returnToMainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnToMainButtonActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_returnToMainButtonActionPerformed
+
+    private void watchOnNetflixButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_watchOnNetflixButtonActionPerformed
+        String netflixURL = "https://www.netflix.com/title/" + selectedTitle.netflixID;
+        
+        try {
+            Desktop.getDesktop().browse(new URL(netflixURL).toURI());
+        } catch (Exception e) {
+            System.out.println("Could not open Netflix URL.");
+        }
+    }//GEN-LAST:event_watchOnNetflixButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -132,9 +168,11 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JButton returnToMainButton;
     private javax.swing.JLabel titleName;
     private javax.swing.JLabel titlePosterImage;
     private javax.swing.JLabel titleSubtext;
     private javax.swing.JLabel titleSynopsis;
+    private javax.swing.JButton watchOnNetflixButton;
     // End of variables declaration//GEN-END:variables
 }
