@@ -23,7 +23,7 @@ import org.json.JSONObject;
  */
 public class NetflixLibrary {
     
-    private final String X_RAPID_API_KEY;
+    private String X_RAPID_API_KEY;
     
     NetflixLibrary() {
         this.X_RAPID_API_KEY = getXRapidAPIKey();
@@ -33,14 +33,24 @@ public class NetflixLibrary {
         String key = null;
         
         try {
-//            key = java.lang.System.getenv("X_RAPID_API_KEY");
-              throw new NullPointerException();
+            key = java.lang.System.getenv("X_RAPID_API_KEY");
         }
-        catch(NullPointerException | SecurityException e) {
-            key = JOptionPane.showInputDialog("Netflix library API could not be found or access in the environment variables. Please provide one here.");
+        catch (NullPointerException | SecurityException e) {
+            key = requestUserAPIKey("Netflix library API could not be found or access in the environment variables. Please provide one here.",
+                    "Netflix API key not found");
         }
         finally {
             System.out.println(key);            
+        }
+        
+        return key;
+    }
+    
+    private static String requestUserAPIKey(String message, String title) {
+        String key = "";
+        
+        while (key.isEmpty()){
+            key = JOptionPane.showInputDialog(null, message, title, JOptionPane.ERROR_MESSAGE).replaceAll("\\s+", "");
         }
         
         return key;
@@ -57,7 +67,16 @@ public class NetflixLibrary {
         
         // Get the list of titles from the key "ITEMS" from the response body.
         JSONObject respObject = response.getBody().getObject();
-        JSONArray returnedTitles = respObject.getJSONArray("ITEMS");
+        JSONArray returnedTitles;
+        
+        // Request for API key if response is valid.
+        try {
+            returnedTitles = respObject.getJSONArray("ITEMS");
+        } catch (org.json.JSONException e) {
+            X_RAPID_API_KEY = requestUserAPIKey("The Netflix library API key appears to be invalid. Please enter another one.",
+                    "Invalid API key");
+            return null;
+        }
         
         // Create empty ArrayList to hold titles.
         ArrayList<NetflixTitle> netflixTitles = new ArrayList<>();

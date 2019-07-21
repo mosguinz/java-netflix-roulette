@@ -59,7 +59,12 @@ public class HomeGUI extends javax.swing.JFrame {
 
     private void rollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rollButtonActionPerformed
         // Fetch Netflix library and select a random title.
-        ArrayList<NetflixTitle> netflixTitles = netflixLibrary.fetchTitles();
+        ArrayList<NetflixTitle> netflixTitles = null;
+        
+        while (netflixTitles == null) {
+            netflixTitles = netflixLibrary.fetchTitles();
+        }
+        
         NetflixTitle selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
         
         System.out.println(selectedTitle.netflixID);
