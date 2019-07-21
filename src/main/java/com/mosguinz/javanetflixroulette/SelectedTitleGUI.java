@@ -29,6 +29,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         
         // Display poster image for selected title.
         setTitlePosterImage();
+        setTitleInfo();
     }
 
     /**
@@ -41,7 +42,10 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         titlePosterImage = new javax.swing.JLabel();
+        titleSubtext = new javax.swing.JLabel();
         titleName = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        titleSynopsis = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -52,10 +56,22 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         titlePosterImage.setPreferredSize(new java.awt.Dimension(166, 233));
         getContentPane().add(titlePosterImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
+        titleSubtext.setFont(new java.awt.Font("Helvetica Neue World", 0, 14)); // NOI18N
+        titleSubtext.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        titleSubtext.setText("Year · runtime");
+        getContentPane().add(titleSubtext, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, 420, 50));
+
         titleName.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
         titleName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         titleName.setText("Title name");
         getContentPane().add(titleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, 410, 50));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, 420, -1));
+
+        titleSynopsis.setFont(new java.awt.Font("Helvetica Neue World", 0, 14)); // NOI18N
+        titleSynopsis.setText("Title synosis");
+        titleSynopsis.setToolTipText("");
+        titleSynopsis.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(titleSynopsis, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, 420, 160));
 
         setSize(new java.awt.Dimension(663, 347));
         setLocationRelativeTo(null);
@@ -106,9 +122,18 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         }
     }
     
+    private void setTitleInfo() {
+        titleName.setText(selectedTitle.title);
+        titleSubtext.setText(selectedTitle.releaseYear + " · " + selectedTitle.runtime);
+        titleSynopsis.setText(selectedTitle.synopsis);
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel titleName;
     private javax.swing.JLabel titlePosterImage;
+    private javax.swing.JLabel titleSubtext;
+    private javax.swing.JLabel titleSynopsis;
     // End of variables declaration//GEN-END:variables
 }
