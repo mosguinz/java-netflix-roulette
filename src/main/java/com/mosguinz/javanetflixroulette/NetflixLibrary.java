@@ -34,6 +34,7 @@ public class NetflixLibrary {
         
         try {
             key = java.lang.System.getenv("X_RAPID_API_KEY");
+        throw new NullPointerException();
         }
         catch (NullPointerException | SecurityException e) {
             key = requestUserAPIKey("Netflix library API could not be found or access in the environment variables. Please provide one here.",
@@ -47,10 +48,14 @@ public class NetflixLibrary {
     }
     
     private static String requestUserAPIKey(String message, String title) {
-        String key = "";
+        String key = null;
         
-        while (key.isEmpty()){
-            key = JOptionPane.showInputDialog(null, message, title, JOptionPane.ERROR_MESSAGE).replaceAll("\\s+", "");
+        while (key == null || key.isEmpty()){
+            key = JOptionPane.showInputDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
+            
+            if (key != null) {
+                key = key.replaceAll("\\s+", "");
+            }
         }
         
         return key;
