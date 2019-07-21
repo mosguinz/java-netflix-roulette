@@ -12,9 +12,6 @@ import java.io.IOException;
 import java.awt.Image;
 import java.awt.Desktop;
 
-();
-
-
 /**
  *
  * @author Mos

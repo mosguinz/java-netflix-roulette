@@ -8,6 +8,7 @@ package com.mosguinz.javanetflixroulette;
 
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
@@ -32,13 +33,11 @@ public class NetflixLibrary {
         String key = null;
         
         try {
-            key = java.lang.System.getenv("X_RAPID_API_KEY");
+//            key = java.lang.System.getenv("X_RAPID_API_KEY");
+              throw new NullPointerException();
         }
-        catch(NullPointerException e) {
-            System.out.println("Key not found.");
-        }
-        catch(SecurityException e) {
-            System.out.println("Permission required.");
+        catch(NullPointerException | SecurityException e) {
+            key = JOptionPane.showInputDialog("Netflix library API could not be found or access in the environment variables. Please provide one here.");
         }
         finally {
             System.out.println(key);            
