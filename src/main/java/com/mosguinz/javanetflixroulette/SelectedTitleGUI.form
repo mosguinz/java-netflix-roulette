@@ -62,7 +62,6 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Helvetica Neue World" size="24" style="1"/>
         </Property>
-        <Property name="horizontalAlignment" type="int" value="2"/>
         <Property name="text" type="java.lang.String" value="Title name"/>
       </Properties>
       <Constraints>
@@ -83,8 +82,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Helvetica Neue World" size="14" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Title synosis"/>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="text" type="java.lang.String" value="Title synopsis"/>
         <Property name="verticalAlignment" type="int" value="1"/>
       </Properties>
       <Constraints>

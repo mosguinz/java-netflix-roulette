@@ -62,14 +62,12 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         getContentPane().add(titleSubtext, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, 420, 50));
 
         titleName.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
-        titleName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         titleName.setText("Title name");
         getContentPane().add(titleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, 410, 50));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, 420, -1));
 
         titleSynopsis.setFont(new java.awt.Font("Helvetica Neue World", 0, 14)); // NOI18N
-        titleSynopsis.setText("Title synosis");
-        titleSynopsis.setToolTipText("");
+        titleSynopsis.setText("Title synopsis");
         titleSynopsis.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         getContentPane().add(titleSynopsis, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, 420, 160));
 
@@ -113,6 +111,9 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     }
     
     private void setTitlePosterImage() {
+        // Remove placeholder text.
+        titlePosterImage.setText("");
+        
         try {
             URL url = new URL(selectedTitle.imageURL);
             Image image = ImageIO.read(url);
@@ -123,9 +124,9 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     }
     
     private void setTitleInfo() {
-        titleName.setText(selectedTitle.title);
+        titleName.setText("<html>" + selectedTitle.title + "</html>");
         titleSubtext.setText(selectedTitle.releaseYear + " · " + selectedTitle.runtime);
-        titleSynopsis.setText(selectedTitle.synopsis);
+        titleSynopsis.setText("<html><p style=\"line-height: 2%;\">" + selectedTitle.synopsis + "</p></html>");
         
     }
 
