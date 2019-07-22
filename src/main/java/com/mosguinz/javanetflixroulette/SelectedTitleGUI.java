@@ -32,6 +32,11 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         setTitlePosterImage();
         setTitleInfo();
     }
+    
+    public SelectedTitleGUI() {
+        initComponents();
+        selectedTitle = null;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,6 +71,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
 
         titleName.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
         titleName.setText("Title name");
+        titleName.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         getContentPane().add(titleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, 410, 50));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, 420, -1));
 
