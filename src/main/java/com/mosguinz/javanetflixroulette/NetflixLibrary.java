@@ -62,7 +62,7 @@ public class NetflixLibrary {
     
     public ArrayList<NetflixTitle> fetchTitles() {
         // Request URLs with parameters to return all titles.
-        String requestURL = "https://unogs-unogs-v1.p.mashape.com/aaapi.cgi?q=-!0,3000-!0,5-!,10-!0-!Any-!Any-!Any-!-!&t=ns&cl=23&st=adv&ob=Relevance&p=&sa=or";
+        String requestURL = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi?q=-!0,3000-!0,5-!,10-!0-!Any-!Any-!Any-!-!&t=ns&cl=23&st=adv&ob=Relevance&p=&sa=or";
  
         HttpResponse<JsonNode> response = Unirest.get(requestURL)
             .header("X-RapidAPI-Host", "unogs-unogs-v1.p.rapidapi.com")
