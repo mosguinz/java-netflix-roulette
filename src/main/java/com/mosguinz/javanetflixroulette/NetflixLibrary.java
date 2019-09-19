@@ -62,12 +62,17 @@ public class NetflixLibrary {
     
     public ArrayList<NetflixTitle> fetchTitles() {
         // Request URLs with parameters to return all titles.
+        HttpResponse<JsonNode> response = null;
         String requestURL = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi?q=-!0,3000-!0,5-!,10-!0-!Any-!Any-!Any-!-!&t=ns&cl=23&st=adv&ob=Relevance&p=&sa=or";
  
-        HttpResponse<JsonNode> response = Unirest.get(requestURL)
-            .header("X-RapidAPI-Host", "unogs-unogs-v1.p.rapidapi.com")
-            .header("X-RapidAPI-Key", this.X_RAPID_API_KEY)
-            .asJson();
+        try {
+            response = Unirest.get(requestURL)
+                .header("X-RapidAPI-Host", "unogs-unogs-v1.p.rapidapi.com")
+                .header("X-RapidAPI-Key", this.X_RAPID_API_KEY)
+                .asJson();
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "There was an error contacting Netflix library. Please try again.\n"+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
         
         // Get the list of titles from the key "ITEMS" from the response body.
         JSONObject respObject = response.getBody().getObject();
