@@ -60,7 +60,7 @@ public class NetflixLibrary {
         return key;
     }
     
-    public ArrayList<NetflixTitle> fetchTitles() {
+    public JSONArray fetchTitles() {
         // Request URLs with parameters to return all titles.
         HttpResponse<JsonNode> response = null;
         String requestURL = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi?q=-!0,3000-!0,5-!,10-!0-!Any-!Any-!Any-!-!&t=ns&cl=23&st=adv&ob=Relevance&p=&sa=or";
@@ -71,6 +71,8 @@ public class NetflixLibrary {
                 .header("X-RapidAPI-Key", this.X_RAPID_API_KEY)
                 .asJson();
         } catch(Exception e) {
+            // Temp fix for SSL handshake errors
+            // TODO: Create proper popups to handle this and other connection errors.
             JOptionPane.showMessageDialog(null, "There was an error contacting Netflix library. Please try again.\n"+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
         
@@ -87,38 +89,15 @@ public class NetflixLibrary {
             return null;
         }
         
-        // Create empty ArrayList to hold titles.
-        ArrayList<NetflixTitle> netflixTitles = new ArrayList<>();
-        
-        // Turn each title with its attributes into an instance
-        // of NetflixTitle.
-        // TODO: handle NullPointers (with defaultValue arg doesn't seem to work?)
-        for (int i = 0; i < returnedTitles.length(); i++) {
-            JSONObject t = returnedTitles.getJSONObject(i);
-            NetflixTitle title = new NetflixTitle(
-                t.getString("netflixid"),
-                t.getString("title"),
-                t.getString("image"),
-                t.getString("synopsis"),
-                t.getString("rating"),
-                t.getString("type"),
-                t.getString("released"),
-                t.getString("runtime")
-            );
-            
-            // Append created title to ArrayList.
-            netflixTitles.add(title);
-            
-        }
-        
-        return netflixTitles;
+        return returnedTitles;
     }
     
-    public static NetflixTitle selectRandomTitle(ArrayList<NetflixTitle> titles) {
+    public static JSONObject selectRandomTitle(JSONArray titles) {
         // Select a random title from the list of titles.
         Random r = new Random();
-        int randomIndex = r.nextInt(titles.size());
-        NetflixTitle selectedTitle = titles.get(randomIndex);
+        int randomIndex = r.nextInt(titles.length());
+        System.out.print("Response length: " + titles.length());
+        JSONObject selectedTitle = titles.getJSONObject(randomIndex);
         
         return selectedTitle;
     }

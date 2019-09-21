@@ -11,22 +11,38 @@ import javax.swing.ImageIcon;
 import java.io.IOException;
 import java.awt.Image;
 import java.awt.Desktop;
+import org.json.JSONObject;
 
 /**
  *
  * @author Mos
  */
 public class SelectedTitleGUI extends javax.swing.JFrame {
-
-    private final NetflixTitle selectedTitle;
     
+    final String netflixID;
+    final String title;
+    final String imageURL;
+    final String synopsis;
+    final String rating;
+    final String type;
+    final String releaseYear;
+    final String runtime;
+
     /**
      * Creates new form SelectedTitleGUI
      * @param selectedTitle
      */
-    public SelectedTitleGUI(NetflixTitle selectedTitle) {
+    public SelectedTitleGUI(JSONObject selectedTitle) {
         initComponents();
-        this.selectedTitle = selectedTitle;
+        
+        this.netflixID = selectedTitle.getString("netflixid");
+        this.title = selectedTitle.getString("title");
+        this.imageURL = selectedTitle.getString("image");
+        this.synopsis = selectedTitle.getString("synopsis");
+        this.rating = selectedTitle.getString("rating");
+        this.type = selectedTitle.getString("type");
+        this.releaseYear = selectedTitle.getString("released");
+        this.runtime = selectedTitle.getString("runtime");
         
         // Display poster image for selected title.
         setTitlePosterImage();
@@ -35,7 +51,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     
     public SelectedTitleGUI() {
         initComponents();
-        selectedTitle = null;
+        netflixID = title = imageURL = synopsis = rating = type = releaseYear = runtime = null;
     }
 
     /**
@@ -105,7 +121,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_returnToMainButtonActionPerformed
 
     private void watchOnNetflixButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_watchOnNetflixButtonActionPerformed
-        String netflixURL = "https://www.netflix.com/title/" + selectedTitle.netflixID;
+        String netflixURL = "https://www.netflix.com/title/" + netflixID;
         
         try {
             Desktop.getDesktop().browse(new URL(netflixURL).toURI());
@@ -154,7 +170,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         titlePosterImage.setText("");
         
         try {
-            URL url = new URL(selectedTitle.imageURL);
+            URL url = new URL(imageURL);
             Image image = ImageIO.read(url);
             titlePosterImage.setIcon(new ImageIcon(image));
         } catch (IOException e) {
@@ -163,18 +179,18 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     }
     
     private void setTitleInfo() {
-        titleName.setText("<html>" + selectedTitle.title + "</html>");
+        titleName.setText("<html>" + title + "</html>");
         
         // Add runtime info in subtext if title is a movie.
-        String subtext = selectedTitle.releaseYear;
-        if (selectedTitle.type.equals("movie")) {
-            subtext += " · Movie · " + selectedTitle.runtime;
+        String subtext = releaseYear;
+        if (type.equals("movie")) {
+            subtext += " · Movie · " + runtime;
         } else {
             subtext += " · Series";
         }
         
         titleSubtext.setText(subtext);
-        titleSynopsis.setText("<html><p style=\"line-height: 2%;\">" + selectedTitle.synopsis + "</p></html>");
+        titleSynopsis.setText("<html><p style=\"line-height: 2%;\">" + synopsis + "</p></html>");
         
     }
 

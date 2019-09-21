@@ -6,6 +6,8 @@
 package com.mosguinz.javanetflixroulette;
 
 import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -59,22 +61,22 @@ public class HomeGUI extends javax.swing.JFrame {
 
     private void rollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rollButtonActionPerformed
         // Fetch Netflix library and select a random title.
-        ArrayList<NetflixTitle> netflixTitles = null;
+        JSONArray netflixTitles = null;
         
         while (netflixTitles == null) {
             netflixTitles = netflixLibrary.fetchTitles();
         }
         
-        NetflixTitle selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
-        
-        System.out.println(selectedTitle.netflixID);
-        System.out.println(selectedTitle.title);
-        System.out.println(selectedTitle.imageURL);
-        System.out.println(selectedTitle.synopsis);
-        System.out.println(selectedTitle.rating);
-        System.out.println(selectedTitle.type);
-        System.out.println(selectedTitle.releaseYear);
-        System.out.println(selectedTitle.runtime);
+        JSONObject selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
+//        
+//        System.out.println(selectedTitle.netflixID);
+//        System.out.println(selectedTitle.title);
+//        System.out.println(selectedTitle.imageURL);
+//        System.out.println(selectedTitle.synopsis);
+//        System.out.println(selectedTitle.rating);
+//        System.out.println(selectedTitle.type);
+//        System.out.println(selectedTitle.releaseYear);
+//        System.out.println(selectedTitle.runtime);
 
         new SelectedTitleGUI(selectedTitle).setVisible(true);
     }//GEN-LAST:event_rollButtonActionPerformed
