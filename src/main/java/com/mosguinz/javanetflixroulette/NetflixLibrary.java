@@ -9,6 +9,7 @@ package com.mosguinz.javanetflixroulette;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JOptionPane;
+import java.lang.Exception;
 
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
@@ -24,6 +25,7 @@ import org.json.JSONObject;
 public class NetflixLibrary {
     
     private String X_RAPID_API_KEY;
+    private LocalLibraryReadWriter libWriter = new LocalLibraryReadWriter();
     
     NetflixLibrary() {
         this.X_RAPID_API_KEY = getXRapidAPIKey();
@@ -67,9 +69,9 @@ public class NetflixLibrary {
  
         try {
             response = Unirest.get(requestURL)
-                .header("X-RapidAPI-Host", "unogs-unogs-v1.p.rapidapi.com")
-                .header("X-RapidAPI-Key", this.X_RAPID_API_KEY)
-                .asJson();
+                    .header("X-RapidAPI-Host", "unogs-unogs-v1.p.rapidapi.com")
+                    .header("X-RapidAPI-Key", this.X_RAPID_API_KEY)
+                    .asJson();
         } catch(Exception e) {
             // Temp fix for SSL handshake errors
             // TODO: Create proper popups to handle this and other connection errors.
@@ -78,6 +80,7 @@ public class NetflixLibrary {
         
         // Get the list of titles from the key "ITEMS" from the response body.
         JSONObject respObject = response.getBody().getObject();
+        libWriter.saveTitles(respObject);
         JSONArray returnedTitles;
         
         // Request for API key if response is valid.
@@ -91,6 +94,29 @@ public class NetflixLibrary {
         
         return returnedTitles;
     }
+    
+//    public JSONArray sendQuery(String requestType) {
+//        String requestURL;
+//        
+//        switch (requestType) {
+//            case "fetchTitles":
+//                requestURL = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi?q=-!0,3000-!0,5-!,10-!0-!Any-!Any-!Any-!-!&t=ns&cl=23&st=adv&ob=Relevance&p=&sa=or";
+//                break;
+//            case "fetchGenres":
+//                requestURL = "https://unogs-unogs-v1.p.rapidapi.com/api.cgi?t=genres";
+//                break;
+//            default:
+//                return null;
+//        }
+//        
+//        HttpResponse<JSONArray> response = Unirest.get(requestURL)
+//                .header("X-RapidAPI-Host", "unogs-unogs-v1.p.rapidapi.com")
+//                .header("X-RapidAPI-Key", this.X_RAPID_API_KEY)
+//                .asJson();
+//        
+//        JSONObject respObject
+//        
+//    }
     
     public static JSONObject selectRandomTitle(JSONArray titles) {
         // Select a random title from the list of titles.
