@@ -51,7 +51,7 @@ public class LocalLibraryReadWriter {
     }
     
     /**
-     * Save the response of Netflix titles
+     * Save the response of Netflix titles.
      * @param titles JSONArray of the returned titles
      * @return true if and only if the titles were saved; false otherwise
      */
