@@ -27,7 +27,7 @@ public class NetflixLibrary {
 
     NetflixLibrary() {
         this.X_RAPID_API_KEY = getXRapidAPIKey();
-        SetupLogging.setup(LOGGER);
+        LoggingUtil.setupLogger(LOGGER);
     }
 
     private static String getXRapidAPIKey() {
@@ -37,7 +37,7 @@ public class NetflixLibrary {
         try {
             key = java.lang.System.getenv("X_RAPID_API_KEY");
         } catch (NullPointerException | SecurityException e) {
-            LOGGER.log(Level.SEVERE, "Could not find API key from environment variables...\n{0}\n{1}", new Object[]{e.toString(), e});
+            LoggingUtil.logException(LOGGER, e, "Could not find API key from environment variables...");
             key = requestUserAPIKey("Netflix library API could not be found or access in the environment variables. Please provide one here.",
                     "Netflix API key not found");
         } finally {
@@ -89,19 +89,17 @@ public class NetflixLibrary {
         } catch (Exception e) {
             // Temp fix for SSL handshake errors
             // TODO: Create proper popups to handle this and other connection errors.
-            LOGGER.log(Level.SEVERE, "There was a problem contacting the Netflix library.\n{0}\n{1}", new Object[]{e.toString(), e});
+            LoggingUtil.logException(LOGGER, e, "There was a problem contacting the Netflix library.");
             JOptionPane.showMessageDialog(null, "There was an error contacting Netflix library. Please try again.\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            libWriter.saveTitles(response);
         }
 
         // Extract the response.
         LOGGER.log(Level.FINE, "Extracting the response...");
         try {
             responseArray = response.getJSONArray("ITEMS");
+            libWriter.saveTitles(response);
         } catch (org.json.JSONException e) {
-            LOGGER.log(Level.SEVERE, "Response does not appear to be valid, possibly due to invalid API key...\n{0}\n{1}",
-                    new Object[]{e.toString(), e});
+            LoggingUtil.logException(LOGGER, e, "Response does not appear to be valid, possibly due to invalid API key...");
             X_RAPID_API_KEY = requestUserAPIKey("The Netflix library API key appears to be invalid. Please enter another one.",
                     "Invalid API key");
             return null;

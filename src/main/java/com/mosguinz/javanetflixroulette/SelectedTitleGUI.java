@@ -43,7 +43,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
      */
     public SelectedTitleGUI(JSONObject selectedTitle) {
         initComponents();
-        SetupLogging.setup(LOGGER);
+        LoggingUtil.setupLogger(LOGGER);
 
         this.netflixID = selectedTitle.getString("netflixid");
         this.title = selectedTitle.getString("title");
@@ -142,8 +142,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
             LOGGER.log(Level.FINE, "Opening URL in browser...");
             Desktop.getDesktop().browse(new URL(netflixURL).toURI());
         } catch (IOException | URISyntaxException e) {
-            LOGGER.log(Level.SEVERE, "Something went wrong. Could not open broswer.\n{0}\n{1}",
-                    new Object[]{e.toString(), e});
+            LoggingUtil.logException(LOGGER, e, "Something went wrong. Could not open broswer.");
         }
     }//GEN-LAST:event_watchOnNetflixButtonActionPerformed
 
@@ -163,15 +162,14 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SelectedTitleGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SelectedTitleGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SelectedTitleGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SelectedTitleGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException
+                | InstantiationException
+                | IllegalAccessException
+                | javax.swing.UnsupportedLookAndFeelException ex) {
+            LoggingUtil.logException(LOGGER, ex);
         }
+        //</editor-fold>
+
         //</editor-fold>
 
         /* Create and display the form */
@@ -195,7 +193,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
             titlePosterImage.setIcon(new ImageIcon(image));
             LOGGER.log(Level.FINE, "Poster image is set");
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, "Poster image could not be added; placing placeholder text instead...");
+            LoggingUtil.logException(LOGGER, e, "Poster image could not be added, placing placeholder text instead...");
             titlePosterImage.setText("Image not available");
         }
     }

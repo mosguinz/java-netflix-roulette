@@ -82,10 +82,10 @@ public class LocalLibraryReadWriter {
             LOGGER.log(Level.FINE, "Closing file stream...");
             stream.close();
         } catch (FileNotFoundException e) {
-            LOGGER.log(Level.SEVERE, "{0}\n{1}", new Object[]{e.toString(), e});
+            LoggingUtil.logException(LOGGER, e);
             saved = false;
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "{0}\n{1}", new Object[]{e.toString(), e});
+            LoggingUtil.logException(LOGGER, e);
             saved = false;
         }
 
