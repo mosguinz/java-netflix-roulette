@@ -5,7 +5,9 @@
  */
 package com.mosguinz.javanetflixroulette;
 
-import java.util.ArrayList;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,7 +16,9 @@ import org.json.JSONObject;
  * @author Mos
  */
 public class HomeGUI extends javax.swing.JFrame {
-    
+
+    private static final Logger LOGGER = Logger.getLogger(HomeGUI.class.getName());
+
     private NetflixLibrary netflixLibrary;
 
     /**
@@ -22,6 +26,8 @@ public class HomeGUI extends javax.swing.JFrame {
      */
     public HomeGUI() {
         initComponents();
+        SetupLogging.setup(LOGGER);
+
         netflixLibrary = new NetflixLibrary();
     }
 
@@ -60,15 +66,17 @@ public class HomeGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void rollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rollButtonActionPerformed
+        LOGGER.log(Level.FINE, "Roll button pressed");
+
         // Fetch Netflix library and select a random title.
         JSONArray netflixTitles = null;
-        
+
         while (netflixTitles == null) {
             netflixTitles = netflixLibrary.fetchTitles();
         }
-        
+
         JSONObject selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
-//        
+//
 //        System.out.println(selectedTitle.netflixID);
 //        System.out.println(selectedTitle.title);
 //        System.out.println(selectedTitle.imageURL);
@@ -88,7 +96,7 @@ public class HomeGUI extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

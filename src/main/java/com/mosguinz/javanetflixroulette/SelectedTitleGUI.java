@@ -5,12 +5,18 @@
  */
 package com.mosguinz.javanetflixroulette;
 
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 import java.net.URL;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import java.io.IOException;
 import java.awt.Image;
 import java.awt.Desktop;
+import java.net.URISyntaxException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
 import org.json.JSONObject;
 
 /**
@@ -18,7 +24,9 @@ import org.json.JSONObject;
  * @author Mos
  */
 public class SelectedTitleGUI extends javax.swing.JFrame {
-    
+
+    private static final Logger LOGGER = Logger.getLogger(SelectedTitleGUI.class.getName());
+
     final String netflixID;
     final String title;
     final String imageURL;
@@ -30,11 +38,13 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
 
     /**
      * Creates new form SelectedTitleGUI
+     *
      * @param selectedTitle
      */
     public SelectedTitleGUI(JSONObject selectedTitle) {
         initComponents();
-        
+        SetupLogging.setup(LOGGER);
+
         this.netflixID = selectedTitle.getString("netflixid");
         this.title = selectedTitle.getString("title");
         this.imageURL = selectedTitle.getString("image");
@@ -43,12 +53,12 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         this.type = selectedTitle.getString("type");
         this.releaseYear = selectedTitle.getString("released");
         this.runtime = selectedTitle.getString("runtime");
-        
+
         // Display poster image for selected title.
         setTitlePosterImage();
         setTitleInfo();
     }
-    
+
     public SelectedTitleGUI() {
         initComponents();
         netflixID = title = imageURL = synopsis = rating = type = releaseYear = runtime = null;
@@ -117,16 +127,23 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void returnToMainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnToMainButtonActionPerformed
+        LOGGER.log(Level.FINE, "\"{0}\" button pressed\n{1}", new Object[]{evt.getActionCommand(), evt.paramString()});
         this.dispose();
+
     }//GEN-LAST:event_returnToMainButtonActionPerformed
 
     private void watchOnNetflixButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_watchOnNetflixButtonActionPerformed
+        LOGGER.log(Level.FINE, "\"{0}\" button pressed\n{1}", new Object[]{evt.getActionCommand(), evt.paramString()});
+
+        LOGGER.log(Level.FINER, "Creating Netflix URL for title");
         String netflixURL = "https://www.netflix.com/title/" + netflixID;
-        
+
         try {
+            LOGGER.log(Level.FINE, "Opening URL in browser...");
             Desktop.getDesktop().browse(new URL(netflixURL).toURI());
-        } catch (Exception e) {
-            System.out.println("Could not open Netflix URL.");
+        } catch (IOException | URISyntaxException e) {
+            LOGGER.log(Level.SEVERE, "Something went wrong. Could not open broswer.\n{0}\n{1}",
+                    new Object[]{e.toString(), e});
         }
     }//GEN-LAST:event_watchOnNetflixButtonActionPerformed
 
@@ -137,7 +154,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -164,34 +181,44 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
             }
         });
     }
-    
+
     private void setTitlePosterImage() {
-        // Remove placeholder text.
+        LOGGER.log(Level.FINE, "Adding poster image");
+
+        LOGGER.log(Level.FINER, "Removing placeholder text");
         titlePosterImage.setText("");
-        
+
         try {
+            LOGGER.log(Level.FINE, "Fetching poster image from URL: {0}", imageURL);
             URL url = new URL(imageURL);
             Image image = ImageIO.read(url);
             titlePosterImage.setIcon(new ImageIcon(image));
+            LOGGER.log(Level.FINE, "Poster image is set");
         } catch (IOException e) {
+            LOGGER.log(Level.WARNING, "Poster image could not be added; placing placeholder text instead...");
             titlePosterImage.setText("Image not available");
         }
     }
-    
+
     private void setTitleInfo() {
+        LOGGER.log(Level.FINE, "Creating selected title info element");
+
+        LOGGER.log(Level.FINER, "Adding title name");
         titleName.setText("<html>" + title + "</html>");
-        
-        // Add runtime info in subtext if title is a movie.
+
+        LOGGER.log(Level.FINER, "Creating subtext for selected title");
         String subtext = releaseYear;
         if (type.equals("movie")) {
+            LOGGER.log(Level.FINER, "Title is a movie; adding runtime info to subtext");
             subtext += " · Movie · " + runtime;
         } else {
             subtext += " · Series";
         }
-        
+
+        LOGGER.log(Level.FINER, "Adding subtext");
         titleSubtext.setText(subtext);
         titleSynopsis.setText("<html><p style=\"line-height: 2%;\">" + synopsis + "</p></html>");
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
