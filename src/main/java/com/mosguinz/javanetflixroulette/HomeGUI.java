@@ -68,12 +68,6 @@ public class HomeGUI extends javax.swing.JFrame {
     private void rollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rollButtonActionPerformed
         LOGGER.log(Level.FINE, "Roll button pressed");
 
-        try {
-            throw new Exception();
-        } catch (Exception ex) {
-            LoggingUtil.logException(LOGGER, ex, "BRUHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-        }
-
         // Fetch Netflix library and select a random title.
         JSONArray netflixTitles = null;
 

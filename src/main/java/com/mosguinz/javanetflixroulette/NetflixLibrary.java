@@ -93,19 +93,39 @@ public class NetflixLibrary {
             JOptionPane.showMessageDialog(null, "There was an error contacting Netflix library. Please try again.\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        // Extract the response.
-        LOGGER.log(Level.FINE, "Extracting the response...");
-        try {
-            responseArray = response.getJSONArray("ITEMS");
+        // Verify that response is valid.
+        JSONArray responseContent = verifyResponse(response);
+
+        if (responseContent != null) {
             libWriter.saveTitles(response);
-        } catch (org.json.JSONException e) {
-            LoggingUtil.logException(LOGGER, e, "Response does not appear to be valid, possibly due to invalid API key...");
-            X_RAPID_API_KEY = requestUserAPIKey("The Netflix library API key appears to be invalid. Please enter another one.",
-                    "Invalid API key");
-            return null;
         }
 
-        return responseArray;
+        return responseContent;
+    }
+
+    /**
+     * Verify that the response is valid.
+     *
+     * The content of a valid response from the UNoGS API is always an array
+     * under the key "ITEMS". If this key-pair is not present in the JSON, then
+     * the response is not valid.
+     *
+     * @param response JSONObject of that is returned from the query
+     * @return The content of response as a JSONArray if the response is valid;
+     * null otherwise
+     */
+    private JSONArray verifyResponse(JSONObject response) {
+        LOGGER.log(Level.FINE, "Verifying that the response content is valid...");
+
+        JSONArray responseContent = null;
+
+        try {
+            responseContent = response.getJSONArray("ITEMS");
+        } catch (org.json.JSONException e) {
+            LOGGER.log(Level.SEVERE, "Response is not valid.");
+        }
+
+        return responseContent;
     }
 
     /**
