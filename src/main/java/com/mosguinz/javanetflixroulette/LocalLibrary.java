@@ -20,9 +20,9 @@ import org.json.JSONObject;
  *
  * @author Mos
  */
-public class LocalLibraryReadWriter {
+public class LocalLibrary {
 
-    private static final Logger LOGGER = Logger.getLogger(LocalLibraryReadWriter.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(LocalLibrary.class.getName());
 
     private final String HOME_PATH = getHomePath();
     private final String LIBRARY_PATH = getLibraryPath();

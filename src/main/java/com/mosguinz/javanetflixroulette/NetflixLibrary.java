@@ -23,7 +23,7 @@ public class NetflixLibrary {
     private static final Logger LOGGER = Logger.getLogger(NetflixLibrary.class.getName());
 
     private String X_RAPID_API_KEY;
-    private final LocalLibraryReadWriter libWriter = new LocalLibraryReadWriter();
+    private final LocalLibrary libWriter = new LocalLibrary();
 
     NetflixLibrary() {
         this.X_RAPID_API_KEY = getXRapidAPIKey();
