@@ -5,6 +5,7 @@
  */
 package com.mosguinz.javanetflixroulette;
 
+import java.util.Iterator;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -22,12 +23,13 @@ public class NetflixLibrary {
 
     private static final Logger LOGGER = Logger.getLogger(NetflixLibrary.class.getName());
 
-    private String X_RAPID_API_KEY;
-    private final LocalLibrary libWriter = new LocalLibrary();
+    private final String X_RAPID_API_KEY;
+    private final LocalLibrary localLibrary = new LocalLibrary();
 
     NetflixLibrary() {
         this.X_RAPID_API_KEY = getXRapidAPIKey();
         LoggingUtil.setupLogger(LOGGER);
+//        fetchGenres();
     }
 
     private static String getXRapidAPIKey() {
@@ -94,13 +96,60 @@ public class NetflixLibrary {
         }
 
         // Verify that response is valid.
-        JSONArray responseContent = verifyResponse(response);
-
-        if (responseContent != null) {
-            libWriter.saveTitles(response);
-        }
+        JSONArray responseContent = verifyResponse(response, queryType);
+        LocalLibrary.saveResponse(responseContent);
 
         return responseContent;
+    }
+
+    /**
+     * Extract the response for the genres.
+     *
+     * For some reason, items in the "ITEMS" key are nested in single key-pair
+     * values for each genre, where the key is the genre names and its value is
+     * an array containing numerical ID(s) that are associated with the genre.
+     *
+     * This method maps the SUPERCATEGORY genre names to the list of IDs of its
+     * SUBCATEGORIES.
+     *
+     * Assumes that the response is in the format where the SUPERCATEGORIES are
+     * listed FIRST and starts with the word "All".
+     *
+     * For example, the SUPERCATEGORY of "Action" titles may contain
+     * SUBCATEGORIES, such as "Action Comedies," "Action Sci-Fi & Fantasy,"
+     * "Action Thrillers," etc.
+     *
+     * So, the list of IDs that includes those SUBCATEGORIES genres will be
+     * listed under the key "All Action". And the individual IDs of those
+     * SUBCATEGORIES can be found later on in the response.
+     *
+     * @param responseContent
+     * @return
+     */
+    private JSONArray getSupercategoryGenres(JSONArray response) {
+        JSONArray supercategoryGenres = new JSONArray();
+
+        int index = 0;
+        boolean endOfSupercategories = false;
+
+        for (Object object : response) {
+
+            for (Iterator keys = ((JSONObject) object).keys(); keys.hasNext();) {
+                String categoryName = keys.next().toString();
+
+                if (categoryName.startsWith("All ")) {
+                    supercategoryGenres.put(index + 1, object);
+                } else {
+                    return supercategoryGenres;
+                }
+
+            }
+
+            index++;
+        }
+
+        // Should not be reachable if the response is valid...
+        return null;
     }
 
     /**
@@ -114,7 +163,7 @@ public class NetflixLibrary {
      * @return The content of response as a JSONArray if the response is valid;
      * null otherwise
      */
-    private JSONArray verifyResponse(JSONObject response) {
+    private JSONArray verifyResponse(JSONObject response, String queryType) {
         LOGGER.log(Level.FINE, "Verifying that the response content is valid...");
 
         JSONArray responseContent = null;
@@ -123,6 +172,10 @@ public class NetflixLibrary {
             responseContent = response.getJSONArray("ITEMS");
         } catch (org.json.JSONException e) {
             LOGGER.log(Level.SEVERE, "Response is not valid.");
+        }
+
+        if (queryType.equals("fetchGenres")) {
+            getSupercategoryGenres(responseContent);
         }
 
         return responseContent;
@@ -144,6 +197,9 @@ public class NetflixLibrary {
                 break;
             case "fetchGenres":
                 requestURL = "https://unogs-unogs-v1.p.rapidapi.com/api.cgi?t=genres";
+                break;
+            case "fetchAvailableRegions":
+                requestURL = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi?t=lc&q=available";
                 break;
             default:
                 LOGGER.log(Level.FINER, "Failed to get endpoint URL; invalid query type \"{0}\"", queryType);

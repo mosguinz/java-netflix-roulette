@@ -65,3 +65,6 @@ $RECYCLE.BIN/
 *.lnk
 /target/
 /nbproject/
+
+# Git commit logs
+log.txt

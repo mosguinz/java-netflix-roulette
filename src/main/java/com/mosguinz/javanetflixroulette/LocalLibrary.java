@@ -12,8 +12,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 import org.json.JSONObject;
 
 /**
@@ -47,6 +49,14 @@ public class LocalLibrary {
         return HOME_PATH + File.separator + "netflixRoulette";
     }
 
+    private String createSaveName() {
+        String saveName;
+
+        String todayDate = LocalDate.now().toString();
+
+        return todayDate + "test.json";
+    }
+
     /**
      * Create the library directory.
      *
@@ -64,7 +74,7 @@ public class LocalLibrary {
      * @param titles JSONArray of the returned titles
      * @return true if and only if the titles were saved; false otherwise
      */
-    public boolean saveTitles(JSONObject titles) {
+    public boolean saveResponse(JSONObject titles) {
         LOGGER.log(Level.INFO, "Writing the returned Netflix titles as a JSON");
         FileOutputStream stream;
         boolean saved = true;
