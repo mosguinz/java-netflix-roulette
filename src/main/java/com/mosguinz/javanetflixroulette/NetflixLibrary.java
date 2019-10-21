@@ -97,7 +97,7 @@ public class NetflixLibrary {
 
         // Verify that response is valid.
         JSONArray responseContent = verifyResponse(response, queryType);
-        LocalLibrary.saveResponse(responseContent);
+        localLibrary.saveResponse(responseContent);
 
         return responseContent;
     }

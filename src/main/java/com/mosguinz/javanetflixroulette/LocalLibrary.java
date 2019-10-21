@@ -14,8 +14,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
+import java.util.Locale;
+import java.util.Scanner;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -28,6 +34,7 @@ public class LocalLibrary {
 
     private final String HOME_PATH = getHomePath();
     private final String LIBRARY_PATH = getLibraryPath();
+    private final int MAX_RESPONSE_AGE = 14;
 
     /**
      * Get the user's home directory.
@@ -69,24 +76,29 @@ public class LocalLibrary {
     }
 
     /**
-     * Save the response of Netflix titles.
+     * Save the responses from uNoGS server..
      *
-     * @param titles JSONArray of the returned titles
-     * @return true if and only if the titles were saved; false otherwise
+     * @param response JSONArray of the returned response content
+     * @return true if and only if the response were saved; false otherwise
      */
-    public boolean saveResponse(JSONObject titles) {
+    public boolean saveResponse(JSONArray response) {
         LOGGER.log(Level.INFO, "Writing the returned Netflix titles as a JSON");
         FileOutputStream stream;
         boolean saved = true;
+
+        JSONObject f = new JSONObject();
+        f.put("DATE", LocalDate.now().toString());
+        f.put("COUNT", response.length());
+        f.put("ITEMS", response);
 
         try {
             LOGGER.log(Level.FINE, "Creating file output stream at {0}", LIBRARY_PATH);
             stream = new FileOutputStream(LIBRARY_PATH + File.separator + "test.json");
 
             LOGGER.log(Level.FINE, "Pretty printing JSON response...");
-            byte[] b = titles.toString(2).getBytes();
+            byte[] b = f.toString(2).getBytes();
 
-            LOGGER.log(Level.INFO, "Saving {0} titles...", titles.getJSONArray("ITEMS").length());
+            LOGGER.log(Level.INFO, "Writing the response...");
             stream.write(b);
 
             LOGGER.log(Level.FINE, "Closing file stream...");
@@ -107,4 +119,35 @@ public class LocalLibrary {
 
         return saved;
     }
+
+    private JSONObject loadSavedResponse(String params) {
+        String filename = LIBRARY_PATH + File.separator + params + ".json";
+        JSONObject response = null;
+
+        try {
+            String f = new Scanner(new File(filename)).useDelimiter("\\Z").next();
+            response = new JSONObject(f);
+        } catch (FileNotFoundException e) {
+            LOGGER.log(Level.INFO, "No saved response found...");
+        } catch (JSONException e) {
+            LOGGER.log(Level.SEVERE, "Could not load saved responses...");
+        }
+
+        return response;
+    }
+
+    private boolean isUpToDate(JSONObject response) {
+
+        String date = response.getString("DATE");
+
+        // Will always be in ISO-8601 format uuuu-MM-dd if date is written by this library.
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu-MM-dd").withLocale(Locale.ROOT);
+        LocalDate dt = LocalDate.parse(date, dtf);
+
+        int responseAge = (int) ChronoUnit.DAYS.between(dt, LocalDate.now());
+
+        return responseAge > MAX_RESPONSE_AGE;
+
+    }
+
 }
