@@ -193,7 +193,7 @@ public class NetflixLibrary {
 
         switch (queryType) {
             case "fetchTitles":
-                requestURL = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi?q=-!0,3000-!0,5-!,10-!0-!Any-!Any-!Any-!-!&t=ns&cl=23&st=adv&ob=Relevance&p=&sa=or";
+                requestURL = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi?q=Lemony%20Snicket's%20A%20Series%20of%20Unfortunate%20Events-!2004%2C2004-!0%2C5-!6.8%2C6.8-!0-!Any-!Any-!Any-!gt-1-!%7Bdownloadable%7D&t=ns&cl=all&st=adv&ob=Relevance&p=1&sa=and";
                 break;
             case "fetchGenres":
                 requestURL = "https://unogs-unogs-v1.p.rapidapi.com/api.cgi?t=genres";

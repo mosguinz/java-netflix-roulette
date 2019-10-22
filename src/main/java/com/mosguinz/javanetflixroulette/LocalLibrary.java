@@ -121,12 +121,15 @@ public class LocalLibrary {
     }
 
     private JSONObject loadSavedResponse(String params) {
+        LOGGER.log(Level.FINE, "Looking for saved responses to use...");
+
         String filename = LIBRARY_PATH + File.separator + params + ".json";
         JSONObject response = null;
 
         try {
             String f = new Scanner(new File(filename)).useDelimiter("\\Z").next();
             response = new JSONObject(f);
+            LOGGER.log(Level.FINE, "Found a matching saved response to use");
         } catch (FileNotFoundException e) {
             LOGGER.log(Level.INFO, "No saved response found...");
         } catch (JSONException e) {
@@ -137,7 +140,7 @@ public class LocalLibrary {
     }
 
     private boolean isUpToDate(JSONObject response) {
-
+        LOGGER.log(Level.FINE, "Checking if the response is up to date");
         String date = response.getString("DATE");
 
         // Will always be in ISO-8601 format uuuu-MM-dd if date is written by this library.
