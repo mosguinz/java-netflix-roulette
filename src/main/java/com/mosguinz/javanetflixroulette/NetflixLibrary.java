@@ -29,7 +29,7 @@ public class NetflixLibrary {
     NetflixLibrary() {
         this.X_RAPID_API_KEY = getXRapidAPIKey();
         LoggingUtil.setupLogger(LOGGER);
-//        fetchGenres();
+        fetchRegions();
     }
 
     private static String getXRapidAPIKey() {
@@ -71,6 +71,20 @@ public class NetflixLibrary {
         JSONArray returnedTitles = sendQuery("fetchTitles");
 
         return returnedTitles;
+    }
+
+    public JSONArray fetchGenres() {
+        LOGGER.log(Level.INFO, "Fetching list of genres...");
+        JSONArray genres = sendQuery("fetchGenres");
+
+        return genres;
+    }
+
+    public JSONArray fetchRegions() {
+        LOGGER.log(Level.INFO, "Fetching list of available regions...");
+
+        JSONArray regions = sendQuery("fetchAvailableRegions");
+        return regions;
     }
 
     public JSONArray sendQuery(String queryType) {
@@ -126,11 +140,10 @@ public class NetflixLibrary {
      * @param responseContent
      * @return
      */
-    private JSONArray getSupercategoryGenres(JSONArray response) {
+    private JSONArray extractSupercategoryGenres(JSONArray response) {
         JSONArray supercategoryGenres = new JSONArray();
 
         int index = 0;
-        boolean endOfSupercategories = false;
 
         for (Object object : response) {
 
@@ -138,7 +151,7 @@ public class NetflixLibrary {
                 String categoryName = keys.next().toString();
 
                 if (categoryName.startsWith("All ")) {
-                    supercategoryGenres.put(index + 1, object);
+                    supercategoryGenres.put(index, object);
                 } else {
                     return supercategoryGenres;
                 }
@@ -150,6 +163,27 @@ public class NetflixLibrary {
 
         // Should not be reachable if the response is valid...
         return null;
+    }
+
+    private JSONArray extractAvailableRegions(JSONArray response) {
+        JSONArray regions = new JSONArray();
+        regions.put(0, new JSONObject().put("All regions", "All"));
+
+        int index = 0;
+
+        for (Object object : response) {
+            JSONObject region = new JSONObject();
+            JSONArray r = new JSONArray(object.toString());
+
+            String regionID = r.getString(0);
+            String regionName = r.getString(2);
+            region.put(regionID, regionName);
+
+            regions.put(index, region);
+            index++;
+        }
+
+        return regions;
     }
 
     /**
@@ -174,11 +208,15 @@ public class NetflixLibrary {
             LOGGER.log(Level.SEVERE, "Response is not valid.");
         }
 
-        if (queryType.equals("fetchGenres")) {
-            getSupercategoryGenres(responseContent);
+        switch (queryType) {
+            case "fetchGenres":
+                return extractSupercategoryGenres(responseContent);
+            case "fetchAvailableRegions":
+                return extractAvailableRegions(responseContent);
+            default:
+                return responseContent;
         }
 
-        return responseContent;
     }
 
     /**
