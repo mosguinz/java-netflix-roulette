@@ -81,7 +81,7 @@ public class LocalLibrary {
      * @param response JSONArray of the returned response content
      * @return true if and only if the response were saved; false otherwise
      */
-    public boolean saveResponse(JSONArray response) {
+    public boolean saveResponse(JSONArray response, String queryType) {
         LOGGER.log(Level.INFO, "Writing the returned Netflix titles as a JSON");
         FileOutputStream stream;
         boolean saved = true;
@@ -93,7 +93,7 @@ public class LocalLibrary {
 
         try {
             LOGGER.log(Level.FINE, "Creating file output stream at {0}", LIBRARY_PATH);
-            stream = new FileOutputStream(LIBRARY_PATH + File.separator + "test.json");
+            stream = new FileOutputStream(LIBRARY_PATH + File.separator + queryType + ".json");
 
             LOGGER.log(Level.FINE, "Pretty printing JSON response...");
             byte[] b = f.toString(2).getBytes();
@@ -120,16 +120,19 @@ public class LocalLibrary {
         return saved;
     }
 
-    private JSONObject loadSavedResponse(String params) {
+    public JSONArray loadSavedResponse(String queryType) {
         LOGGER.log(Level.FINE, "Looking for saved responses to use...");
 
-        String filename = LIBRARY_PATH + File.separator + params + ".json";
-        JSONObject response = null;
+        String filename = LIBRARY_PATH + File.separator + queryType + ".json";
+        JSONArray response = null;
 
         try {
             String f = new Scanner(new File(filename)).useDelimiter("\\Z").next();
-            response = new JSONObject(f);
+            JSONObject r = new JSONObject(f);
             LOGGER.log(Level.FINE, "Found a matching saved response to use");
+
+            response = verifySavedResponse(r, queryType);
+
         } catch (FileNotFoundException e) {
             LOGGER.log(Level.INFO, "No saved response found...");
         } catch (JSONException e) {
@@ -139,9 +142,26 @@ public class LocalLibrary {
         return response;
     }
 
+    private JSONArray verifySavedResponse(JSONObject response, String queryType) {
+
+        if (isUpToDate(response)) {
+            return NetflixLibrary.verifyResponse(response, queryType);
+        }
+
+        return null;
+
+    }
+
     private boolean isUpToDate(JSONObject response) {
         LOGGER.log(Level.FINE, "Checking if the response is up to date");
-        String date = response.getString("DATE");
+        String date;
+
+        try {
+            date = response.getString("DATE");
+        } catch (JSONException e) {
+            LoggingUtil.logException(LOGGER, e, "Could not verify response date");
+            return false;
+        }
 
         // Will always be in ISO-8601 format uuuu-MM-dd if date is written by this library.
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu-MM-dd").withLocale(Locale.ROOT);

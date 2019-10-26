@@ -40,17 +40,19 @@ public class HomeGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        titleLabel = new javax.swing.JLabel();
+        regionSelectionLabel = new javax.swing.JLabel();
         rollButton = new javax.swing.JButton();
+        regionSelectionMenu = new javax.swing.JComboBox<>();
+        titleLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Netflix roulette");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        titleLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
-        titleLabel.setText("Netflix roulette");
-        getContentPane().add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+        regionSelectionLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
+        regionSelectionLabel.setText("Select Netflix region");
+        getContentPane().add(regionSelectionLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
 
         rollButton.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
         rollButton.setText("Roll");
@@ -59,7 +61,20 @@ public class HomeGUI extends javax.swing.JFrame {
                 rollButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(rollButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
+        getContentPane().add(rollButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, -1));
+
+        regionSelectionMenu.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
+        regionSelectionMenu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        regionSelectionMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                regionSelectionMenuActionPerformed(evt);
+            }
+        });
+        getContentPane().add(regionSelectionMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 190, -1));
+
+        titleLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
+        titleLabel.setText("Netflix roulette");
+        getContentPane().add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
 
         setSize(new java.awt.Dimension(618, 347));
         setLocationRelativeTo(null);
@@ -76,18 +91,13 @@ public class HomeGUI extends javax.swing.JFrame {
         }
 
         JSONObject selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
-//
-//        System.out.println(selectedTitle.netflixID);
-//        System.out.println(selectedTitle.title);
-//        System.out.println(selectedTitle.imageURL);
-//        System.out.println(selectedTitle.synopsis);
-//        System.out.println(selectedTitle.rating);
-//        System.out.println(selectedTitle.type);
-//        System.out.println(selectedTitle.releaseYear);
-//        System.out.println(selectedTitle.runtime);
 
         new SelectedTitleGUI(selectedTitle).setVisible(true);
     }//GEN-LAST:event_rollButtonActionPerformed
+
+    private void regionSelectionMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regionSelectionMenuActionPerformed
+
+    }//GEN-LAST:event_regionSelectionMenuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -124,6 +134,8 @@ public class HomeGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel regionSelectionLabel;
+    private javax.swing.JComboBox<String> regionSelectionMenu;
     private javax.swing.JButton rollButton;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables

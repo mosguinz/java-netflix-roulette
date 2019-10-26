@@ -26,6 +26,9 @@ public class NetflixLibrary {
     private final String X_RAPID_API_KEY;
     private final LocalLibrary localLibrary = new LocalLibrary();
 
+    public JSONArray availableRegions;
+    public JSONArray availableGenres;
+
     NetflixLibrary() {
         this.X_RAPID_API_KEY = getXRapidAPIKey();
         LoggingUtil.setupLogger(LOGGER);
@@ -68,9 +71,15 @@ public class NetflixLibrary {
 
     public JSONArray fetchTitles() {
         LOGGER.log(Level.INFO, "Fetching Netflix titles...");
-        JSONArray returnedTitles = sendQuery("fetchTitles");
+        String q = "getTitles";
 
-        return returnedTitles;
+        JSONArray titles = localLibrary.loadSavedResponse(q);
+
+        if (titles == null) {
+            return sendQuery(q);
+        }
+
+        return null;
     }
 
     public JSONArray fetchGenres() {
@@ -111,7 +120,7 @@ public class NetflixLibrary {
 
         // Verify that response is valid.
         JSONArray responseContent = verifyResponse(response, queryType);
-        localLibrary.saveResponse(responseContent);
+        localLibrary.saveResponse(responseContent, queryType);
 
         return responseContent;
     }
@@ -140,7 +149,7 @@ public class NetflixLibrary {
      * @param responseContent
      * @return
      */
-    private JSONArray extractSupercategoryGenres(JSONArray response) {
+    private static JSONArray extractSupercategoryGenres(JSONArray response) {
         JSONArray supercategoryGenres = new JSONArray();
 
         int index = 0;
@@ -165,7 +174,7 @@ public class NetflixLibrary {
         return null;
     }
 
-    private JSONArray extractAvailableRegions(JSONArray response) {
+    private static JSONArray extractAvailableRegions(JSONArray response) {
         JSONArray regions = new JSONArray();
         regions.put(0, new JSONObject().put("All regions", "All"));
 
@@ -197,7 +206,7 @@ public class NetflixLibrary {
      * @return The content of response as a JSONArray if the response is valid;
      * null otherwise
      */
-    private JSONArray verifyResponse(JSONObject response, String queryType) {
+    public static JSONArray verifyResponse(JSONObject response, String queryType) {
         LOGGER.log(Level.FINE, "Verifying that the response content is valid...");
 
         JSONArray responseContent = null;
