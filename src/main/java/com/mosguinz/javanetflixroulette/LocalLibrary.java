@@ -36,6 +36,10 @@ public class LocalLibrary {
     private final String LIBRARY_PATH = getLibraryPath();
     private final int MAX_RESPONSE_AGE = 14;
 
+    LocalLibrary() {
+        LoggingUtil.setupLogger(LOGGER);
+    }
+
     /**
      * Get the user's home directory.
      *
@@ -136,7 +140,7 @@ public class LocalLibrary {
         } catch (FileNotFoundException e) {
             LOGGER.log(Level.INFO, "No saved response found...");
         } catch (JSONException e) {
-            LOGGER.log(Level.SEVERE, "Could not load saved responses...");
+            LoggingUtil.logException(LOGGER, e, "Could not load saved responses...");
         }
 
         return response;
@@ -145,7 +149,7 @@ public class LocalLibrary {
     private JSONArray verifySavedResponse(JSONObject response, String queryType) {
 
         if (isUpToDate(response)) {
-            return NetflixLibrary.verifyResponse(response, queryType);
+            return NetflixLibrary.verifyResponse(response);
         }
 
         return null;
@@ -169,7 +173,9 @@ public class LocalLibrary {
 
         int responseAge = (int) ChronoUnit.DAYS.between(dt, LocalDate.now());
 
-        return responseAge > MAX_RESPONSE_AGE;
+        LOGGER.log(Level.INFO, "Response is {0} days old; maximum age is {1} days");
+
+        return responseAge < MAX_RESPONSE_AGE;
 
     }
 

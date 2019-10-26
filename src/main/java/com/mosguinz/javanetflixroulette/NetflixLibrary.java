@@ -32,7 +32,7 @@ public class NetflixLibrary {
     NetflixLibrary() {
         this.X_RAPID_API_KEY = getXRapidAPIKey();
         LoggingUtil.setupLogger(LOGGER);
-        fetchRegions();
+        availableRegions = fetchRegions();
     }
 
     private static String getXRapidAPIKey() {
@@ -71,29 +71,28 @@ public class NetflixLibrary {
 
     public JSONArray fetchTitles() {
         LOGGER.log(Level.INFO, "Fetching Netflix titles...");
-        String q = "getTitles";
-
-        JSONArray titles = localLibrary.loadSavedResponse(q);
-
-        if (titles == null) {
-            return sendQuery(q);
-        }
-
-        return null;
+        return fetchData("fetchTitles");
     }
 
     public JSONArray fetchGenres() {
         LOGGER.log(Level.INFO, "Fetching list of genres...");
-        JSONArray genres = sendQuery("fetchGenres");
-
-        return genres;
+        return fetchData("fetchGenres");
     }
 
     public JSONArray fetchRegions() {
         LOGGER.log(Level.INFO, "Fetching list of available regions...");
+        return fetchData("fetchAvailableRegions");
+    }
 
-        JSONArray regions = sendQuery("fetchAvailableRegions");
-        return regions;
+    private JSONArray fetchData(String queryType) {
+        LOGGER.log(Level.INFO, "Fetching data for queryType: {0}", queryType);
+        JSONArray data = localLibrary.loadSavedResponse(queryType);
+
+        if (data == null) {
+            return sendQuery(queryType);
+        }
+
+        return data;
     }
 
     public JSONArray sendQuery(String queryType) {
@@ -119,8 +118,12 @@ public class NetflixLibrary {
         }
 
         // Verify that response is valid.
-        JSONArray responseContent = verifyResponse(response, queryType);
-        localLibrary.saveResponse(responseContent, queryType);
+        JSONArray responseContent = verifyResponse(response);
+
+        if (responseContent != null) {
+            responseContent = extractResponse(responseContent, queryType);
+            localLibrary.saveResponse(responseContent, queryType);
+        }
 
         return responseContent;
     }
@@ -175,6 +178,7 @@ public class NetflixLibrary {
     }
 
     private static JSONArray extractAvailableRegions(JSONArray response) {
+
         JSONArray regions = new JSONArray();
         regions.put(0, new JSONObject().put("All regions", "All"));
 
@@ -206,7 +210,7 @@ public class NetflixLibrary {
      * @return The content of response as a JSONArray if the response is valid;
      * null otherwise
      */
-    public static JSONArray verifyResponse(JSONObject response, String queryType) {
+    public static JSONArray verifyResponse(JSONObject response) {
         LOGGER.log(Level.FINE, "Verifying that the response content is valid...");
 
         JSONArray responseContent = null;
@@ -217,15 +221,19 @@ public class NetflixLibrary {
             LOGGER.log(Level.SEVERE, "Response is not valid.");
         }
 
+        return responseContent;
+
+    }
+
+    public static JSONArray extractResponse(JSONArray response, String queryType) {
         switch (queryType) {
             case "fetchGenres":
-                return extractSupercategoryGenres(responseContent);
+                return extractSupercategoryGenres(response);
             case "fetchAvailableRegions":
-                return extractAvailableRegions(responseContent);
+                return extractAvailableRegions(response);
             default:
-                return responseContent;
+                return response;
         }
-
     }
 
     /**
