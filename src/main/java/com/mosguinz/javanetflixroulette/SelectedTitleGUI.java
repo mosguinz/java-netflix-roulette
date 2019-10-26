@@ -27,40 +27,21 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
 
     private static final Logger LOGGER = Logger.getLogger(SelectedTitleGUI.class.getName());
 
-    final String netflixID;
-    final String title;
-    final String imageURL;
-    final String synopsis;
-    final String rating;
-    final String type;
-    final String releaseYear;
-    final String runtime;
+    String netflixID;
+    String title;
+    String imageURL;
+    String synopsis;
+    String rating;
+    String type;
+    String releaseYear;
+    String runtime;
 
     /**
      * Creates new form SelectedTitleGUI
-     *
-     * @param selectedTitle
      */
-    public SelectedTitleGUI(JSONObject selectedTitle) {
-        initComponents();
-        LoggingUtil.setupLogger(LOGGER);
-
-        this.netflixID = selectedTitle.getString("netflixid");
-        this.title = selectedTitle.getString("title");
-        this.imageURL = selectedTitle.getString("image");
-        this.synopsis = selectedTitle.getString("synopsis");
-        this.rating = selectedTitle.getString("rating");
-        this.type = selectedTitle.getString("type");
-        this.releaseYear = selectedTitle.getString("released");
-        this.runtime = selectedTitle.getString("runtime");
-
-        // Display poster image for selected title.
-        setTitlePosterImage();
-        setTitleInfo();
-    }
-
     public SelectedTitleGUI() {
         initComponents();
+        LoggingUtil.setupLogger(LOGGER);
         netflixID = title = imageURL = synopsis = rating = type = releaseYear = runtime = null;
     }
 
@@ -128,7 +109,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
 
     private void returnToMainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnToMainButtonActionPerformed
         LOGGER.log(Level.FINE, "\"{0}\" button pressed\n{1}", new Object[]{evt.getActionCommand(), evt.paramString()});
-        this.dispose();
+        dispose();
 
     }//GEN-LAST:event_returnToMainButtonActionPerformed
 
@@ -178,6 +159,22 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
                 new SelectedTitleGUI().setVisible(true);
             }
         });
+    }
+
+    public void updateTitleInfo(JSONObject selectedTitle) {
+
+        netflixID = selectedTitle.getString("netflixid");
+        title = selectedTitle.getString("title");
+        imageURL = selectedTitle.getString("image");
+        synopsis = selectedTitle.getString("synopsis");
+        rating = selectedTitle.getString("rating");
+        type = selectedTitle.getString("type");
+        releaseYear = selectedTitle.getString("released");
+        runtime = selectedTitle.getString("runtime");
+
+        // Display poster image for selected title.
+        setTitlePosterImage();
+        setTitleInfo();
     }
 
     private void setTitlePosterImage() {

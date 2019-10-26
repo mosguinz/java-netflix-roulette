@@ -32,7 +32,9 @@ public class NetflixLibrary {
     NetflixLibrary() {
         this.X_RAPID_API_KEY = getXRapidAPIKey();
         LoggingUtil.setupLogger(LOGGER);
+
         availableRegions = fetchRegions();
+        availableGenres = fetchGenres();
     }
 
     private static String getXRapidAPIKey() {
@@ -218,7 +220,7 @@ public class NetflixLibrary {
         try {
             responseContent = response.getJSONArray("ITEMS");
         } catch (org.json.JSONException e) {
-            LOGGER.log(Level.SEVERE, "Response is not valid.");
+            LoggingUtil.logException(LOGGER, e, "Response is not valid.");
         }
 
         return responseContent;

@@ -20,6 +20,7 @@ public class HomeGUI extends javax.swing.JFrame {
     private static final Logger LOGGER = Logger.getLogger(HomeGUI.class.getName());
 
     private NetflixLibrary netflixLibrary;
+    private SelectedTitleGUI selectedTitleGUI = new SelectedTitleGUI();
 
     /**
      * Creates new form HomeGUI
@@ -91,8 +92,10 @@ public class HomeGUI extends javax.swing.JFrame {
         }
 
         JSONObject selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
+        selectedTitleGUI.updateTitleInfo(selectedTitle);
+        selectedTitleGUI.setVisible(true);
 
-        new SelectedTitleGUI(selectedTitle).setVisible(true);
+//        new SelectedTitleGUI(selectedTitle).setVisible(true);
     }//GEN-LAST:event_rollButtonActionPerformed
 
     private void regionSelectionMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regionSelectionMenuActionPerformed
