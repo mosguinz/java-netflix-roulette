@@ -94,8 +94,6 @@ public class HomeGUI extends javax.swing.JFrame {
         JSONObject selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
         selectedTitleGUI.updateTitleInfo(selectedTitle);
         selectedTitleGUI.setVisible(true);
-
-//        new SelectedTitleGUI(selectedTitle).setVisible(true);
     }//GEN-LAST:event_rollButtonActionPerformed
 
     private void regionSelectionMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regionSelectionMenuActionPerformed

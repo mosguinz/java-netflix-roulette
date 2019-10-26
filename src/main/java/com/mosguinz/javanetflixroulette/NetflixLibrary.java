@@ -192,7 +192,7 @@ public class NetflixLibrary {
 
             String regionID = r.getString(0);
             String regionName = r.getString(2);
-            region.put(regionID, regionName);
+            region.put(regionName, regionID);
 
             regions.put(index, region);
             index++;
