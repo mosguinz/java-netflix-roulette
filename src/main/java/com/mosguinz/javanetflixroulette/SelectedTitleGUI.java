@@ -44,6 +44,9 @@ import org.json.JSONObject;
  */
 public class SelectedTitleGUI extends javax.swing.JFrame {
 
+    /**
+     * The {@link Logger} object for the class.
+     */
     private static final Logger LOGGER = Logger.getLogger(SelectedTitleGUI.class.getName());
 
     String netflixID;

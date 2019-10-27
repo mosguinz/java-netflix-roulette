@@ -36,6 +36,9 @@ import org.json.JSONObject;
  */
 public class HomeGUI extends javax.swing.JFrame {
 
+    /**
+     * The {@link Logger} object for the class.
+     */
     private static final Logger LOGGER = Logger.getLogger(HomeGUI.class.getName());
 
     private NetflixLibrary netflixLibrary;

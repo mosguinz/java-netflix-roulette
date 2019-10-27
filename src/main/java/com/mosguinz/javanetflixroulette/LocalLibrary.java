@@ -50,12 +50,42 @@ import org.json.JSONObject;
  */
 public class LocalLibrary {
 
+    /**
+     * The {@link Logger} object for the class.
+     */
     private static final Logger LOGGER = Logger.getLogger(LocalLibrary.class.getName());
 
+    /**
+     * The user's home directory.
+     * <p>
+     * This application's local library will live under this directory.
+     *
+     * @see #getHomePath()
+     */
     private final String HOME_PATH = getHomePath();
+
+    /**
+     * This application's local library directory.
+     * <p>
+     * Responses from the API will be read and written here.
+     *
+     * @see #getLibraryPath()
+     */
     private final String LIBRARY_PATH = getLibraryPath();
+
+    /**
+     * The maximum age of a response in days.
+     * <p>
+     * Responses that are older than the specified value ({@value} days) will
+     * not be used and will be overwritten by new responses.
+     *
+     * @see #isUpToDate(org.json.JSONObject)
+     */
     private final int MAX_RESPONSE_AGE = 14;
 
+    /**
+     * Set up an instance of {@link LocalLibrary}.
+     */
     LocalLibrary() {
         LoggingUtil.setupLogger(LOGGER);
     }
@@ -210,6 +240,10 @@ public class LocalLibrary {
      * Written responses will have an ISO-8601 timestamp inserted in its JSON
      * file. This is used to check whether the response is fresh enough to be
      * used.
+     * <p>
+     * The constant {@link #MAX_RESPONSE_AGE MAX_RESPONSE_AGE} determines the
+     * maximum acceptable response age in days. It is set at
+     * {@value #MAX_RESPONSE_AGE}.
      * <p>
      * If a timestamp cannot be found or is invalid, the response is assumed to
      * be outdated or invalid, and the method will return {@code false}.

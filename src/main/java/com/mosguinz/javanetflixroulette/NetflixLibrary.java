@@ -49,8 +49,16 @@ import org.json.JSONObject;
  */
 public class NetflixLibrary {
 
+    /**
+     * The {@link Logger} object for the class.
+     */
     private static final Logger LOGGER = Logger.getLogger(NetflixLibrary.class.getName());
 
+    /**
+     * The API key to use for sending queries to the uNoGS API.
+     *
+     * @see #getXRapidAPIKey()
+     */
     private final String X_RAPID_API_KEY;
     private final LocalLibrary localLibrary = new LocalLibrary();
 
@@ -322,8 +330,8 @@ public class NetflixLibrary {
      * Verify that the response is valid.
      * <p>
      * The content of a valid response from the UNoGS API is always an array
-     * under the key "ITEMS". If this key-pair is not present in the JSON, then
-     * the response is assumed to be invalid.
+     * (parsed as {@link JSONArray}) under the key "ITEMS". If this key-pair is
+     * not present in the JSON, then the response is assumed to be invalid.
      *
      * @param response the {@link JSONObject} returned from the query
      * @return the content of response as a {@link JSONArray} if the response is
