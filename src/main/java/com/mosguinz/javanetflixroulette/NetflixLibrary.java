@@ -1,7 +1,25 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2019 mosguinz.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package com.mosguinz.javanetflixroulette;
 
@@ -16,19 +34,48 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
+ * The {@link NetflixLibrary} class is responsible for interacting with the
+ * Unofficial Netflix Online Global Search (uNoGS) API and performing related
+ * operations on its responses.
+ * <p>
+ * The class is responsible for operations, such as:
+ * <ul>
+ * <li>sending GET requests to the uNoGS API;</li>
+ * <li>extracting and validating responses from the API;</li>
+ * <li> selecting random titles from given parameters.</li>
+ * </ul>
  *
- * @author Mos
+ * @author mosguinz
  */
 public class NetflixLibrary {
 
+    /**
+     * The {@link Logger} object for the class.
+     */
     private static final Logger LOGGER = Logger.getLogger(NetflixLibrary.class.getName());
 
+    /**
+     * The API key to use for sending queries to the uNoGS API.
+     *
+     * @see #getXRapidAPIKey()
+     */
     private final String X_RAPID_API_KEY;
     private final LocalLibrary localLibrary = new LocalLibrary();
 
     public JSONArray availableRegions;
     public JSONArray availableGenres;
 
+    /**
+     * Set up an instance of {@link NetflixLibrary}.
+     * <p>
+     * Upon instantiation, the instance will:
+     * <ul>
+     * <li>obtain the API key provided in the environment variable under the key
+     * {@link #X_RAPID_API_KEY X_RAPID_API_KEY};</li>
+     * <li>fetch the list of available Netflix regions;</li>
+     * <li>fetch the list of genres;</li>
+     * </ul>
+     */
     NetflixLibrary() {
         this.X_RAPID_API_KEY = getXRapidAPIKey();
         LoggingUtil.setupLogger(LOGGER);
@@ -37,6 +84,14 @@ public class NetflixLibrary {
         availableGenres = fetchGenres();
     }
 
+    /**
+     * Get the API key for uNoGS.
+     * <p>
+     * Key must either be present in the environment variable under
+     * {@link #X_RAPID_API_KEY X_RAPID_API_KEY} or be provided when prompted.
+     *
+     * @return a RapidAPI key for uNoGS
+     */
     private static String getXRapidAPIKey() {
         LOGGER.log(Level.INFO, "Getting API key for Netflix library...");
         String key = null;
@@ -54,6 +109,16 @@ public class NetflixLibrary {
         return key;
     }
 
+    /**
+     * Display a pop-up dialogue to request an API key from the user.
+     * <p>
+     * Invoked when a valid API key cannot be found or obtained from the
+     * environment variables.
+     *
+     * @param message the message displayed to the user
+     * @param title the dialogue box title
+     * @return the API key provided by the user
+     */
     private static String requestUserAPIKey(String message, String title) {
         LOGGER.log(Level.FINE, "Requesting API key from user...");
         String key = null;
@@ -71,21 +136,47 @@ public class NetflixLibrary {
         return key;
     }
 
+    /**
+     * Fetch a list of Netflix titles.
+     *
+     * @return a {@link JSONArray} of available titles
+     */
     public JSONArray fetchTitles() {
         LOGGER.log(Level.INFO, "Fetching Netflix titles...");
         return fetchData("fetchTitles");
     }
 
+    /**
+     * Fetch a list of genres.
+     *
+     * @return a {@link JSONArray} of available genres
+     */
     public JSONArray fetchGenres() {
         LOGGER.log(Level.INFO, "Fetching list of genres...");
         return fetchData("fetchGenres");
     }
 
+    /**
+     * Fetch a list of Netflix regions.
+     *
+     * @return a {@link JSONArray} of available regions
+     */
     public JSONArray fetchRegions() {
         LOGGER.log(Level.INFO, "Fetching list of available regions...");
         return fetchData("fetchAvailableRegions");
     }
 
+    /**
+     * Fetch the data for the given {@code queryType}.
+     * <p>
+     * The method will fetch the data for the given {@code queryType} by looking
+     * for responses saved in the local machine first. If that is not available,
+     * then it will send a request to the uNoGS API to obtain the data.
+     *
+     * @param queryType must be either {@code fetchGenres},
+     * {@code fetchRegions}, or {@code fetchAvailableRegions}
+     * @return a {@link JSONArray} of the requested data
+     */
     private JSONArray fetchData(String queryType) {
         LOGGER.log(Level.INFO, "Fetching data for queryType: {0}", queryType);
         JSONArray data = localLibrary.loadSavedResponse(queryType);
@@ -97,6 +188,24 @@ public class NetflixLibrary {
         return data;
     }
 
+    /**
+     * Send a GET request to the uNOGS API server.
+     * <p>
+     * Will only be invoked if there is no responses saved or if the saved
+     * responses are out-of-date or not valid.
+     * <p>
+     * When invoked, it will also attempt to:
+     * <ul>
+     * <li>verify whether the response is valid;</li>
+     * <li>extract the response into a suitable format;</li>
+     * <li><b>write the response to file</b>, so that it can be used later.</li>
+     * </ul>
+     *
+     * @param queryType must be either {@code fetchGenres},
+     * {@code fetchRegions}, or {@code fetchAvailableRegions}
+     * @return a {@link JSONArray} of the requested data if the response was
+     * successfully validated and extracted; {@code null} otherwise
+     */
     public JSONArray sendQuery(String queryType) {
         LOGGER.log(Level.INFO, "Sending query to uNoGS API server: {0}", queryType);
         String requestURL = getEndpoint(queryType);
@@ -131,28 +240,31 @@ public class NetflixLibrary {
     }
 
     /**
-     * Extract the response for the genres.
-     *
+     * Extract response for the list of genres and its IDs.
+     * <p>
      * For some reason, items in the "ITEMS" key are nested in single key-pair
      * values for each genre, where the key is the genre names and its value is
      * an array containing numerical ID(s) that are associated with the genre.
-     *
+     * <p>
      * This method maps the SUPERCATEGORY genre names to the list of IDs of its
      * SUBCATEGORIES.
-     *
+     * <p>
      * Assumes that the response is in the format where the SUPERCATEGORIES are
      * listed FIRST and starts with the word "All".
-     *
+     * <p>
      * For example, the SUPERCATEGORY of "Action" titles may contain
      * SUBCATEGORIES, such as "Action Comedies," "Action Sci-Fi & Fantasy,"
      * "Action Thrillers," etc.
-     *
+     * <p>
      * So, the list of IDs that includes those SUBCATEGORIES genres will be
      * listed under the key "All Action". And the individual IDs of those
      * SUBCATEGORIES can be found later on in the response.
      *
-     * @param responseContent
-     * @return
+     * @param response the raw response in the form of {@link JSONArray} from
+     * the API
+     * @return a {@link JSONArray} of the (supercategory) genres, where each
+     * entry is a {@link JSONObject} with the key being the genre name, if the
+     * response is in an expected format; {@code null} otherwise
      */
     private static JSONArray extractSupercategoryGenres(JSONArray response) {
         JSONArray supercategoryGenres = new JSONArray();
@@ -179,6 +291,19 @@ public class NetflixLibrary {
         return null;
     }
 
+    /**
+     * Extract response for the list of available regions and its IDs.
+     * <p>
+     * The response contains a lot of other information aside from the internal
+     * ID, such as region pricing, currency, etc -- likely from the result of
+     * web scraping. These information are filtered out as they are unnecessary.
+     *
+     * @param response the raw response in the form of {@link JSONArray} from
+     * the API
+     * @return a {@link JSONArray} of the available Netflix regions, where each
+     * entry is a {@link JSONObject} with the key being the region name, if the
+     * response is in an expected format
+     */
     private static JSONArray extractAvailableRegions(JSONArray response) {
 
         JSONArray regions = new JSONArray();
@@ -203,14 +328,14 @@ public class NetflixLibrary {
 
     /**
      * Verify that the response is valid.
-     *
+     * <p>
      * The content of a valid response from the UNoGS API is always an array
-     * under the key "ITEMS". If this key-pair is not present in the JSON, then
-     * the response is not valid.
+     * (parsed as {@link JSONArray}) under the key "ITEMS". If this key-pair is
+     * not present in the JSON, then the response is assumed to be invalid.
      *
-     * @param response JSONObject of that is returned from the query
-     * @return The content of response as a JSONArray if the response is valid;
-     * null otherwise
+     * @param response the {@link JSONObject} returned from the query
+     * @return the content of response as a {@link JSONArray} if the response is
+     * valid; {@code null} otherwise
      */
     public static JSONArray verifyResponse(JSONObject response) {
         LOGGER.log(Level.FINE, "Verifying that the response content is valid...");
@@ -227,6 +352,17 @@ public class NetflixLibrary {
 
     }
 
+    /**
+     * Call methods respective to the given {@code queryType} to extract its
+     * response.
+     *
+     * @param response the raw response in the form of {@link JSONArray} from
+     * the API
+     * @param queryType must be either {@code fetchGenres},
+     * {@code fetchRegions}, or {@code fetchAvailableRegions}
+     * @return a {@link JSONArray} of an extracted response if successful;
+     * {@code null} otherwise
+     */
     public static JSONArray extractResponse(JSONArray response, String queryType) {
         switch (queryType) {
             case "fetchGenres":
@@ -241,7 +377,8 @@ public class NetflixLibrary {
     /**
      * Get endpoint URL for the specified query type.
      *
-     * @param queryType Query type
+     * @param queryType must be either {@code fetchGenres},
+     * {@code fetchRegions}, or {@code fetchAvailableRegions}
      * @return The endpoint URL
      */
     private String getEndpoint(String queryType) {
@@ -266,6 +403,12 @@ public class NetflixLibrary {
         return requestURL;
     }
 
+    /**
+     * Select a random title from a {@link JSONArray} of titles.
+     *
+     * @param titles a {@link JSONArray} of titles
+     * @return the selected title as a {@link JSONObject}
+     */
     public static JSONObject selectRandomTitle(JSONArray titles) {
         LOGGER.log(Level.FINE, "Selecting a random title from list of titles");
 
