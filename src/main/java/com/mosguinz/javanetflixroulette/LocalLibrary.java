@@ -151,7 +151,6 @@ public class LocalLibrary {
 
         JSONObject f = new JSONObject();
         f.put("DATE", LocalDate.now().toString());
-        f.put("COUNT", response.length());
         f.put("ITEMS", response);
 
         try {
