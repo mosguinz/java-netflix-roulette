@@ -139,6 +139,8 @@ public class LocalLibrary {
      * Save the responses from uNoGS server.
      *
      * @param response {@code JSONArray} of the returned response content
+     * @param queryType must be either {@code fetchGenres},
+     * {@code fetchRegions}, or {@code fetchAvailableRegions}
      * @return {@code true} if and only if the response were saved;
      * {@code false} otherwise
      */

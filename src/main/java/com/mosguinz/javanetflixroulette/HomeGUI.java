@@ -25,6 +25,7 @@ package com.mosguinz.javanetflixroulette;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import javax.swing.DefaultComboBoxModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -42,6 +43,7 @@ public class HomeGUI extends javax.swing.JFrame {
     private static final Logger LOGGER = Logger.getLogger(HomeGUI.class.getName());
 
     private NetflixLibrary netflixLibrary;
+//    private List<String> =
     private SelectedTitleGUI selectedTitleGUI = new SelectedTitleGUI();
 
     /**
@@ -52,6 +54,7 @@ public class HomeGUI extends javax.swing.JFrame {
         LoggingUtil.setupLogger(LOGGER);
 
         netflixLibrary = new NetflixLibrary();
+//        regionSelectionMenu.setModel(new DefaultComboBoxModel(availableRegions.toArray()));
     }
 
     /**

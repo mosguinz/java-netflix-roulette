@@ -23,6 +23,7 @@
  */
 package com.mosguinz.javanetflixroulette;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -306,24 +307,19 @@ public class NetflixLibrary {
      */
     private static JSONArray extractAvailableRegions(JSONArray response) {
 
-        JSONArray regions = new JSONArray();
-        regions.put(0, new JSONObject().put("All regions", "All"));
-
-        int index = 0;
-
+        JSONArray itemsKey = new JSONArray();
+        JSONObject regions = new JSONObject();
+        regions.put("All regions", "All");
         for (Object object : response) {
-            JSONObject region = new JSONObject();
             JSONArray r = new JSONArray(object.toString());
 
             String regionID = r.getString(0);
             String regionName = r.getString(2);
-            region.put(regionName, regionID);
-
-            regions.put(index, region);
-            index++;
+            regions.put(regionName, regionID);
         }
 
-        return regions;
+        itemsKey.put(0, regions);
+        return itemsKey;
     }
 
     /**
