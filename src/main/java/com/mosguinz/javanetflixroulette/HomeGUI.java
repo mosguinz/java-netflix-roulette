@@ -30,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
+ * GUI for the home menu. This is where the application will start.
  *
  * @author Mos
  */

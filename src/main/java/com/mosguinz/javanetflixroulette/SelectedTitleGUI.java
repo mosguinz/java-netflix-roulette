@@ -38,6 +38,7 @@ import javax.swing.ImageIcon;
 import org.json.JSONObject;
 
 /**
+ * GUI for displaying the selected title.
  *
  * @author Mos
  */
@@ -125,12 +126,27 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Upon clicking "Return to Menu" button.
+     * <p>
+     * This will dispose the window.
+     *
+     * @param evt The action event
+     */
     private void returnToMainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnToMainButtonActionPerformed
         LOGGER.log(Level.FINE, "\"{0}\" button pressed\n{1}", new Object[]{evt.getActionCommand(), evt.paramString()});
         dispose();
 
     }//GEN-LAST:event_returnToMainButtonActionPerformed
 
+    /**
+     * Upon clicking "Watch on Netflix" button.
+     * <p>
+     * This will open the Netflix page of the current title on the system's
+     * default browser.
+     *
+     * @param evt The action event
+     */
     private void watchOnNetflixButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_watchOnNetflixButtonActionPerformed
         LOGGER.log(Level.FINE, "\"{0}\" button pressed\n{1}", new Object[]{evt.getActionCommand(), evt.paramString()});
 
@@ -179,6 +195,11 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Updates the attributes of the Netflix title to be displayed.
+     *
+     * @param selectedTitle a {@code JSONObject} of the selected title
+     */
     public void updateTitleInfo(JSONObject selectedTitle) {
 
         netflixID = selectedTitle.getString("netflixid");
@@ -195,6 +216,12 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         setTitleInfo();
     }
 
+    /**
+     * Set the poster image of the title to be displayed.
+     * <p>
+     * The URL of the poster image is derived from the {@code JSONObject} of the
+     * title.
+     */
     private void setTitlePosterImage() {
         LOGGER.log(Level.FINE, "Adding poster image");
 
@@ -213,6 +240,12 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Set the title information to be displayed.
+     * <p>
+     * This includes: the title name, type (movie or series), runtime (for
+     * movies), release year, and the synopsis.
+     */
     private void setTitleInfo() {
         LOGGER.log(Level.FINE, "Creating selected title info element");
 
@@ -230,6 +263,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
 
         LOGGER.log(Level.FINER, "Adding subtext");
         titleSubtext.setText(subtext);
+        LOGGER.log(Level.FINER, "Adding synopsis");
         titleSynopsis.setText("<html><p style=\"line-height: 2%;\">" + synopsis + "</p></html>");
 
     }

@@ -43,6 +43,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
+ * The {@code LocalLibrary} class is responsible for reading and writing
+ * responses
  *
  * @author Mos
  */
