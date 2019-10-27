@@ -268,24 +268,25 @@ public class NetflixLibrary {
      * response is in an expected format; {@code null} otherwise
      */
     private static JSONArray extractSupercategoryGenres(JSONArray response) {
-        JSONArray supercategoryGenres = new JSONArray();
-
-        int index = 0;
+        JSONArray itemsKey = new JSONArray();
+        JSONObject supercategoryGenres = new JSONObject();
 
         for (Object object : response) {
 
-            for (Iterator keys = ((JSONObject) object).keys(); keys.hasNext();) {
+            JSONObject entry = (JSONObject) object;
+
+            for (Iterator keys = entry.keys(); keys.hasNext();) {
                 String categoryName = keys.next().toString();
 
                 if (categoryName.startsWith("All ")) {
-                    supercategoryGenres.put(index, object);
+                    supercategoryGenres.put(categoryName.substring(4), entry.getJSONArray(categoryName));
                 } else {
-                    return supercategoryGenres;
+                    itemsKey.put(0, supercategoryGenres);
+                    return itemsKey;
                 }
 
             }
 
-            index++;
         }
 
         // Should not be reachable if the response is valid...
