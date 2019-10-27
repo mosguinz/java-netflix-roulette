@@ -34,7 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * The {@code NetflixLibrary} class is responsible for interacting with the
+ * The {@link NetflixLibrary} class is responsible for interacting with the
  * Unofficial Netflix Online Global Search (uNoGS) API and performing related
  * operations on its responses.
  * <p>
@@ -45,7 +45,7 @@ import org.json.JSONObject;
  * <li> selecting random titles from given parameters.</li>
  * </ul>
  *
- * @author Mos
+ * @author mosguinz
  */
 public class NetflixLibrary {
 
@@ -58,12 +58,12 @@ public class NetflixLibrary {
     public JSONArray availableGenres;
 
     /**
-     * Set up an instance of {@code NetflixLibrary}.
+     * Set up an instance of {@link NetflixLibrary}.
      * <p>
      * Upon instantiation, the instance will:
      * <ul>
      * <li>obtain the API key provided in the environment variable under the key
-     * {@code X_RAPID_API_KEY};</li>
+     * {@link #X_RAPID_API_KEY X_RAPID_API_KEY};</li>
      * <li>fetch the list of available Netflix regions;</li>
      * <li>fetch the list of genres;</li>
      * </ul>
@@ -80,7 +80,7 @@ public class NetflixLibrary {
      * Get the API key for uNoGS.
      * <p>
      * Key must either be present in the environment variable under
-     * {@code X_RAPID_API_KEY} or be provided when prompted.
+     * {@link #X_RAPID_API_KEY X_RAPID_API_KEY} or be provided when prompted.
      *
      * @return a RapidAPI key for uNoGS
      */
@@ -131,7 +131,7 @@ public class NetflixLibrary {
     /**
      * Fetch a list of Netflix titles.
      *
-     * @return a {@code JSONArray} of available titles
+     * @return a {@link JSONArray} of available titles
      */
     public JSONArray fetchTitles() {
         LOGGER.log(Level.INFO, "Fetching Netflix titles...");
@@ -141,7 +141,7 @@ public class NetflixLibrary {
     /**
      * Fetch a list of genres.
      *
-     * @return a {@code JSONArray} of available genres
+     * @return a {@link JSONArray} of available genres
      */
     public JSONArray fetchGenres() {
         LOGGER.log(Level.INFO, "Fetching list of genres...");
@@ -151,7 +151,7 @@ public class NetflixLibrary {
     /**
      * Fetch a list of Netflix regions.
      *
-     * @return a {@code JSONArray} of available regions
+     * @return a {@link JSONArray} of available regions
      */
     public JSONArray fetchRegions() {
         LOGGER.log(Level.INFO, "Fetching list of available regions...");
@@ -167,7 +167,7 @@ public class NetflixLibrary {
      *
      * @param queryType must be either {@code fetchGenres},
      * {@code fetchRegions}, or {@code fetchAvailableRegions}
-     * @return a {@code JSONArray} of the requested data
+     * @return a {@link JSONArray} of the requested data
      */
     private JSONArray fetchData(String queryType) {
         LOGGER.log(Level.INFO, "Fetching data for queryType: {0}", queryType);
@@ -195,7 +195,7 @@ public class NetflixLibrary {
      *
      * @param queryType must be either {@code fetchGenres},
      * {@code fetchRegions}, or {@code fetchAvailableRegions}
-     * @return a {@code JSONArray} of the requested data if the response was
+     * @return a {@link JSONArray} of the requested data if the response was
      * successfully validated and extracted; {@code null} otherwise
      */
     public JSONArray sendQuery(String queryType) {
@@ -252,10 +252,10 @@ public class NetflixLibrary {
      * listed under the key "All Action". And the individual IDs of those
      * SUBCATEGORIES can be found later on in the response.
      *
-     * @param response the raw response in the form of {@code JSONArray} from
+     * @param response the raw response in the form of {@link JSONArray} from
      * the API
-     * @return a {@code JSONArray} of the (supercategory) genres, where each
-     * entry is a {@code JSONObject} with the key being the genre name, if the
+     * @return a {@link JSONArray} of the (supercategory) genres, where each
+     * entry is a {@link JSONObject} with the key being the genre name, if the
      * response is in an expected format; {@code null} otherwise
      */
     private static JSONArray extractSupercategoryGenres(JSONArray response) {
@@ -290,10 +290,10 @@ public class NetflixLibrary {
      * ID, such as region pricing, currency, etc -- likely from the result of
      * web scraping. These information are filtered out as they are unnecessary.
      *
-     * @param response the raw response in the form of {@code JSONArray} from
+     * @param response the raw response in the form of {@link JSONArray} from
      * the API
-     * @return a {@code JSONArray} of the available Netflix regions, where each
-     * entry is a {@code JSONObject} with the key being the region name, if the
+     * @return a {@link JSONArray} of the available Netflix regions, where each
+     * entry is a {@link JSONObject} with the key being the region name, if the
      * response is in an expected format
      */
     private static JSONArray extractAvailableRegions(JSONArray response) {
@@ -325,8 +325,8 @@ public class NetflixLibrary {
      * under the key "ITEMS". If this key-pair is not present in the JSON, then
      * the response is assumed to be invalid.
      *
-     * @param response the {@code JSONObject} returned from the query
-     * @return the content of response as a {@code JSONArray} if the response is
+     * @param response the {@link JSONObject} returned from the query
+     * @return the content of response as a {@link JSONArray} if the response is
      * valid; {@code null} otherwise
      */
     public static JSONArray verifyResponse(JSONObject response) {
@@ -348,11 +348,11 @@ public class NetflixLibrary {
      * Call methods respective to the given {@code queryType} to extract its
      * response.
      *
-     * @param response the raw response in the form of {@code JSONArray} from
+     * @param response the raw response in the form of {@link JSONArray} from
      * the API
      * @param queryType must be either {@code fetchGenres},
      * {@code fetchRegions}, or {@code fetchAvailableRegions}
-     * @return a {@code JSONArray} of an extracted response if successful;
+     * @return a {@link JSONArray} of an extracted response if successful;
      * {@code null} otherwise
      */
     public static JSONArray extractResponse(JSONArray response, String queryType) {
@@ -396,10 +396,10 @@ public class NetflixLibrary {
     }
 
     /**
-     * Select a random title from a {@code JSONArray} of titles.
+     * Select a random title from a {@link JSONArray} of titles.
      *
-     * @param titles a {@code JSONArray} of titles
-     * @return the selected title as a {@code JSONObject}
+     * @param titles a {@link JSONArray} of titles
+     * @return the selected title as a {@link JSONObject}
      */
     public static JSONObject selectRandomTitle(JSONArray titles) {
         LOGGER.log(Level.FINE, "Selecting a random title from list of titles");

@@ -32,8 +32,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
+ * A logging utility class for this program, because the default logging library
+ * sucks.
  *
- * @author Mos
+ * @author mosguinz
  */
 public class LoggingUtil {
 

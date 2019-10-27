@@ -32,7 +32,7 @@ import org.json.JSONObject;
 /**
  * GUI for the home menu. This is where the application will start.
  *
- * @author Mos
+ * @author mosguinz
  */
 public class HomeGUI extends javax.swing.JFrame {
 
@@ -42,7 +42,7 @@ public class HomeGUI extends javax.swing.JFrame {
     private SelectedTitleGUI selectedTitleGUI = new SelectedTitleGUI();
 
     /**
-     * Creates new form HomeGUI
+     * Creates new form {@link HomeGUI}.
      */
     public HomeGUI() {
         initComponents();

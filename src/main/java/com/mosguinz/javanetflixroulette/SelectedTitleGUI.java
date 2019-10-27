@@ -40,7 +40,7 @@ import org.json.JSONObject;
 /**
  * GUI for displaying the selected title.
  *
- * @author Mos
+ * @author mosguinz
  */
 public class SelectedTitleGUI extends javax.swing.JFrame {
 
@@ -56,7 +56,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     String runtime;
 
     /**
-     * Creates new form SelectedTitleGUI
+     * Creates new form {@link SelectedTitleGUI}.
      */
     public SelectedTitleGUI() {
         initComponents();
@@ -198,7 +198,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     /**
      * Updates the attributes of the Netflix title to be displayed.
      *
-     * @param selectedTitle a {@code JSONObject} of the selected title
+     * @param selectedTitle a {@link JSONObject} of the selected title
      */
     public void updateTitleInfo(JSONObject selectedTitle) {
 
@@ -219,7 +219,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     /**
      * Set the poster image of the title to be displayed.
      * <p>
-     * The URL of the poster image is derived from the {@code JSONObject} of the
+     * The URL of the poster image is derived from the {@link JSONObject} of the
      * title.
      */
     private void setTitlePosterImage() {
