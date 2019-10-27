@@ -24,7 +24,9 @@
 package com.mosguinz.javanetflixroulette;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -420,6 +422,27 @@ public class NetflixLibrary {
         JSONObject selectedTitle = titles.getJSONObject(randomIndex);
 
         return selectedTitle;
+    }
+
+    /**
+     * Get a sorted list of available regions.
+     *
+     * @return An alphabetically-ordered list of Netflix regions
+     */
+    public Object[] getAvailableRegionsList() {
+        LOGGER.log(Level.FINE, "Getting a list of available regions");
+
+        JSONObject regions = availableRegions.getJSONObject(0);
+        ArrayList<String> r = new ArrayList<>();
+
+        for (Iterator keys = regions.keys(); keys.hasNext();) {
+            r.add(keys.next().toString());
+        }
+
+        Collections.sort(r);
+
+        return r.toArray();
+
     }
 
 }

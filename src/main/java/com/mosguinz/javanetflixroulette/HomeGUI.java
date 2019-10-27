@@ -25,6 +25,7 @@ package com.mosguinz.javanetflixroulette;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 
 import org.json.JSONArray;
@@ -42,19 +43,17 @@ public class HomeGUI extends javax.swing.JFrame {
      */
     private static final Logger LOGGER = Logger.getLogger(HomeGUI.class.getName());
 
-    private NetflixLibrary netflixLibrary;
-//    private List<String> =
-    private SelectedTitleGUI selectedTitleGUI = new SelectedTitleGUI();
+    private final NetflixLibrary netflixLibrary;
+    private final SelectedTitleGUI selectedTitleGUI = new SelectedTitleGUI();
 
     /**
      * Creates new form {@link HomeGUI}.
      */
     public HomeGUI() {
-        initComponents();
         LoggingUtil.setupLogger(LOGGER);
 
         netflixLibrary = new NetflixLibrary();
-//        regionSelectionMenu.setModel(new DefaultComboBoxModel(availableRegions.toArray()));
+        initComponents();
     }
 
     /**
@@ -90,7 +89,7 @@ public class HomeGUI extends javax.swing.JFrame {
         getContentPane().add(rollButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, -1));
 
         regionSelectionMenu.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
-        regionSelectionMenu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        regionSelectionMenu.setModel(getRegions());
         regionSelectionMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 regionSelectionMenuActionPerformed(evt);
@@ -124,6 +123,15 @@ public class HomeGUI extends javax.swing.JFrame {
     private void regionSelectionMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regionSelectionMenuActionPerformed
 
     }//GEN-LAST:event_regionSelectionMenuActionPerformed
+
+    /**
+     * Get a list of available Netflix regions to display.
+     *
+     * @return a {@link ComboBoxModel} for the drop-down list.
+     */
+    private ComboBoxModel getRegions() {
+        return new DefaultComboBoxModel(netflixLibrary.getAvailableRegionsList());
+    }
 
     /**
      * @param args the command line arguments
