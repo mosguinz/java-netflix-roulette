@@ -63,12 +63,10 @@
           <Font name="Helvetica Neue World" size="13" style="0"/>
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="getRegions()" type="code"/>
+          <Connection code="getRegionNames()" type="code"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Select your Netflix region"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regionSelectionMenuActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>

@@ -89,12 +89,8 @@ public class HomeGUI extends javax.swing.JFrame {
         getContentPane().add(rollButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, -1));
 
         regionSelectionMenu.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
-        regionSelectionMenu.setModel(getRegions());
-        regionSelectionMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                regionSelectionMenuActionPerformed(evt);
-            }
-        });
+        regionSelectionMenu.setModel(getRegionNames());
+        regionSelectionMenu.setToolTipText("Select your Netflix region");
         getContentPane().add(regionSelectionMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 190, -1));
 
         titleLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
@@ -110,6 +106,9 @@ public class HomeGUI extends javax.swing.JFrame {
 
         // Fetch Netflix library and select a random title.
         JSONArray netflixTitles = null;
+        String selectedRegion = getSelectedRegion();
+        netflixLibrary.setQueryRegion(selectedRegion);
+        LOGGER.log(Level.INFO, "Selected region: {0}", selectedRegion);
 
         while (netflixTitles == null) {
             netflixTitles = netflixLibrary.fetchTitles();
@@ -120,16 +119,21 @@ public class HomeGUI extends javax.swing.JFrame {
         selectedTitleGUI.setVisible(true);
     }//GEN-LAST:event_rollButtonActionPerformed
 
-    private void regionSelectionMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regionSelectionMenuActionPerformed
-
-    }//GEN-LAST:event_regionSelectionMenuActionPerformed
+    /**
+     * Get the selected Netflix region.
+     *
+     * @return the name of the selected region as a {@code String}
+     */
+    private String getSelectedRegion() {
+        return String.valueOf(regionSelectionMenu.getSelectedItem());
+    }
 
     /**
      * Get a list of available Netflix regions to display.
      *
      * @return a {@link ComboBoxModel} for the drop-down list.
      */
-    private ComboBoxModel getRegions() {
+    private ComboBoxModel getRegionNames() {
         return new DefaultComboBoxModel(netflixLibrary.getAvailableRegionsList());
     }
 

@@ -26,7 +26,6 @@ package com.mosguinz.javanetflixroulette;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -64,6 +63,10 @@ public class NetflixLibrary {
      */
     private final String X_RAPID_API_KEY;
     private final LocalLibrary localLibrary = new LocalLibrary();
+
+    private String queryRegion = "All";
+    private String queryGenres = "All";
+    private String queryString;
 
     public JSONArray availableRegions;
     public JSONArray availableGenres;
@@ -140,12 +143,23 @@ public class NetflixLibrary {
     }
 
     /**
+     * Set the Netflix region to be used for querying titles.
+     *
+     * @param region the region selected by user from
+     * {@link HomeGUI#getSelectedRegion()}
+     */
+    public void setQueryRegion(String region) {
+        LOGGER.log(Level.INFO, "Setting query region to {0}", region);
+        this.queryRegion = region;
+    }
+
+    /**
      * Fetch a list of Netflix titles.
      *
      * @return a {@link JSONArray} of available titles
      */
     public JSONArray fetchTitles() {
-        LOGGER.log(Level.INFO, "Fetching Netflix titles...");
+        LOGGER.log(Level.INFO, "Fetching Netflix titles available in: {0}");
         return fetchData("fetchTitles");
     }
 
@@ -185,6 +199,7 @@ public class NetflixLibrary {
         JSONArray data = localLibrary.loadSavedResponse(queryType);
 
         if (data == null) {
+            LOGGER.log(Level.INFO, "Can't find a valid response to use... sending a query to uNoGS API instead...");
             return sendQuery(queryType);
         }
 
@@ -234,7 +249,9 @@ public class NetflixLibrary {
         // Verify that response is valid.
         JSONArray responseContent = verifyResponse(response);
 
+        // If response is valid, extract it and write to file.
         if (responseContent != null) {
+            LOGGER.log(Level.INFO, "Response appears to be valid...");
             responseContent = extractResponse(responseContent, queryType);
             localLibrary.saveResponse(responseContent, queryType);
         }
@@ -270,6 +287,7 @@ public class NetflixLibrary {
      * response is in an expected format; {@code null} otherwise
      */
     private static JSONArray extractSupercategoryGenres(JSONArray response) {
+        LOGGER.log(Level.FINE, "Extracting genres and its IDs...");
         JSONArray itemsKey = new JSONArray();
         JSONObject supercategoryGenres = new JSONObject();
 
@@ -309,10 +327,10 @@ public class NetflixLibrary {
      * response is in an expected format
      */
     private static JSONArray extractAvailableRegions(JSONArray response) {
+        LOGGER.log(Level.FINE, "Extracting available Netflix regions and its IDs");
 
         JSONArray itemsKey = new JSONArray();
         JSONObject regions = new JSONObject();
-        regions.put("All regions", "All");
         for (Object object : response) {
             JSONArray r = new JSONArray(object.toString());
 
@@ -373,6 +391,83 @@ public class NetflixLibrary {
         }
     }
 
+    private String getRegionID() {
+        LOGGER.log(Level.FINE, "Getting region ID for: {0}", queryRegion);
+        String regionID;
+
+        if (queryRegion.equals("All regions")) {
+            regionID = "all";
+        } else {
+            regionID = availableRegions.getJSONObject(0).getString(queryRegion);
+        }
+
+        LOGGER.log(Level.FINE, "Region ID for {0} is {1}", new Object[]{queryRegion, regionID});
+        return regionID;
+    }
+
+    /**
+     * Construct a query string to use for requesting titles.
+     * <p>
+     * Because the way parameters are passed with this API is just so f*cking
+     * abhorrent, the query string just look absolutely disgusting and
+     * nonsensical.
+     * <p>
+     * The query parameters passed for this endpoint aren't actually
+     * "parameters" that would have otherwise been separated by ampersands. Most
+     * of them are crammed under the parameter {@code q}, which are then
+     * separated by {@code !-}.
+     * <p>
+     * The best part is, the order at which the parameters are shown on the API
+     * docs page AREN'T EVEN IN THE SAME ORDER AS THE ACTUAL QUERY STRING.
+     * WHY?!?!??!
+     * <p>
+     * The order of the parameters in the query string is:
+     * <p>
+     * {@code q={query}-!{syear},{eyear}-!{snfrate},{enfrate}-!{simdbrate},{eimdbrate}-!{genreid}-!{vtype}-!{audio}-!{subtitle}-!{imdbvotes}-!{downloadable}&t=ns&cl={clist}&st=adv&ob={sortby}&p={page}&sa={andor}}
+     * <p>
+     * Most of which, can be ignored for the purpose of this application. They
+     * have all been hard-coded to include all of the titles, so that the only
+     * two parameters that will be set by this application -- i.e., region and
+     * genres -- will be the only factors that filters out the titles. Which
+     * boils the parameters down to:
+     * <p>
+     * {@code q=-!0,3000-!0,10-!0,10-!{GENRE_IDs}-!Any-!Any-!Any-!-!&t=ns&cl={COUNTRY_LIST}&st=adv&ob=Relevance&p=1&sa=or},
+     * where:
+     * <ul>
+     * <li>{@code GENRE_IDs} is a list of selected genres, represented by their
+     * IDs and separated by a comma; and
+     * <ul>
+     * <li>if all genres are selected, the ID is {@code 0}</li>
+     * </ul></li>
+     * <li>{@code COUNTRY_LIST} is a list of selected regions, represented by
+     * their IDs and separated by a comma
+     * <ul>
+     * <li>if all regions are selected, the ID is {@code all}</li>
+     * <li>from this application, users can only choose to include all regions
+     * or one region only; there is very little to no use case where a user
+     * would need to filter for two or more specific regions</li>
+     * <li>note that these country codes are <b>not</b> the two-letter ISO
+     * 3166-1 alpha-2 codes, such as {@code US}, {@code NZ}, {@code AU}, etc.,
+     * as noted in the API documentation
+     * </ul></li>
+     * </ul>
+     *
+     * @return a {@link String} that is the query string for the specified
+     * {@link #queryRegion queryRegion}
+     * @see
+     * <a href="https://rapidapi.com/unogs/api/unogs?endpoint=5690bcdee4b0e203818a6518">
+     * https://rapidapi.com/unogs/api/unogs?endpoint=5690bcdee4b0e203818a6518</a>
+     * for this endpoint's documentation
+     */
+    private String getTitlesQueryString() {
+        LOGGER.log(Level.INFO, "Creating a query string to look for titles that are available in: {0}.", queryRegion);
+        String genreIDs = "0";
+        String regionID = getRegionID();
+        return ("q=-!0%2C3000-!0%2C10-!0%2C10-!" + genreIDs + "-!Any-!"
+                + "Any-!Any-!-!&t=ns&cl=" + regionID + "&st=adv&ob=Relevance&p=1&sa=or");
+
+    }
+
     /**
      * Get endpoint URL for the specified query type.
      *
@@ -386,7 +481,7 @@ public class NetflixLibrary {
 
         switch (queryType) {
             case "fetchTitles":
-                requestURL = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi?q=Lemony%20Snicket's%20A%20Series%20of%20Unfortunate%20Events-!2004%2C2004-!0%2C5-!6.8%2C6.8-!0-!Any-!Any-!Any-!gt-1-!%7Bdownloadable%7D&t=ns&cl=all&st=adv&ob=Relevance&p=1&sa=and";
+                requestURL = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi?" + getTitlesQueryString();
                 break;
             case "fetchGenres":
                 requestURL = "https://unogs-unogs-v1.p.rapidapi.com/api.cgi?t=genres";
@@ -439,7 +534,9 @@ public class NetflixLibrary {
             r.add(keys.next().toString());
         }
 
+        // Ensure "All regions" is always at the top.
         Collections.sort(r);
+        r.add(0, "All regions");
 
         return r.toArray();
 
