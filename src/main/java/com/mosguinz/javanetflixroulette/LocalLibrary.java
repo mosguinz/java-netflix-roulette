@@ -111,16 +111,20 @@ public class LocalLibrary {
     }
 
     /**
-     * Create the filename for the response to be saved.
+     * Get the filename to use for reading/writing a response.
      *
-     * @return The filename for the response
+     * @param queryType must be either {@code fetchGenres},
+     * {@code fetchRegions}, or {@code fetchAvailableRegions}
+     * @param titlesQueryString a {@link String} that is the query string for
+     * requesting titles
+     * @return a {@link String} that is the filename for the response
      */
-    private String createSaveName() {
-        String saveName;
-
-        String todayDate = LocalDate.now().toString();
-
-        return todayDate + "test.json";
+    private String getResponseFilename(String queryType, String titlesQueryString) {
+        if (queryType.equals("fetchTitles")) {
+            return queryType + "." + titlesQueryString + ".json";
+        } else {
+            return queryType + ".json";
+        }
     }
 
     /**
@@ -141,10 +145,12 @@ public class LocalLibrary {
      * @param response {@code JSONArray} of the returned response content
      * @param queryType must be either {@code fetchGenres},
      * {@code fetchRegions}, or {@code fetchAvailableRegions}
+     * @param titlesQueryString a {@link String} that is the query string for
+     * requesting titles
      * @return {@code true} if and only if the response were saved;
      * {@code false} otherwise
      */
-    public boolean saveResponse(JSONArray response, String queryType) {
+    public boolean saveResponse(JSONArray response, String queryType, String titlesQueryString) {
         LOGGER.log(Level.INFO, "Writing the returned Netflix titles as a JSON");
         FileOutputStream stream;
         boolean saved = true;
@@ -155,7 +161,9 @@ public class LocalLibrary {
 
         try {
             LOGGER.log(Level.FINE, "Creating file output stream at {0}", LIBRARY_PATH);
-            stream = new FileOutputStream(LIBRARY_PATH + File.separator + queryType + ".json");
+            String filename = getResponseFilename(queryType, titlesQueryString);
+            stream = new FileOutputStream(LIBRARY_PATH + File.separator + filename);
+            LOGGER.log(Level.FINE, "Saving the response as: {0}", filename);
 
             LOGGER.log(Level.FINE, "Pretty printing JSON response...");
             byte[] b = f.toString(2).getBytes();
@@ -187,16 +195,20 @@ public class LocalLibrary {
      *
      * @param queryType must be either {@code fetchGenres},
      * {@code fetchRegions}, or {@code fetchAvailableRegions}
+     * @param titlesQueryString a {@link String} that is the query string for
+     * requesting titles
      * @return a {@link JSONArray} of the requested data
      */
-    public JSONArray loadSavedResponse(String queryType) {
+    public JSONArray loadSavedResponse(String queryType, String titlesQueryString) {
         LOGGER.log(Level.FINE, "Looking for saved responses to use...");
 
-        String filename = LIBRARY_PATH + File.separator + queryType + ".json";
+        String filename = getResponseFilename(queryType, titlesQueryString);
+        String filePath = LIBRARY_PATH + File.separator + filename;
         JSONArray response = null;
+        LOGGER.log(Level.INFO, "Looking for file: {0}", filename);
 
         try {
-            String f = new Scanner(new File(filename)).useDelimiter("\\Z").next();
+            String f = new Scanner(new File(filePath)).useDelimiter("\\Z").next();
             JSONObject r = new JSONObject(f);
             LOGGER.log(Level.FINE, "Found a matching saved response to use");
 

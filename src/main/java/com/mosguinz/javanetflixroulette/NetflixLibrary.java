@@ -64,9 +64,9 @@ public class NetflixLibrary {
     private final String X_RAPID_API_KEY;
     private final LocalLibrary localLibrary = new LocalLibrary();
 
-    private String queryRegion = "All";
+    private String queryRegion = "All regions";
     private String queryGenres = "All";
-    private String queryString;
+    private String titlesQueryString;
 
     public JSONArray availableRegions;
     public JSONArray availableGenres;
@@ -159,7 +159,8 @@ public class NetflixLibrary {
      * @return a {@link JSONArray} of available titles
      */
     public JSONArray fetchTitles() {
-        LOGGER.log(Level.INFO, "Fetching Netflix titles available in: {0}");
+        LOGGER.log(Level.INFO, "Fetching Netflix titles available in: {0}", queryRegion);
+        getTitlesQueryString();
         return fetchData("fetchTitles");
     }
 
@@ -196,7 +197,7 @@ public class NetflixLibrary {
      */
     private JSONArray fetchData(String queryType) {
         LOGGER.log(Level.INFO, "Fetching data for queryType: {0}", queryType);
-        JSONArray data = localLibrary.loadSavedResponse(queryType);
+        JSONArray data = localLibrary.loadSavedResponse(queryType, titlesQueryString);
 
         if (data == null) {
             LOGGER.log(Level.INFO, "Can't find a valid response to use... sending a query to uNoGS API instead...");
@@ -227,7 +228,6 @@ public class NetflixLibrary {
     public JSONArray sendQuery(String queryType) {
         LOGGER.log(Level.INFO, "Sending query to uNoGS API server: {0}", queryType);
         String requestURL = getEndpoint(queryType);
-        JSONArray responseArray;
         JSONObject response = null;
 
         // Send the query.
@@ -253,7 +253,7 @@ public class NetflixLibrary {
         if (responseContent != null) {
             LOGGER.log(Level.INFO, "Response appears to be valid...");
             responseContent = extractResponse(responseContent, queryType);
-            localLibrary.saveResponse(responseContent, queryType);
+            localLibrary.saveResponse(responseContent, queryType, titlesQueryString);
         }
 
         return responseContent;
@@ -452,18 +452,18 @@ public class NetflixLibrary {
      * </ul></li>
      * </ul>
      *
-     * @return a {@link String} that is the query string for the specified
-     * {@link #queryRegion queryRegion}
+     * @return a {@link String} that is the query string for requesting titles
+     * available in the specified regions (per {@link #queryRegion queryRegion})
      * @see
      * <a href="https://rapidapi.com/unogs/api/unogs?endpoint=5690bcdee4b0e203818a6518">
      * https://rapidapi.com/unogs/api/unogs?endpoint=5690bcdee4b0e203818a6518</a>
      * for this endpoint's documentation
      */
-    private String getTitlesQueryString() {
+    private void getTitlesQueryString() {
         LOGGER.log(Level.INFO, "Creating a query string to look for titles that are available in: {0}.", queryRegion);
         String genreIDs = "0";
         String regionID = getRegionID();
-        return ("q=-!0%2C3000-!0%2C10-!0%2C10-!" + genreIDs + "-!Any-!"
+        titlesQueryString = ("q=-!0%2C3000-!0%2C10-!0%2C10-!" + genreIDs + "-!Any-!"
                 + "Any-!Any-!-!&t=ns&cl=" + regionID + "&st=adv&ob=Relevance&p=1&sa=or");
 
     }
@@ -481,7 +481,7 @@ public class NetflixLibrary {
 
         switch (queryType) {
             case "fetchTitles":
-                requestURL = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi?" + getTitlesQueryString();
+                requestURL = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi?" + titlesQueryString;
                 break;
             case "fetchGenres":
                 requestURL = "https://unogs-unogs-v1.p.rapidapi.com/api.cgi?t=genres";
