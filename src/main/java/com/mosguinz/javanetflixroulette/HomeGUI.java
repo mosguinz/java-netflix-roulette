@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -104,20 +105,46 @@ public class HomeGUI extends javax.swing.JFrame {
     private void rollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rollButtonActionPerformed
         LOGGER.log(Level.FINE, "Roll button pressed");
 
-        // Fetch Netflix library and select a random title.
+        // Grab the selected Netflix region.
         JSONArray netflixTitles = null;
         String selectedRegion = getSelectedRegion();
         netflixLibrary.setQueryRegion(selectedRegion);
         LOGGER.log(Level.INFO, "Selected region: {0}", selectedRegion);
 
-        while (netflixTitles == null) {
-            netflixTitles = netflixLibrary.fetchTitles();
-        }
+        // Grab the titles for this region.
+        netflixTitles = netflixLibrary.fetchTitles();
 
-        JSONObject selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
-        selectedTitleGUI.updateTitleInfo(selectedTitle);
-        selectedTitleGUI.setVisible(true);
+        // Pick a title and display it.
+        if (netflixTitles != null) {
+            JSONObject selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
+            selectedTitleGUI.updateTitleInfo(selectedTitle);
+            selectedTitleGUI.setVisible(true);
+        }
     }//GEN-LAST:event_rollButtonActionPerformed
+
+    /**
+     * Bring up a dialog that displays an error message.
+     *
+     * @param message the message to display
+     * @param title the title string for the dialog
+     * @param e the Exception message to display
+     */
+    public static void displayErrorMessage(String message, String title, Exception e) {
+        if (e != null) {
+            message = message + "\n\nError message:\n" + e;
+        }
+        JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Bring up a dialog that displays an error message.
+     *
+     * @param message the message to display
+     * @param title the title string for the dialog
+     */
+    public static void displayErrorMessage(String message, String title) {
+        displayErrorMessage(message, title, null);
+    }
 
     /**
      * Get the selected Netflix region.

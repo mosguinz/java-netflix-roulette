@@ -197,11 +197,13 @@ public class NetflixLibrary {
      */
     private JSONArray fetchData(String queryType) {
         LOGGER.log(Level.INFO, "Fetching data for queryType: {0}", queryType);
+
+        // Look for saved responses first.
         JSONArray data = localLibrary.loadSavedResponse(queryType, titlesQueryString);
 
         if (data == null) {
             LOGGER.log(Level.INFO, "Can't find a valid response to use... sending a query to uNoGS API instead...");
-            return sendQuery(queryType);
+            data = sendQuery(queryType);
         }
 
         return data;
@@ -229,6 +231,7 @@ public class NetflixLibrary {
         LOGGER.log(Level.INFO, "Sending query to uNoGS API server: {0}", queryType);
         String requestURL = getEndpoint(queryType);
         JSONObject response = null;
+        JSONArray responseContent = null;
 
         // Send the query.
         try {
@@ -240,20 +243,32 @@ public class NetflixLibrary {
                     .getBody()
                     .getObject();
         } catch (Exception e) {
-            // Temp fix for SSL handshake errors
-            // TODO: Create proper popups to handle this and other connection errors.
             LoggingUtil.logException(LOGGER, e, "There was a problem contacting the Netflix library.");
-            JOptionPane.showMessageDialog(null, "There was an error contacting Netflix library. Please try again.\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
+            HomeGUI.displayErrorMessage("There was a problem contacting the Netflix library. Please try again.",
+                    "Connection failed", e);
         }
 
-        // Verify that response is valid.
-        JSONArray responseContent = verifyResponse(response);
+        try {
+            // Verify that response is valid.
+            responseContent = verifyResponse(response);
 
-        // If response is valid, extract it and write to file.
-        if (responseContent != null) {
-            LOGGER.log(Level.INFO, "Response appears to be valid...");
-            responseContent = extractResponse(responseContent, queryType);
-            localLibrary.saveResponse(responseContent, queryType, titlesQueryString);
+            // If it is, extract it and save the response.
+            if (responseContent != null) {
+                responseContent = extractResponse(responseContent, queryType);
+                localLibrary.saveResponse(responseContent, queryType, titlesQueryString);
+            }
+
+        } catch (NegativeArraySizeException e) {
+            LOGGER.log(Level.WARNING, "No matching titles", e);
+            HomeGUI.displayErrorMessage("We found no matching Netflix titles!\n"
+                    + "Perhaps try again with different filters?",
+                    "No matching titles", e);
+
+        } catch (NoSuchFieldException e) {
+            LOGGER.log(Level.SEVERE, "PARSING ERROR -- CHECK API DOC FOR UPDATED FORMAT", e);
+            HomeGUI.displayErrorMessage("It looks like this program needs to be updated.\n"
+                    + "We are unable to read the response from the Netflix catalogue. :(",
+                    "Uh oh!", e);
         }
 
         return responseContent;
@@ -285,8 +300,9 @@ public class NetflixLibrary {
      * @return a {@link JSONArray} of the (supercategory) genres, where each
      * entry is a {@link JSONObject} with the key being the genre name, if the
      * response is in an expected format; {@code null} otherwise
+     * @throws NoSuchFieldException
      */
-    private static JSONArray extractSupercategoryGenres(JSONArray response) {
+    private static JSONArray extractSupercategoryGenres(JSONArray response) throws NoSuchFieldException {
         LOGGER.log(Level.FINE, "Extracting genres and its IDs...");
         JSONArray itemsKey = new JSONArray();
         JSONObject supercategoryGenres = new JSONObject();
@@ -310,7 +326,7 @@ public class NetflixLibrary {
         }
 
         // Should not be reachable if the response is valid...
-        return null;
+        throw new NoSuchFieldException("Could not extract the genres from the given response; unexpected format");
     }
 
     /**
@@ -326,7 +342,7 @@ public class NetflixLibrary {
      * entry is a {@link JSONObject} with the key being the region name, if the
      * response is in an expected format
      */
-    private static JSONArray extractAvailableRegions(JSONArray response) {
+    private static JSONArray extractAvailableRegions(JSONArray response) throws NoSuchFieldException {
         LOGGER.log(Level.FINE, "Extracting available Netflix regions and its IDs");
 
         JSONArray itemsKey = new JSONArray();
@@ -334,9 +350,13 @@ public class NetflixLibrary {
         for (Object object : response) {
             JSONArray r = new JSONArray(object.toString());
 
-            String regionID = r.getString(0);
-            String regionName = r.getString(2);
-            regions.put(regionName, regionID);
+            try {
+                String regionID = r.getString(0);
+                String regionName = r.getString(2);
+                regions.put(regionName, regionID);
+            } catch (org.json.JSONException e) {
+                throw new NoSuchFieldException("Could not extract the regions from the given response; unexpected format");
+            }
         }
 
         itemsKey.put(0, regions);
@@ -357,12 +377,16 @@ public class NetflixLibrary {
     public static JSONArray verifyResponse(JSONObject response) {
         LOGGER.log(Level.FINE, "Verifying that the response content is valid...");
 
-        JSONArray responseContent = null;
+        JSONArray responseContent;
 
         try {
             responseContent = response.getJSONArray("ITEMS");
+            if (responseContent.length() == 0) {
+                throw new NegativeArraySizeException("Response is blank! No valid items in response content.");
+            }
         } catch (org.json.JSONException e) {
             LoggingUtil.logException(LOGGER, e, "Response is not valid.");
+            return null;
         }
 
         return responseContent;
@@ -380,7 +404,7 @@ public class NetflixLibrary {
      * @return a {@link JSONArray} of an extracted response if successful;
      * {@code null} otherwise
      */
-    public static JSONArray extractResponse(JSONArray response, String queryType) {
+    public static JSONArray extractResponse(JSONArray response, String queryType) throws NoSuchFieldException {
         switch (queryType) {
             case "fetchGenres":
                 return extractSupercategoryGenres(response);
