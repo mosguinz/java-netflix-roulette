@@ -300,7 +300,8 @@ public class NetflixLibrary {
      * @return a {@link JSONArray} of the (supercategory) genres, where each
      * entry is a {@link JSONObject} with the key being the genre name, if the
      * response is in an expected format; {@code null} otherwise
-     * @throws NoSuchFieldException
+     * @throws NoSuchFieldException if the response is not in the expected
+     * format
      */
     private static JSONArray extractSupercategoryGenres(JSONArray response) throws NoSuchFieldException {
         LOGGER.log(Level.FINE, "Extracting genres and its IDs...");
@@ -341,6 +342,8 @@ public class NetflixLibrary {
      * @return a {@link JSONArray} of the available Netflix regions, where each
      * entry is a {@link JSONObject} with the key being the region name, if the
      * response is in an expected format
+     * @throws NoSuchFieldException if the response is not in the expected
+     * format
      */
     private static JSONArray extractAvailableRegions(JSONArray response) throws NoSuchFieldException {
         LOGGER.log(Level.FINE, "Extracting available Netflix regions and its IDs");
@@ -373,8 +376,10 @@ public class NetflixLibrary {
      * @param response the {@link JSONObject} returned from the query
      * @return the content of response as a {@link JSONArray} if the response is
      * valid; {@code null} otherwise
+     * @throws NegativeArraySizeException if the response is blank -- i.e., if
+     * the query did not match any results
      */
-    public static JSONArray verifyResponse(JSONObject response) {
+    public static JSONArray verifyResponse(JSONObject response) throws NegativeArraySizeException {
         LOGGER.log(Level.FINE, "Verifying that the response content is valid...");
 
         JSONArray responseContent;
@@ -403,6 +408,8 @@ public class NetflixLibrary {
      * {@code fetchRegions}, or {@code fetchAvailableRegions}
      * @return a {@link JSONArray} of an extracted response if successful;
      * {@code null} otherwise
+     * @throws NoSuchFieldException if the response is not in the expected
+     * format
      */
     public static JSONArray extractResponse(JSONArray response, String queryType) throws NoSuchFieldException {
         switch (queryType) {

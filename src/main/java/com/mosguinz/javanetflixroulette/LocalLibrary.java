@@ -62,7 +62,7 @@ public class LocalLibrary {
      *
      * @see #getHomePath()
      */
-    private final String HOME_PATH = getHomePath();
+    private static final String HOME_PATH = getHomePath();
 
     /**
      * This application's local library directory.
@@ -71,7 +71,7 @@ public class LocalLibrary {
      *
      * @see #getLibraryPath()
      */
-    private final String LIBRARY_PATH = getLibraryPath();
+    private static final String LIBRARY_PATH = getLibraryPath();
 
     /**
      * The maximum age of a response in days.
@@ -81,13 +81,14 @@ public class LocalLibrary {
      *
      * @see #isUpToDate(org.json.JSONObject)
      */
-    private final int MAX_RESPONSE_AGE = 14;
+    private static final int MAX_RESPONSE_AGE = 14;
 
     /**
      * Set up an instance of {@link LocalLibrary}.
      */
     LocalLibrary() {
         LoggingUtil.setupLogger(LOGGER);
+        makeLibraryDirectory();
     }
 
     /**
@@ -105,7 +106,7 @@ public class LocalLibrary {
      *
      * @return The location of this application's home directory
      */
-    private String getLibraryPath() {
+    private static String getLibraryPath() {
         LOGGER.log(Level.FINE, "Creating the path for this library...");
         return HOME_PATH + File.separator + "netflixRoulette";
     }
@@ -119,7 +120,7 @@ public class LocalLibrary {
      * requesting titles
      * @return a {@link String} that is the filename for the response
      */
-    private String getResponseFilename(String queryType, String titlesQueryString) {
+    private static String getResponseFilename(String queryType, String titlesQueryString) {
         if (queryType.equals("fetchTitles")) {
             return queryType + "." + titlesQueryString + ".json";
         } else {
@@ -133,10 +134,16 @@ public class LocalLibrary {
      * @return {@code true} if and only if the directory was created;
      * {@code false} otherwise
      */
-    public boolean makeLibraryDirectory() {
+    private static boolean makeLibraryDirectory() {
         LOGGER.log(Level.INFO, "Creating the library directory at: {}", LIBRARY_PATH);
         File f = new File(LIBRARY_PATH);
-        return f.mkdirs();
+
+        if (f.exists()) {
+            LOGGER.log(Level.INFO, "Library directory already exists");
+            return false;
+        } else {
+            return f.mkdirs();
+        }
     }
 
     /**
