@@ -118,7 +118,6 @@ public class HomeGUI extends javax.swing.JFrame {
         if (netflixTitles != null) {
             JSONObject selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
             selectedTitleGUI.updateTitleInfo(selectedTitle);
-            selectedTitleGUI.setVisible(true);
         }
     }//GEN-LAST:event_rollButtonActionPerformed
 

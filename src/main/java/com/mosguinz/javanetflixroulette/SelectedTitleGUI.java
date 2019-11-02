@@ -30,10 +30,12 @@ import java.net.URL;
 import java.io.IOException;
 import java.awt.Image;
 import java.awt.Desktop;
+import java.awt.Font;
 import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 import org.json.JSONObject;
 
@@ -75,47 +77,72 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         titlePosterImage = new javax.swing.JLabel();
         titleSubtext = new javax.swing.JLabel();
         titleName = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
         titleSynopsis = new javax.swing.JLabel();
-        returnToMainButton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         watchOnNetflixButton = new javax.swing.JButton();
+        returnToMainButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setMinimumSize(new java.awt.Dimension(658, 300));
+        setResizable(false);
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         titlePosterImage.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
         titlePosterImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titlePosterImage.setText("Title poster image");
         titlePosterImage.setPreferredSize(new java.awt.Dimension(166, 233));
-        getContentPane().add(titlePosterImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 24, 0, 24);
+        getContentPane().add(titlePosterImage, gridBagConstraints);
 
         titleSubtext.setFont(new java.awt.Font("Helvetica Neue World", 0, 14)); // NOI18N
         titleSubtext.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         titleSubtext.setText("Year · runtime");
-        getContentPane().add(titleSubtext, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, 420, 50));
+        titleSubtext.setPreferredSize(new java.awt.Dimension(420, 27));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 24);
+        getContentPane().add(titleSubtext, gridBagConstraints);
 
         titleName.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
         titleName.setText("Title name");
         titleName.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        getContentPane().add(titleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, 410, 50));
-        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, 420, -1));
+        titleName.setPreferredSize(new java.awt.Dimension(420, 47));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 24);
+        getContentPane().add(titleName, gridBagConstraints);
 
         titleSynopsis.setFont(new java.awt.Font("Helvetica Neue World", 0, 14)); // NOI18N
         titleSynopsis.setText("Title synopsis");
         titleSynopsis.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        getContentPane().add(titleSynopsis, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, 420, 160));
+        titleSynopsis.setPreferredSize(new java.awt.Dimension(420, 160));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 24);
+        getContentPane().add(titleSynopsis, gridBagConstraints);
 
-        returnToMainButton.setText("Return to Main");
-        returnToMainButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                returnToMainButtonActionPerformed(evt);
-            }
-        });
-        getContentPane().add(returnToMainButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 260, -1, -1));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         watchOnNetflixButton.setText("Watch on Netflix");
         watchOnNetflixButton.addActionListener(new java.awt.event.ActionListener() {
@@ -123,24 +150,34 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
                 watchOnNetflixButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(watchOnNetflixButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 260, -1, -1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.BASELINE_LEADING;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 12);
+        jPanel1.add(watchOnNetflixButton, gridBagConstraints);
 
-        setSize(new java.awt.Dimension(663, 347));
+        returnToMainButton.setText("Return to Main");
+        returnToMainButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnToMainButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(returnToMainButton, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        getContentPane().add(jPanel1, gridBagConstraints);
+
+        setSize(new java.awt.Dimension(676, 347));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    /**
-     * Upon clicking "Return to Menu" button.
-     * <p>
-     * This will dispose the window.
-     *
-     * @param evt The action event
-     */
-    private void returnToMainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnToMainButtonActionPerformed
-        LOGGER.log(Level.FINE, "\"{0}\" button pressed\n{1}", new Object[]{evt.getActionCommand(), evt.paramString()});
-        dispose();
-
-    }//GEN-LAST:event_returnToMainButtonActionPerformed
 
     /**
      * Upon clicking "Watch on Netflix" button.
@@ -163,6 +200,18 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
             LoggingUtil.logException(LOGGER, e, "Something went wrong. Could not open broswer.");
         }
     }//GEN-LAST:event_watchOnNetflixButtonActionPerformed
+
+    /**
+     * Upon clicking "Return to Menu" button.
+     * <p>
+     * This will dispose the window.
+     *
+     * @param evt The action event
+     */
+    private void returnToMainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnToMainButtonActionPerformed
+        LOGGER.log(Level.FINE, "\"{0}\" button pressed\n{1}", new Object[]{evt.getActionCommand(), evt.paramString()});
+        dispose();
+    }//GEN-LAST:event_returnToMainButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -215,8 +264,9 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         runtime = selectedTitle.getString("runtime");
 
         // Display poster image for selected title.
-        setTitlePosterImage();
         setTitleInfo();
+        setTitlePosterImage();
+        this.setVisible(true);
     }
 
     /**
@@ -229,7 +279,13 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         LOGGER.log(Level.FINE, "Adding poster image");
 
         LOGGER.log(Level.FINER, "Removing placeholder text");
-        titlePosterImage.setText("");
+        titlePosterImage.setText(null);
+        titlePosterImage.setIcon(null);
+
+        if (imageURL == null) {
+            titlePosterImage.setText("Image not available");
+            return;
+        }
 
         try {
             LOGGER.log(Level.FINE, "Fetching poster image from URL: {0}", imageURL);
@@ -239,7 +295,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
             LOGGER.log(Level.FINE, "Poster image is set");
         } catch (IOException e) {
             LoggingUtil.logException(LOGGER, e, "Poster image could not be added, placing placeholder text instead...");
-            titlePosterImage.setText("Image not available");
+            titlePosterImage.setText("Unable to load image");
         }
     }
 
@@ -254,6 +310,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
 
         LOGGER.log(Level.FINER, "Adding title name");
         titleName.setText("<html>" + title + "</html>");
+        fitTextToLabel(titleName, title, titleSynopsis.getFont().getSize() + 2);
 
         LOGGER.log(Level.FINER, "Creating subtext for selected title");
         String subtext = releaseYear;
@@ -271,8 +328,76 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Make sure that the given text fits in the provided {@link JLabel} and its
+     * style.
+     * <p>
+     * The method makes sure that the text fits in the label by resizing the
+     * font text so that it fits the label.
+     * <p>
+     * If the font size required to make the text fit in the label is smaller
+     * than the value provided as the {@code minimumFontSize}, then the string
+     * will instead be truncated, with ellipsis appended at the end to indicate
+     * that it had been truncated.
+     *
+     * @param label the {@link JLabel} that will be used to hold the text
+     * @param text the desired text to be displayed in the {@link JLabel}
+     * @param minimumFontSize the smallest font size that the text should be
+     * resized to
+     */
+    public static void fitTextToLabel(JLabel label, String text, float minimumFontSize) {
+        LOGGER.log(Level.FINER, "Resizing text to fit label");
+
+        LOGGER.log(Level.FINER, "Getting preferred font size");
+        Font preferredFont = (Font) label.getClientProperty("originalfont");
+        if (preferredFont == null) {
+            preferredFont = label.getFont();
+            label.putClientProperty("originalfont", preferredFont);
+        }
+
+        int textWidth = label.getFontMetrics(preferredFont).stringWidth(text);
+        int labelWidth = label.getPreferredSize().width;
+
+        // Resize the text if its width is greater than the label width.
+        if (textWidth > labelWidth) {
+            LOGGER.log(Level.FINER, "Text doesn't with within preferred width! Resizing font...");
+            double labelWidthToTextWidthRatio = (double) labelWidth / (double) textWidth;
+            float newFontSize = (float) Math.floor(preferredFont.getSize() * labelWidthToTextWidthRatio);
+
+            // Truncate the text if the new font size is smaller than the minimum.
+            if (newFontSize < minimumFontSize) {
+                LOGGER.log(Level.FINER, "New font size is smaller than the minumum font size; trucating text instead...");
+                text = text + "…";
+                // NOTE: font size MUST be a float when passed to the deriveFont method,
+                //       an integer will modify the font style NOT its size!
+                newFontSize = minimumFontSize;
+                preferredFont = preferredFont.deriveFont(newFontSize);
+
+                // Keep removing the last character (before the elipsis) until the
+                // desired width is reached.
+                while (textWidth > labelWidth) {
+                    LOGGER.log(Level.FINEST, "Text width ({0}) is still larger than label width ({1})", new Object[]{textWidth, labelWidth});
+                    text = new StringBuilder(text).deleteCharAt(text.length() - 2).toString();
+
+                    LOGGER.log(Level.FINEST, "Trucating text to: {0}", text);
+                    textWidth = label.getFontMetrics(preferredFont).stringWidth(text);
+                }
+
+                // Change the text to the truncated version.
+                label.setText(text);
+
+            }
+
+            label.setFont(preferredFont.deriveFont(newFontSize));
+
+        } else {
+            LOGGER.log(Level.FINE, "Text appears to fit within preferred with and font size");
+            label.setFont(preferredFont);
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JButton returnToMainButton;
     private javax.swing.JLabel titleName;
     private javax.swing.JLabel titlePosterImage;
