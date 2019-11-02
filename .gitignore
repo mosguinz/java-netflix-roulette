@@ -35,7 +35,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-nbactions.xml
+nbactions*.xml
 nb-configuration.xml
 
 
@@ -63,3 +63,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/target/
+/nbproject/
+
+# Git commit logs
+log.txt
