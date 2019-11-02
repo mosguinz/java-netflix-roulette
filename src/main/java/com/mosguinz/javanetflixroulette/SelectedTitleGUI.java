@@ -38,6 +38,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
 
 /**
  * GUI for displaying the selected title.
@@ -255,9 +256,9 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     public void updateTitleInfo(JSONObject selectedTitle) {
 
         netflixID = selectedTitle.getString("netflixid");
-        title = selectedTitle.getString("title");
+        title = Jsoup.parse(selectedTitle.getString("title")).text();
         imageURL = selectedTitle.getString("image");
-        synopsis = selectedTitle.getString("synopsis");
+        synopsis = Jsoup.parse(selectedTitle.getString("synopsis")).text();
         rating = selectedTitle.getString("rating");
         type = selectedTitle.getString("type");
         releaseYear = selectedTitle.getString("released");
