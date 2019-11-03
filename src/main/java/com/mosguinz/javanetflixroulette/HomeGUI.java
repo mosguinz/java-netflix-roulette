@@ -47,6 +47,16 @@ public class HomeGUI extends javax.swing.JFrame {
     private final NetflixLibrary netflixLibrary;
     private final SelectedTitleGUI selectedTitleGUI = new SelectedTitleGUI();
 
+    private static final String DISCLAIMER = "<html>Data obtained about titles and catalogue are provided by a third-party API provider, Unofficial Netflix Online Global Search (“uNoGS”) via RapidAPI."
+            + "<br><br>This application is not endorsed by, directly affiliated with, maintained, authorized, or sponsored by Netflix, Inc., uNoGS, or RapidAPI. All product names, trademarks, and registered trademarks are property of their respective owners. All company, product and service names used in this application are for identification purposes only. Use of these names, trademarks, and brands does not imply endorsement."
+            + "<br><br>Poster images are owned by their respective publisher or creator of the work depicted. The images used are for demonstration purposes only and not solely for illustrations. These images are of low resolution and may qualify as fair use or fair dealing for educational purposes.</html>";
+
+    private static final String LICENSE = "<html>MIT License"
+            + "<br><br>Copyright (c) 2019 mosguinz"
+            + "<br><br>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
+            + "<br><br>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
+            + "<br><br>THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</html>";
+
     /**
      * Creates new form {@link HomeGUI}.
      */
@@ -65,11 +75,108 @@ public class HomeGUI extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
+        aboutDialog = new javax.swing.JDialog();
+        aboutHeader = new javax.swing.JLabel();
+        licenseInfo = new javax.swing.JLabel();
+        disclaimerLabel = new javax.swing.JLabel();
+        disclaimerInfo = new javax.swing.JLabel();
+        LicenseLabel = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         regionSelectionLabel = new javax.swing.JLabel();
         rollButton = new javax.swing.JButton();
         regionSelectionMenu = new javax.swing.JComboBox<>();
         titleLabel = new javax.swing.JLabel();
+        MenuBar = new javax.swing.JMenuBar();
+        FileMenu = new javax.swing.JMenu();
+        SettingsButton = new javax.swing.JMenuItem();
+        HelpMenu = new javax.swing.JMenu();
+        HowToUseButton = new javax.swing.JMenuItem();
+        AboutButton = new javax.swing.JMenuItem();
+
+        aboutDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        aboutDialog.setTitle("About Netflix roulette");
+        aboutDialog.setMinimumSize(new java.awt.Dimension(1000, 900));
+        aboutDialog.setPreferredSize(new java.awt.Dimension(1000, 900));
+        aboutDialog.setType(java.awt.Window.Type.POPUP);
+        aboutDialog.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        aboutHeader.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
+        aboutHeader.setText("About");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.ipady = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        aboutDialog.getContentPane().add(aboutHeader, gridBagConstraints);
+
+        licenseInfo.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
+        licenseInfo.setText(LICENSE);
+        licenseInfo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        licenseInfo.setMaximumSize(new java.awt.Dimension(350, 300));
+        licenseInfo.setMinimumSize(new java.awt.Dimension(500, 350));
+        licenseInfo.setPreferredSize(new java.awt.Dimension(500, 3500));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.ipadx = 410;
+        gridBagConstraints.ipady = 40;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        aboutDialog.getContentPane().add(licenseInfo, gridBagConstraints);
+
+        disclaimerLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
+        disclaimerLabel.setText("Disclaimer");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        aboutDialog.getContentPane().add(disclaimerLabel, gridBagConstraints);
+
+        disclaimerInfo.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
+        disclaimerInfo.setText(DISCLAIMER);
+        disclaimerInfo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        disclaimerInfo.setMinimumSize(new java.awt.Dimension(500, 200));
+        disclaimerInfo.setPreferredSize(new java.awt.Dimension(500, 200));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.ipadx = 410;
+        gridBagConstraints.ipady = 40;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        aboutDialog.getContentPane().add(disclaimerInfo, gridBagConstraints);
+
+        LicenseLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
+        LicenseLabel.setText("License");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        aboutDialog.getContentPane().add(LicenseLabel, gridBagConstraints);
+
+        jButton1.setText("Close");
+        jButton1.setToolTipText("");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
+        aboutDialog.getContentPane().add(jButton1, gridBagConstraints);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Netflix roulette");
@@ -98,6 +205,41 @@ public class HomeGUI extends javax.swing.JFrame {
         titleLabel.setText("Netflix roulette");
         getContentPane().add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
 
+        FileMenu.setText("File");
+
+        SettingsButton.setText("Settings");
+        SettingsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SettingsButtonActionPerformed(evt);
+            }
+        });
+        FileMenu.add(SettingsButton);
+
+        MenuBar.add(FileMenu);
+
+        HelpMenu.setText("Help");
+
+        HowToUseButton.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        HowToUseButton.setText("How to use");
+        HowToUseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HowToUseButtonActionPerformed(evt);
+            }
+        });
+        HelpMenu.add(HowToUseButton);
+
+        AboutButton.setText("About");
+        AboutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AboutButtonActionPerformed(evt);
+            }
+        });
+        HelpMenu.add(AboutButton);
+
+        MenuBar.add(HelpMenu);
+
+        setJMenuBar(MenuBar);
+
         setSize(new java.awt.Dimension(618, 347));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -120,6 +262,23 @@ public class HomeGUI extends javax.swing.JFrame {
             selectedTitleGUI.updateTitleInfo(selectedTitle);
         }
     }//GEN-LAST:event_rollButtonActionPerformed
+
+    private void HowToUseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HowToUseButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_HowToUseButtonActionPerformed
+
+    private void SettingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SettingsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SettingsButtonActionPerformed
+
+    private void AboutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutButtonActionPerformed
+        aboutDialog.setVisible(true);
+        aboutDialog.setLocationRelativeTo(null);
+    }//GEN-LAST:event_AboutButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        aboutDialog.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * Bring up a dialog that displays an error message.
@@ -198,6 +357,19 @@ public class HomeGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem AboutButton;
+    private javax.swing.JMenu FileMenu;
+    private javax.swing.JMenu HelpMenu;
+    private javax.swing.JMenuItem HowToUseButton;
+    private javax.swing.JLabel LicenseLabel;
+    private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JMenuItem SettingsButton;
+    private javax.swing.JDialog aboutDialog;
+    private javax.swing.JLabel aboutHeader;
+    private javax.swing.JLabel disclaimerInfo;
+    private javax.swing.JLabel disclaimerLabel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel licenseInfo;
     private javax.swing.JLabel regionSelectionLabel;
     private javax.swing.JComboBox<String> regionSelectionMenu;
     private javax.swing.JButton rollButton;
