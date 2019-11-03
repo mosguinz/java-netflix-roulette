@@ -98,7 +98,6 @@ public class HomeGUI extends javax.swing.JFrame {
         aboutDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         aboutDialog.setTitle("About Netflix roulette");
         aboutDialog.setMinimumSize(new java.awt.Dimension(1000, 900));
-        aboutDialog.setPreferredSize(new java.awt.Dimension(1000, 900));
         aboutDialog.setType(java.awt.Window.Type.POPUP);
         aboutDialog.getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -181,11 +180,17 @@ public class HomeGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Netflix roulette");
         setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         regionSelectionLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
         regionSelectionLabel.setText("Select Netflix region");
-        getContentPane().add(regionSelectionLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        getContentPane().add(regionSelectionLabel, gridBagConstraints);
 
         rollButton.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
         rollButton.setText("Roll");
@@ -194,16 +199,37 @@ public class HomeGUI extends javax.swing.JFrame {
                 rollButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(rollButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, -1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 0);
+        getContentPane().add(rollButton, gridBagConstraints);
 
         regionSelectionMenu.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
         regionSelectionMenu.setModel(getRegionNames());
         regionSelectionMenu.setToolTipText("Select your Netflix region");
-        getContentPane().add(regionSelectionMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 190, -1));
+        regionSelectionMenu.setMinimumSize(new java.awt.Dimension(200, 32));
+        regionSelectionMenu.setPreferredSize(new java.awt.Dimension(200, 32));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        getContentPane().add(regionSelectionMenu, gridBagConstraints);
 
         titleLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
         titleLabel.setText("Netflix roulette");
-        getContentPane().add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
+        getContentPane().add(titleLabel, gridBagConstraints);
 
         FileMenu.setText("File");
 
