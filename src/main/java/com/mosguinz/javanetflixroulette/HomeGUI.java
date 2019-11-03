@@ -23,10 +23,12 @@
  */
 package com.mosguinz.javanetflixroulette;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
 import org.json.JSONArray;
@@ -65,6 +67,7 @@ public class HomeGUI extends javax.swing.JFrame {
 
         netflixLibrary = new NetflixLibrary();
         initComponents();
+        getGenreCheckBoxes();
     }
 
     /**
@@ -88,6 +91,9 @@ public class HomeGUI extends javax.swing.JFrame {
         rollButton = new javax.swing.JButton();
         regionSelectionMenu = new javax.swing.JComboBox<>();
         titleLabel = new javax.swing.JLabel();
+        regionSelectionLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        selectAllRegionsCheckBox = new javax.swing.JCheckBox();
         MenuBar = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
         SettingsButton = new javax.swing.JMenuItem();
@@ -179,17 +185,18 @@ public class HomeGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Netflix roulette");
+        setMinimumSize(new java.awt.Dimension(1000, 650));
+        setPreferredSize(new java.awt.Dimension(1000, 650));
         setResizable(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         regionSelectionLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
-        regionSelectionLabel.setText("Select Netflix region");
+        regionSelectionLabel.setText("Genres");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 10, 0);
         getContentPane().add(regionSelectionLabel, gridBagConstraints);
 
         rollButton.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
@@ -201,8 +208,7 @@ public class HomeGUI extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 0);
         getContentPane().add(rollButton, gridBagConstraints);
@@ -212,12 +218,17 @@ public class HomeGUI extends javax.swing.JFrame {
         regionSelectionMenu.setToolTipText("Select your Netflix region");
         regionSelectionMenu.setMinimumSize(new java.awt.Dimension(200, 32));
         regionSelectionMenu.setPreferredSize(new java.awt.Dimension(200, 32));
+        regionSelectionMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                regionSelectionMenuActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 10, 0);
         getContentPane().add(regionSelectionMenu, gridBagConstraints);
 
         titleLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
@@ -230,6 +241,41 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
         getContentPane().add(titleLabel, gridBagConstraints);
+
+        regionSelectionLabel1.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
+        regionSelectionLabel1.setText("Netflix region");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 10, 0);
+        getContentPane().add(regionSelectionLabel1, gridBagConstraints);
+
+        jPanel2.setAlignmentX(0.0F);
+        jPanel2.setAlignmentY(0.0F);
+        jPanel2.setMinimumSize(new java.awt.Dimension(850, 150));
+        jPanel2.setName(""); // NOI18N
+        jPanel2.setPreferredSize(new java.awt.Dimension(850, 150));
+        jPanel2.setLayout(new java.awt.GridLayout(5, 4, -2, -2));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        getContentPane().add(jPanel2, gridBagConstraints);
+
+        selectAllRegionsCheckBox.setText("Select all");
+        selectAllRegionsCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectAllRegionsCheckBoxActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 0);
+        getContentPane().add(selectAllRegionsCheckBox, gridBagConstraints);
 
         FileMenu.setText("File");
 
@@ -266,7 +312,7 @@ public class HomeGUI extends javax.swing.JFrame {
 
         setJMenuBar(MenuBar);
 
-        setSize(new java.awt.Dimension(618, 347));
+        setSize(new java.awt.Dimension(1018, 697));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -305,6 +351,14 @@ public class HomeGUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         aboutDialog.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void regionSelectionMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regionSelectionMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_regionSelectionMenuActionPerformed
+
+    private void selectAllRegionsCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectAllRegionsCheckBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectAllRegionsCheckBoxActionPerformed
 
     /**
      * Bring up a dialog that displays an error message.
@@ -346,6 +400,18 @@ public class HomeGUI extends javax.swing.JFrame {
      */
     private ComboBoxModel getRegionNames() {
         return new DefaultComboBoxModel(netflixLibrary.getAvailableRegionsList());
+    }
+
+    private void getGenreCheckBoxes() {
+        ArrayList<String> genres = netflixLibrary.getAvailableGenresList();
+        int genresSize = genres.size();
+
+        JCheckBox[] jCheckboxArray = new javax.swing.JCheckBox[genresSize];
+        for (int x = 0; x < genresSize; x++) {
+            jCheckboxArray[x] = new javax.swing.JCheckBox();
+            jCheckboxArray[x].setText(genres.get(x));
+            jPanel2.add(jCheckboxArray[x]);
+        }
     }
 
     /**
@@ -395,10 +461,13 @@ public class HomeGUI extends javax.swing.JFrame {
     private javax.swing.JLabel disclaimerInfo;
     private javax.swing.JLabel disclaimerLabel;
     private javax.swing.JButton jButton1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel licenseInfo;
     private javax.swing.JLabel regionSelectionLabel;
+    private javax.swing.JLabel regionSelectionLabel1;
     private javax.swing.JComboBox<String> regionSelectionMenu;
     private javax.swing.JButton rollButton;
+    private javax.swing.JCheckBox selectAllRegionsCheckBox;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }

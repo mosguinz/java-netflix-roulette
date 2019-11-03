@@ -573,4 +573,24 @@ public class NetflixLibrary {
 
     }
 
+    /**
+     * Get a sorted list of available genres.
+     *
+     * @return An alphabetically-ordered {@link ArrayList} of available genres
+     */
+    public ArrayList<String> getAvailableGenresList() {
+        LOGGER.log(Level.FINE, "Getting a list of available genres");
+
+        JSONObject genres = availableGenres.getJSONObject(0);
+        ArrayList<String> g = new ArrayList<>();
+
+        for (Iterator keys = genres.keys(); keys.hasNext();) {
+            g.add(keys.next().toString());
+        }
+
+        Collections.sort(g);
+
+        return g;
+    }
+
 }
