@@ -478,23 +478,22 @@ public class NetflixLibrary {
         JSONObject idReference = availableGenres.getJSONObject(0);
 
         if (queryGenres.size() == idReference.length()) {
-            LOGGER.log(Level.FINE, "{0} = {1}", new Object[]{queryGenres.size(), idReference.length()});
+            // All genre has a special ID of "0" -- instead of adding
+            // the IDs of every genres to the query string
             LOGGER.log(Level.FINE, "All genres selected");
             return "0";
-        } else if (queryGenres.size() == 0) {
-            HomeGUI.displayErrorMessage("Please select at least one genre.", "Invalid input");
-            return null;
         } else {
-
             LOGGER.log(Level.FINE, "Getting genre IDs for: {0}", queryGenres.toString());
             ArrayList<String> genreIDs = new ArrayList<>();
 
+            // Lookup IDs for the genre and concat.
             for (String genre : queryGenres) {
                 String ids = idReference.getJSONArray(genre).join(",");
                 genreIDs.add(ids);
                 LOGGER.log(Level.FINEST, "Genre IDs for {0} are {1}", new Object[]{genre, ids});
             }
 
+            // Concat the IDs from all selected genres into a longer string.
             String q = String.join(",", genreIDs);
             LOGGER.log(Level.FINE, "Genre IDs for {0} are {1}",
                     new Object[]{queryGenres.toString(), q});

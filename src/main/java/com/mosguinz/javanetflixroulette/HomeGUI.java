@@ -442,6 +442,11 @@ public class HomeGUI extends javax.swing.JFrame {
             }
         }
 
+        if (selectedGenres.size() == 0) {
+            displayErrorMessage("Please select at least one genre.", "Invalid input");
+            return null;
+        }
+
         return selectedGenres;
     }
 
