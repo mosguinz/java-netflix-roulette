@@ -62,7 +62,7 @@ public class LocalLibrary {
      *
      * @see #getHomePath()
      */
-    private static final String HOME_PATH = getHomePath();
+    private static final File HOME_PATH = getHomePath();
 
     /**
      * This application's local library directory.
@@ -71,7 +71,7 @@ public class LocalLibrary {
      *
      * @see #getLibraryPath()
      */
-    private static final String LIBRARY_PATH = getLibraryPath();
+    private static final File LIBRARY_PATH = getLibraryPath();
 
     /**
      * The maximum age of a response in days.
@@ -94,21 +94,21 @@ public class LocalLibrary {
     /**
      * Get the user's home directory.
      *
-     * @return The location of the user's home directory
+     * @return The {@link File} object to the user's home directory
      */
-    private static String getHomePath() {
+    private static File getHomePath() {
         LOGGER.log(Level.FINE, "Getting user's home path...");
-        return System.getProperty("user.home");
+        return new File(System.getProperty("user.home"));
     }
 
     /**
      * Get the home directory for this application.
      *
-     * @return The location of this application's home directory
+     * @return The {@link File} object to this application's home directory
      */
-    private static String getLibraryPath() {
+    private static File getLibraryPath() {
         LOGGER.log(Level.FINE, "Creating the path for this library...");
-        return HOME_PATH + File.separator + "netflixRoulette";
+        return new File(HOME_PATH, "netflixRoulette");
     }
 
     /**
@@ -135,14 +135,13 @@ public class LocalLibrary {
      * {@code false} otherwise
      */
     private static boolean makeLibraryDirectory() {
-        LOGGER.log(Level.INFO, "Creating the library directory at: {}", LIBRARY_PATH);
-        File f = new File(LIBRARY_PATH);
+        LOGGER.log(Level.INFO, "Creating the library directory at: {}", LIBRARY_PATH.toString());
 
-        if (f.exists()) {
+        if (LIBRARY_PATH.exists()) {
             LOGGER.log(Level.INFO, "Library directory already exists");
             return false;
         } else {
-            return f.mkdirs();
+            return LIBRARY_PATH.mkdirs();
         }
 
     }
