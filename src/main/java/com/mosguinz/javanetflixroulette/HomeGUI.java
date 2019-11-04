@@ -23,10 +23,12 @@
  */
 package com.mosguinz.javanetflixroulette;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
 import org.json.JSONArray;
@@ -57,6 +59,8 @@ public class HomeGUI extends javax.swing.JFrame {
             + "<br><br>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
             + "<br><br>THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</html>";
 
+    private JCheckBox[] genreCheckBoxes;
+
     /**
      * Creates new form {@link HomeGUI}.
      */
@@ -65,6 +69,7 @@ public class HomeGUI extends javax.swing.JFrame {
 
         netflixLibrary = new NetflixLibrary();
         initComponents();
+        genreCheckBoxes = generateGenreCheckBoxes();
     }
 
     /**
@@ -88,6 +93,11 @@ public class HomeGUI extends javax.swing.JFrame {
         rollButton = new javax.swing.JButton();
         regionSelectionMenu = new javax.swing.JComboBox<>();
         titleLabel = new javax.swing.JLabel();
+        regionSelectionLabel1 = new javax.swing.JLabel();
+        genreCheckBoxArea = new javax.swing.JPanel();
+        genreSelectionToggle = new javax.swing.JPanel();
+        genreSelectAllButton = new javax.swing.JButton();
+        genreClearSelectionButton = new javax.swing.JButton();
         MenuBar = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
         SettingsButton = new javax.swing.JMenuItem();
@@ -98,7 +108,6 @@ public class HomeGUI extends javax.swing.JFrame {
         aboutDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         aboutDialog.setTitle("About Netflix roulette");
         aboutDialog.setMinimumSize(new java.awt.Dimension(1000, 900));
-        aboutDialog.setPreferredSize(new java.awt.Dimension(1000, 900));
         aboutDialog.setType(java.awt.Window.Type.POPUP);
         aboutDialog.getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -180,12 +189,19 @@ public class HomeGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Netflix roulette");
+        setMinimumSize(new java.awt.Dimension(1000, 650));
+        setPreferredSize(new java.awt.Dimension(1000, 650));
         setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         regionSelectionLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
-        regionSelectionLabel.setText("Select Netflix region");
-        getContentPane().add(regionSelectionLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
+        regionSelectionLabel.setText("Genres");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 10, 0);
+        getContentPane().add(regionSelectionLabel, gridBagConstraints);
 
         rollButton.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
         rollButton.setText("Roll");
@@ -194,16 +210,92 @@ public class HomeGUI extends javax.swing.JFrame {
                 rollButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(rollButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, -1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 0);
+        getContentPane().add(rollButton, gridBagConstraints);
 
         regionSelectionMenu.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
         regionSelectionMenu.setModel(getRegionNames());
         regionSelectionMenu.setToolTipText("Select your Netflix region");
-        getContentPane().add(regionSelectionMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 190, -1));
+        regionSelectionMenu.setMinimumSize(new java.awt.Dimension(200, 32));
+        regionSelectionMenu.setPreferredSize(new java.awt.Dimension(200, 32));
+        regionSelectionMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                regionSelectionMenuActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 10, 0);
+        getContentPane().add(regionSelectionMenu, gridBagConstraints);
 
         titleLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
         titleLabel.setText("Netflix roulette");
-        getContentPane().add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
+        getContentPane().add(titleLabel, gridBagConstraints);
+
+        regionSelectionLabel1.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
+        regionSelectionLabel1.setText("Netflix region");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 10, 0);
+        getContentPane().add(regionSelectionLabel1, gridBagConstraints);
+
+        genreCheckBoxArea.setAlignmentX(0.0F);
+        genreCheckBoxArea.setAlignmentY(0.0F);
+        genreCheckBoxArea.setMinimumSize(new java.awt.Dimension(850, 150));
+        genreCheckBoxArea.setName(""); // NOI18N
+        genreCheckBoxArea.setPreferredSize(new java.awt.Dimension(850, 150));
+        genreCheckBoxArea.setLayout(new java.awt.GridLayout(5, 4, -2, -2));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        getContentPane().add(genreCheckBoxArea, gridBagConstraints);
+
+        genreSelectionToggle.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
+
+        genreSelectAllButton.setText("Select all");
+        genreSelectAllButton.setMaximumSize(new java.awt.Dimension(117, 25));
+        genreSelectAllButton.setMinimumSize(new java.awt.Dimension(117, 25));
+        genreSelectAllButton.setOpaque(false);
+        genreSelectAllButton.setPreferredSize(new java.awt.Dimension(117, 25));
+        genreSelectAllButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genreSelectAllButtonActionPerformed(evt);
+            }
+        });
+        genreSelectionToggle.add(genreSelectAllButton);
+
+        genreClearSelectionButton.setText("Clear selection");
+        genreClearSelectionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genreClearSelectionButtonActionPerformed(evt);
+            }
+        });
+        genreSelectionToggle.add(genreClearSelectionButton);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 0);
+        getContentPane().add(genreSelectionToggle, gridBagConstraints);
 
         FileMenu.setText("File");
 
@@ -240,7 +332,7 @@ public class HomeGUI extends javax.swing.JFrame {
 
         setJMenuBar(MenuBar);
 
-        setSize(new java.awt.Dimension(618, 347));
+        setSize(new java.awt.Dimension(1018, 697));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -249,9 +341,8 @@ public class HomeGUI extends javax.swing.JFrame {
 
         // Grab the selected Netflix region.
         JSONArray netflixTitles = null;
-        String selectedRegion = getSelectedRegion();
-        netflixLibrary.setQueryRegion(selectedRegion);
-        LOGGER.log(Level.INFO, "Selected region: {0}", selectedRegion);
+        netflixLibrary.setQueryRegion(getSelectedRegion());
+        netflixLibrary.setQueryGenres(getSelectedGenres());
 
         // Grab the titles for this region.
         netflixTitles = netflixLibrary.fetchTitles();
@@ -279,6 +370,22 @@ public class HomeGUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         aboutDialog.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void regionSelectionMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regionSelectionMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_regionSelectionMenuActionPerformed
+
+    private void genreClearSelectionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genreClearSelectionButtonActionPerformed
+        for (JCheckBox genre : genreCheckBoxes) {
+            genre.setSelected(false);
+        }
+    }//GEN-LAST:event_genreClearSelectionButtonActionPerformed
+
+    private void genreSelectAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genreSelectAllButtonActionPerformed
+        for (JCheckBox genre : genreCheckBoxes) {
+            genre.setSelected(true);
+        }
+    }//GEN-LAST:event_genreSelectAllButtonActionPerformed
 
     /**
      * Bring up a dialog that displays an error message.
@@ -316,10 +423,52 @@ public class HomeGUI extends javax.swing.JFrame {
     /**
      * Get a list of available Netflix regions to display.
      *
-     * @return a {@link ComboBoxModel} for the drop-down list.
+     * @return a {@link ComboBoxModel} for the drop-down list
      */
     private ComboBoxModel getRegionNames() {
         return new DefaultComboBoxModel(netflixLibrary.getAvailableRegionsList());
+    }
+
+    /**
+     * Get the selected genres.
+     *
+     * @return the list of the selected genres as an {@link ArrayList}
+     */
+    private ArrayList<String> getSelectedGenres() {
+        ArrayList<String> selectedGenres = new ArrayList<>();
+        for (JCheckBox genre : genreCheckBoxes) {
+            if (genre.isSelected()) {
+                selectedGenres.add(genre.getText());
+            }
+        }
+
+        if (selectedGenres.size() == 0) {
+            displayErrorMessage("Please select at least one genre.", "Invalid input");
+            return null;
+        }
+
+        return selectedGenres;
+    }
+
+    /**
+     * Generate check-boxes for the list of available genres.
+     *
+     * @return a {@link JCheckBox} array of the genre check-boxes instance.
+     */
+    private JCheckBox[] generateGenreCheckBoxes() {
+        ArrayList<String> genres = netflixLibrary.getAvailableGenresList();
+        int genresSize = genres.size();
+
+        JCheckBox[] jCheckBoxArray = new javax.swing.JCheckBox[genresSize];
+        for (int x = 0; x < genresSize; x++) {
+            jCheckBoxArray[x] = new javax.swing.JCheckBox();
+            jCheckBoxArray[x].setText(genres.get(x));
+            jCheckBoxArray[x].setSelected(true);
+            genreCheckBoxArea.add(jCheckBoxArray[x]);
+
+        }
+
+        return jCheckBoxArray;
     }
 
     /**
@@ -368,9 +517,14 @@ public class HomeGUI extends javax.swing.JFrame {
     private javax.swing.JLabel aboutHeader;
     private javax.swing.JLabel disclaimerInfo;
     private javax.swing.JLabel disclaimerLabel;
+    private javax.swing.JPanel genreCheckBoxArea;
+    private javax.swing.JButton genreClearSelectionButton;
+    private javax.swing.JButton genreSelectAllButton;
+    private javax.swing.JPanel genreSelectionToggle;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel licenseInfo;
     private javax.swing.JLabel regionSelectionLabel;
+    private javax.swing.JLabel regionSelectionLabel1;
     private javax.swing.JComboBox<String> regionSelectionMenu;
     private javax.swing.JButton rollButton;
     private javax.swing.JLabel titleLabel;
