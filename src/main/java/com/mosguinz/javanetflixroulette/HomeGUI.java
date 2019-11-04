@@ -59,6 +59,8 @@ public class HomeGUI extends javax.swing.JFrame {
             + "<br><br>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
             + "<br><br>THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</html>";
 
+    private JCheckBox[] genreCheckBoxes;
+
     /**
      * Creates new form {@link HomeGUI}.
      */
@@ -67,7 +69,7 @@ public class HomeGUI extends javax.swing.JFrame {
 
         netflixLibrary = new NetflixLibrary();
         initComponents();
-        getGenreCheckBoxes();
+        genreCheckBoxes = generateGenreCheckBoxes();
     }
 
     /**
@@ -92,8 +94,10 @@ public class HomeGUI extends javax.swing.JFrame {
         regionSelectionMenu = new javax.swing.JComboBox<>();
         titleLabel = new javax.swing.JLabel();
         regionSelectionLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        selectAllRegionsCheckBox = new javax.swing.JCheckBox();
+        genreCheckBoxArea = new javax.swing.JPanel();
+        genreSelectionToggle = new javax.swing.JPanel();
+        genreSelectAllButton = new javax.swing.JButton();
+        genreClearSelectionButton = new javax.swing.JButton();
         MenuBar = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
         SettingsButton = new javax.swing.JMenuItem();
@@ -251,31 +255,47 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 10, 0);
         getContentPane().add(regionSelectionLabel1, gridBagConstraints);
 
-        jPanel2.setAlignmentX(0.0F);
-        jPanel2.setAlignmentY(0.0F);
-        jPanel2.setMinimumSize(new java.awt.Dimension(850, 150));
-        jPanel2.setName(""); // NOI18N
-        jPanel2.setPreferredSize(new java.awt.Dimension(850, 150));
-        jPanel2.setLayout(new java.awt.GridLayout(5, 4, -2, -2));
+        genreCheckBoxArea.setAlignmentX(0.0F);
+        genreCheckBoxArea.setAlignmentY(0.0F);
+        genreCheckBoxArea.setMinimumSize(new java.awt.Dimension(850, 150));
+        genreCheckBoxArea.setName(""); // NOI18N
+        genreCheckBoxArea.setPreferredSize(new java.awt.Dimension(850, 150));
+        genreCheckBoxArea.setLayout(new java.awt.GridLayout(5, 4, -2, -2));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
-        getContentPane().add(jPanel2, gridBagConstraints);
+        getContentPane().add(genreCheckBoxArea, gridBagConstraints);
 
-        selectAllRegionsCheckBox.setText("Select all");
-        selectAllRegionsCheckBox.addActionListener(new java.awt.event.ActionListener() {
+        genreSelectionToggle.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
+
+        genreSelectAllButton.setText("Select all");
+        genreSelectAllButton.setMaximumSize(new java.awt.Dimension(117, 25));
+        genreSelectAllButton.setMinimumSize(new java.awt.Dimension(117, 25));
+        genreSelectAllButton.setOpaque(false);
+        genreSelectAllButton.setPreferredSize(new java.awt.Dimension(117, 25));
+        genreSelectAllButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectAllRegionsCheckBoxActionPerformed(evt);
+                genreSelectAllButtonActionPerformed(evt);
             }
         });
+        genreSelectionToggle.add(genreSelectAllButton);
+
+        genreClearSelectionButton.setText("Clear selection");
+        genreClearSelectionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genreClearSelectionButtonActionPerformed(evt);
+            }
+        });
+        genreSelectionToggle.add(genreClearSelectionButton);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 0);
-        getContentPane().add(selectAllRegionsCheckBox, gridBagConstraints);
+        getContentPane().add(genreSelectionToggle, gridBagConstraints);
 
         FileMenu.setText("File");
 
@@ -356,9 +376,17 @@ public class HomeGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_regionSelectionMenuActionPerformed
 
-    private void selectAllRegionsCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectAllRegionsCheckBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_selectAllRegionsCheckBoxActionPerformed
+    private void genreClearSelectionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genreClearSelectionButtonActionPerformed
+        for (JCheckBox genre : genreCheckBoxes) {
+            genre.setSelected(false);
+        }
+    }//GEN-LAST:event_genreClearSelectionButtonActionPerformed
+
+    private void genreSelectAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genreSelectAllButtonActionPerformed
+        for (JCheckBox genre : genreCheckBoxes) {
+            genre.setSelected(true);
+        }
+    }//GEN-LAST:event_genreSelectAllButtonActionPerformed
 
     /**
      * Bring up a dialog that displays an error message.
@@ -402,16 +430,23 @@ public class HomeGUI extends javax.swing.JFrame {
         return new DefaultComboBoxModel(netflixLibrary.getAvailableRegionsList());
     }
 
-    private void getGenreCheckBoxes() {
+    /**
+     * Generate check-boxes for the list of available genres.
+     */
+    private JCheckBox[] generateGenreCheckBoxes() {
         ArrayList<String> genres = netflixLibrary.getAvailableGenresList();
         int genresSize = genres.size();
 
-        JCheckBox[] jCheckboxArray = new javax.swing.JCheckBox[genresSize];
+        JCheckBox[] jCheckBoxArray = new javax.swing.JCheckBox[genresSize];
         for (int x = 0; x < genresSize; x++) {
-            jCheckboxArray[x] = new javax.swing.JCheckBox();
-            jCheckboxArray[x].setText(genres.get(x));
-            jPanel2.add(jCheckboxArray[x]);
+            jCheckBoxArray[x] = new javax.swing.JCheckBox();
+            jCheckBoxArray[x].setText(genres.get(x));
+            jCheckBoxArray[x].setSelected(true);
+            genreCheckBoxArea.add(jCheckBoxArray[x]);
+
         }
+
+        return jCheckBoxArray;
     }
 
     /**
@@ -460,14 +495,16 @@ public class HomeGUI extends javax.swing.JFrame {
     private javax.swing.JLabel aboutHeader;
     private javax.swing.JLabel disclaimerInfo;
     private javax.swing.JLabel disclaimerLabel;
+    private javax.swing.JPanel genreCheckBoxArea;
+    private javax.swing.JButton genreClearSelectionButton;
+    private javax.swing.JButton genreSelectAllButton;
+    private javax.swing.JPanel genreSelectionToggle;
     private javax.swing.JButton jButton1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel licenseInfo;
     private javax.swing.JLabel regionSelectionLabel;
     private javax.swing.JLabel regionSelectionLabel1;
     private javax.swing.JComboBox<String> regionSelectionMenu;
     private javax.swing.JButton rollButton;
-    private javax.swing.JCheckBox selectAllRegionsCheckBox;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }
