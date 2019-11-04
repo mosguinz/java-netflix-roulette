@@ -341,9 +341,8 @@ public class HomeGUI extends javax.swing.JFrame {
 
         // Grab the selected Netflix region.
         JSONArray netflixTitles = null;
-        String selectedRegion = getSelectedRegion();
-        netflixLibrary.setQueryRegion(selectedRegion);
-        LOGGER.log(Level.INFO, "Selected region: {0}", selectedRegion);
+        netflixLibrary.setQueryRegion(getSelectedRegion());
+        netflixLibrary.setQueryGenres(getSelectedGenres());
 
         // Grab the titles for this region.
         netflixTitles = netflixLibrary.fetchTitles();
@@ -424,14 +423,32 @@ public class HomeGUI extends javax.swing.JFrame {
     /**
      * Get a list of available Netflix regions to display.
      *
-     * @return a {@link ComboBoxModel} for the drop-down list.
+     * @return a {@link ComboBoxModel} for the drop-down list
      */
     private ComboBoxModel getRegionNames() {
         return new DefaultComboBoxModel(netflixLibrary.getAvailableRegionsList());
     }
 
     /**
+     * Get the selected genres.
+     *
+     * @return the list of the selected genres as an {@link ArrayList}
+     */
+    private ArrayList<String> getSelectedGenres() {
+        ArrayList<String> selectedGenres = new ArrayList<>();
+        for (JCheckBox genre : genreCheckBoxes) {
+            if (genre.isSelected()) {
+                selectedGenres.add(genre.getText());
+            }
+        }
+
+        return selectedGenres;
+    }
+
+    /**
      * Generate check-boxes for the list of available genres.
+     *
+     * @return a {@link JCheckBox} array of the genre check-boxes instance.
      */
     private JCheckBox[] generateGenreCheckBoxes() {
         ArrayList<String> genres = netflixLibrary.getAvailableGenresList();

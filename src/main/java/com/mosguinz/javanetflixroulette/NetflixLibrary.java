@@ -64,8 +64,8 @@ public class NetflixLibrary {
     private final String X_RAPID_API_KEY;
     private final LocalLibrary localLibrary = new LocalLibrary();
 
-    private String queryRegion = "All regions";
-    private String queryGenres = "All";
+    private String queryRegion;
+    private ArrayList<String> queryGenres;
     private String titlesQueryString;
 
     public JSONArray availableRegions;
@@ -151,6 +151,17 @@ public class NetflixLibrary {
     public void setQueryRegion(String region) {
         LOGGER.log(Level.INFO, "Setting query region to {0}", region);
         this.queryRegion = region;
+    }
+
+    /**
+     * Set the genre(s) to be used for querying titles.
+     *
+     * @param genres the genres selected by user from
+     * {@link HomeGUI#getSelectedGenres()}
+     */
+    public void setQueryGenres(ArrayList<String> genres) {
+        LOGGER.log(Level.INFO, "Setting query genres to {0}", genres.toString());
+        this.queryGenres = genres;
     }
 
     /**
@@ -422,6 +433,18 @@ public class NetflixLibrary {
         }
     }
 
+    /**
+     * Get the numeric ID for the corresponding region to use in the query
+     * string.
+     *
+     * @return the numeric ID of the specified region,
+     * {@link NetflixLibrary#queryRegion queryRegion}, to be used in the query
+     * string.
+     * @see
+     * <a href="https://rapidapi.com/unogs/api/unogs?endpoint=56770144e4b0c2a9f0e83c8e">
+     * https://rapidapi.com/unogs/api/unogs?endpoint=56770144e4b0c2a9f0e83c8e</a>
+     * for more info about region IDs
+     */
     private String getRegionID() {
         LOGGER.log(Level.FINE, "Getting region ID for: {0}", queryRegion);
         String regionID;
@@ -434,6 +457,50 @@ public class NetflixLibrary {
 
         LOGGER.log(Level.FINE, "Region ID for {0} is {1}", new Object[]{queryRegion, regionID});
         return regionID;
+    }
+
+    /**
+     * Get the numeric IDs for the corresponding genres to use in the query
+     * string.
+     *
+     * @return the numeric IDs of the specified genres,
+     * {@link NetflixLibrary#queryGenres queryGenres}, to be used in the query
+     * string; the IDs for the genres are a comma-separated string
+     * @see
+     * <a href="https://rapidapi.com/unogs/api/unogs?endpoint=5676f219e4b04efee9356e43">
+     * https://rapidapi.com/unogs/api/unogs?endpoint=5676f219e4b04efee9356e43</a>
+     * for more info about genre IDs
+     * <p>
+     * {@link #extractAvailableRegions() extractSupercategoryGenres} on how
+     * genres are extracted and handled in this application
+     */
+    private String getGenreIDs() {
+        JSONObject idReference = availableGenres.getJSONObject(0);
+
+        if (queryGenres.size() == idReference.length()) {
+            LOGGER.log(Level.FINE, "{0} = {1}", new Object[]{queryGenres.size(), idReference.length()});
+            LOGGER.log(Level.FINE, "All genres selected");
+            return "0";
+        } else if (queryGenres.size() == 0) {
+            HomeGUI.displayErrorMessage("Please select at least one genre.", "Invalid input");
+            return null;
+        } else {
+
+            LOGGER.log(Level.FINE, "Getting genre IDs for: {0}", queryGenres.toString());
+            ArrayList<String> genreIDs = new ArrayList<>();
+
+            for (String genre : queryGenres) {
+                String ids = idReference.getJSONArray(genre).join(",");
+                genreIDs.add(ids);
+                LOGGER.log(Level.FINEST, "Genre IDs for {0} are {1}", new Object[]{genre, ids});
+            }
+
+            String q = String.join(",", genreIDs);
+            LOGGER.log(Level.FINE, "Genre IDs for {0} are {1}",
+                    new Object[]{queryGenres.toString(), q});
+            return q;
+        }
+
     }
 
     /**
@@ -492,7 +559,7 @@ public class NetflixLibrary {
      */
     private void getTitlesQueryString() {
         LOGGER.log(Level.INFO, "Creating a query string to look for titles that are available in: {0}.", queryRegion);
-        String genreIDs = "0";
+        String genreIDs = getGenreIDs();
         String regionID = getRegionID();
         titlesQueryString = ("q=-!0%2C3000-!0%2C10-!0%2C10-!" + genreIDs + "-!Any-!"
                 + "Any-!Any-!-!&t=ns&cl=" + regionID + "&st=adv&ob=Relevance&p=1&sa=or");
