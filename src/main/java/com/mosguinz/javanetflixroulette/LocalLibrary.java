@@ -113,16 +113,35 @@ public class LocalLibrary {
 
     /**
      * Get the filename to use for reading/writing a response.
+     * <p>
+     * For titles, it will append a number to the end of the name and increment
+     * it to prevent overwriting existing response. It is <b>not</b> used for
+     * differentiating the parameters used.
+     * <p>
+     * For other types of query, it will return the same name, corresponding to
+     * the query type. This will result in overwriting the existing file, as it
+     * is assumed to be either invalid or expired.
      *
-     * @param queryType must be either {@code fetchGenres},
-     * {@code fetchRegions}, or {@code fetchAvailableRegions}
-     * @param titlesQueryString a {@link String} that is the query string for
-     * requesting titles
+     * @param queryType must be either {@code fetchGenres}, {@code fetchTitles},
+     * or {@code fetchAvailableRegions}
      * @return a {@link String} that is the filename for the response
      */
     private static String getResponseFilename(String queryType, String titlesQueryString) {
+        LOGGER.log(Level.INFO, "Creating filename for the response");
+
         if (queryType.equals("fetchTitles")) {
-            return queryType + "." + titlesQueryString + ".json";
+
+            String filename = "fetchTitles.0.json";
+            File f = new File(LIBRARY_PATH, filename);
+
+            for (int x = 1; f.exists(); x++) {
+                filename = "fetchTitles." + x + ".json";
+                System.out.println(filename);
+                f = new File(LIBRARY_PATH, filename);
+            }
+
+            return filename;
+
         } else {
             return queryType + ".json";
         }
@@ -150,8 +169,8 @@ public class LocalLibrary {
      * Save the responses from uNoGS server.
      *
      * @param response {@code JSONArray} of the returned response content
-     * @param queryType must be either {@code fetchGenres},
-     * {@code fetchRegions}, or {@code fetchAvailableRegions}
+     * @param queryType must be either {@code fetchGenres}, {@code fetchTitles},
+     * or {@code fetchAvailableRegions}
      * @param titlesQueryString a {@link String} that is the query string for
      * requesting titles
      * @return {@code true} if and only if the response were saved;
@@ -200,16 +219,16 @@ public class LocalLibrary {
     /**
      * Load the saved response.
      *
-     * @param queryType must be either {@code fetchGenres},
-     * {@code fetchRegions}, or {@code fetchAvailableRegions}
+     * @param queryType must be either {@code fetchGenres}, {@code fetchTitles},
+     * or {@code fetchAvailableRegions}
      * @param titlesQueryString a {@link String} that is the query string for
-     * requesting titles
+     * requesting titles; only applicable for {@code fetchTitles}
      * @return a {@link JSONArray} of the requested data
      */
     public JSONArray loadSavedResponse(String queryType, String titlesQueryString) {
         LOGGER.log(Level.FINE, "Looking for saved responses to use...");
 
-        String filename = getResponseFilename(queryType, titlesQueryString);
+        String filename = getResponseFilename(queryType);
         String filePath = LIBRARY_PATH + File.separator + filename;
         JSONArray response = null;
         LOGGER.log(Level.INFO, "Looking for file: {0}", filename);
@@ -239,8 +258,8 @@ public class LocalLibrary {
      * {@code ITEMS} is present.
      *
      * @param response the {@link JSONObject} parsed from the file
-     * @param queryType must be either {@code fetchGenres},
-     * {@code fetchRegions}, or {@code fetchAvailableRegions}
+     * @param queryType must be either {@code fetchGenres}, {@code fetchTitles},
+     * or {@code fetchAvailableRegions}
      * @return the content of response as a {@code JSONArray} if the response is
      * valid; {@code null} otherwise
      */
