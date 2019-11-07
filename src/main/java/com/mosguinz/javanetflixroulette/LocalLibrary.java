@@ -217,27 +217,27 @@ public class LocalLibrary {
     }
 
     /**
-     * Load the saved response.
+     * Load and parse the saved response.
+     * <p>
+     * Load and return the response file as a {@link JSONObject}.
      *
-     * @return
+     * @return the response file as a {@link JSONObject}
      */
-    private JSONArray loadSavedResponse(String filename, String queryType) {
+    private JSONObject loadSavedResponse(String filename) {
 
-        JSONArray response = null;
+        JSONObject responseFile = null;
 
         try {
             String f = new Scanner(new File(LIBRARY_PATH, filename)).useDelimiter("\\Z").next();
-            JSONObject r = new JSONObject(f);
+            responseFile = new JSONObject(f);
             LOGGER.log(Level.FINE, "Found a matching saved response to use");
-
-            response = verifySavedResponse(r, queryType);
         } catch (FileNotFoundException e) {
             LOGGER.log(Level.INFO, "No saved response found...");
         } catch (JSONException e) {
             LoggingUtil.logException(LOGGER, e, "Could not load saved responses...");
         }
 
-        return response;
+        return responseFile;
     }
 
     /**
