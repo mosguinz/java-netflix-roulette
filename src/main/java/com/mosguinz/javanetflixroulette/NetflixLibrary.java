@@ -210,7 +210,7 @@ public class NetflixLibrary {
         LOGGER.log(Level.INFO, "Fetching data for queryType: {0}", queryType);
 
         // Look for saved responses first.
-        JSONArray data = localLibrary.loadSavedResponse(queryType, titlesQueryString);
+        JSONArray data = localLibrary.getSavedResponse(queryType, titlesQueryString);
 
         if (data == null) {
             LOGGER.log(Level.INFO, "Can't find a valid response to use... sending a query to uNoGS API instead...");

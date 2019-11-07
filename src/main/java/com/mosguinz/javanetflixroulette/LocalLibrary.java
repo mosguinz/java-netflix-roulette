@@ -126,7 +126,7 @@ public class LocalLibrary {
      * or {@code fetchAvailableRegions}
      * @return a {@link String} that is the filename for the response
      */
-    private static String getResponseFilename(String queryType, String titlesQueryString) {
+    private static String getResponseFilename(String queryType) {
         LOGGER.log(Level.INFO, "Creating filename for the response");
 
         if (queryType.equals("fetchTitles")) {
@@ -187,7 +187,7 @@ public class LocalLibrary {
 
         try {
             LOGGER.log(Level.FINE, "Creating file output stream at {0}", LIBRARY_PATH);
-            String filename = getResponseFilename(queryType, titlesQueryString);
+            String filename = getResponseFilename(queryType);
             stream = new FileOutputStream(LIBRARY_PATH + File.separator + filename);
             LOGGER.log(Level.FINE, "Saving the response as: {0}", filename);
 
@@ -219,13 +219,37 @@ public class LocalLibrary {
     /**
      * Load the saved response.
      *
+     * @return
+     */
+    private JSONArray loadSavedResponse(String filename, String queryType) {
+
+        JSONArray response = null;
+
+        try {
+            String f = new Scanner(new File(LIBRARY_PATH, filename)).useDelimiter("\\Z").next();
+            JSONObject r = new JSONObject(f);
+            LOGGER.log(Level.FINE, "Found a matching saved response to use");
+
+            response = verifySavedResponse(r, queryType);
+        } catch (FileNotFoundException e) {
+            LOGGER.log(Level.INFO, "No saved response found...");
+        } catch (JSONException e) {
+            LoggingUtil.logException(LOGGER, e, "Could not load saved responses...");
+        }
+
+        return response;
+    }
+
+    /**
+     * Load the saved response.
+     *
      * @param queryType must be either {@code fetchGenres}, {@code fetchTitles},
      * or {@code fetchAvailableRegions}
      * @param titlesQueryString a {@link String} that is the query string for
      * requesting titles; only applicable for {@code fetchTitles}
      * @return a {@link JSONArray} of the requested data
      */
-    public JSONArray loadSavedResponse(String queryType, String titlesQueryString) {
+    public JSONArray getSavedResponse(String queryType, String titlesQueryString) {
         LOGGER.log(Level.FINE, "Looking for saved responses to use...");
 
         String filename = getResponseFilename(queryType);
