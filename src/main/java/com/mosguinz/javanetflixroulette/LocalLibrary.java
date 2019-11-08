@@ -62,7 +62,7 @@ public class LocalLibrary {
      *
      * @see #getHomePath()
      */
-    private static final String HOME_PATH = getHomePath();
+    private static final File HOME_PATH = getHomePath();
 
     /**
      * This application's local library directory.
@@ -71,7 +71,7 @@ public class LocalLibrary {
      *
      * @see #getLibraryPath()
      */
-    private static final String LIBRARY_PATH = getLibraryPath();
+    private static final File LIBRARY_PATH = getLibraryPath();
 
     /**
      * The maximum age of a response in days.
@@ -94,35 +94,54 @@ public class LocalLibrary {
     /**
      * Get the user's home directory.
      *
-     * @return The location of the user's home directory
+     * @return The {@link File} object to the user's home directory
      */
-    private static String getHomePath() {
+    private static File getHomePath() {
         LOGGER.log(Level.FINE, "Getting user's home path...");
-        return System.getProperty("user.home");
+        return new File(System.getProperty("user.home"));
     }
 
     /**
      * Get the home directory for this application.
      *
-     * @return The location of this application's home directory
+     * @return The {@link File} object to this application's home directory
      */
-    private static String getLibraryPath() {
+    private static File getLibraryPath() {
         LOGGER.log(Level.FINE, "Creating the path for this library...");
-        return HOME_PATH + File.separator + "netflixRoulette";
+        return new File(HOME_PATH, "netflixRoulette");
     }
 
     /**
      * Get the filename to use for reading/writing a response.
+     * <p>
+     * For titles, it will append a number to the end of the name and increment
+     * it to prevent overwriting existing response. It is <b>not</b> used for
+     * differentiating the parameters used.
+     * <p>
+     * For other types of query, it will return the same name, corresponding to
+     * the query type. This will result in overwriting the existing file, as it
+     * is assumed to be either invalid or expired.
      *
-     * @param queryType must be either {@code fetchGenres},
-     * {@code fetchRegions}, or {@code fetchAvailableRegions}
-     * @param titlesQueryString a {@link String} that is the query string for
-     * requesting titles
+     * @param queryType must be either {@code fetchGenres}, {@code fetchTitles},
+     * or {@code fetchAvailableRegions}
      * @return a {@link String} that is the filename for the response
      */
-    private static String getResponseFilename(String queryType, String titlesQueryString) {
+    private static String getResponseFilename(String queryType) {
+        LOGGER.log(Level.INFO, "Creating filename for the response");
+
         if (queryType.equals("fetchTitles")) {
-            return queryType + "." + titlesQueryString + ".json";
+
+            String filename = "fetchTitles.0.json";
+            File f = new File(LIBRARY_PATH, filename);
+
+            for (int x = 1; f.exists(); x++) {
+                filename = "fetchTitles." + x + ".json";
+                System.out.println(filename);
+                f = new File(LIBRARY_PATH, filename);
+            }
+
+            return filename;
+
         } else {
             return queryType + ".json";
         }
@@ -135,14 +154,13 @@ public class LocalLibrary {
      * {@code false} otherwise
      */
     private static boolean makeLibraryDirectory() {
-        LOGGER.log(Level.INFO, "Creating the library directory at: {}", LIBRARY_PATH);
-        File f = new File(LIBRARY_PATH);
+        LOGGER.log(Level.INFO, "Creating the library directory at: {}", LIBRARY_PATH.toString());
 
-        if (f.exists()) {
+        if (LIBRARY_PATH.exists()) {
             LOGGER.log(Level.INFO, "Library directory already exists");
             return false;
         } else {
-            return f.mkdirs();
+            return LIBRARY_PATH.mkdirs();
         }
 
     }
@@ -151,8 +169,8 @@ public class LocalLibrary {
      * Save the responses from uNoGS server.
      *
      * @param response {@code JSONArray} of the returned response content
-     * @param queryType must be either {@code fetchGenres},
-     * {@code fetchRegions}, or {@code fetchAvailableRegions}
+     * @param queryType must be either {@code fetchGenres}, {@code fetchTitles},
+     * or {@code fetchAvailableRegions}
      * @param titlesQueryString a {@link String} that is the query string for
      * requesting titles
      * @return {@code true} if and only if the response were saved;
@@ -166,10 +184,13 @@ public class LocalLibrary {
         JSONObject f = new JSONObject();
         f.put("DATE", LocalDate.now().toString());
         f.put("ITEMS", response);
+        if (queryType.equals("fetchTitles")) {
+            f.put("Q-STRING", titlesQueryString);
+        }
 
         try {
             LOGGER.log(Level.FINE, "Creating file output stream at {0}", LIBRARY_PATH);
-            String filename = getResponseFilename(queryType, titlesQueryString);
+            String filename = getResponseFilename(queryType);
             stream = new FileOutputStream(LIBRARY_PATH + File.separator + filename);
             LOGGER.log(Level.FINE, "Saving the response as: {0}", filename);
 
@@ -199,36 +220,88 @@ public class LocalLibrary {
     }
 
     /**
-     * Load the saved response.
+     * Load and parse the saved response.
+     * <p>
+     * Load and return the response file as a {@link JSONObject}.
      *
-     * @param queryType must be either {@code fetchGenres},
-     * {@code fetchRegions}, or {@code fetchAvailableRegions}
-     * @param titlesQueryString a {@link String} that is the query string for
-     * requesting titles
-     * @return a {@link JSONArray} of the requested data
+     * @return the response file as a {@link JSONObject}
      */
-    public JSONArray loadSavedResponse(String queryType, String titlesQueryString) {
-        LOGGER.log(Level.FINE, "Looking for saved responses to use...");
+    private JSONObject loadSavedResponse(String filename) {
 
-        String filename = getResponseFilename(queryType, titlesQueryString);
-        String filePath = LIBRARY_PATH + File.separator + filename;
-        JSONArray response = null;
-        LOGGER.log(Level.INFO, "Looking for file: {0}", filename);
+        JSONObject responseFile = null;
 
         try {
-            String f = new Scanner(new File(filePath)).useDelimiter("\\Z").next();
-            JSONObject r = new JSONObject(f);
+            String f = new Scanner(new File(LIBRARY_PATH, filename)).useDelimiter("\\Z").next();
+            responseFile = new JSONObject(f);
             LOGGER.log(Level.FINE, "Found a matching saved response to use");
-
-            response = verifySavedResponse(r, queryType);
-
         } catch (FileNotFoundException e) {
             LOGGER.log(Level.INFO, "No saved response found...");
         } catch (JSONException e) {
             LoggingUtil.logException(LOGGER, e, "Could not load saved responses...");
         }
 
-        return response;
+        return responseFile;
+    }
+
+    /**
+     * Find a response with the matching query string.
+     * <p>
+     * Looks for a saved response for the query type {@code fetchTitles} that
+     * has the matching query string. The query string a {@link String}
+     * constructed from the provided parameters.
+     * <p>
+     * This method will look for a response that contains a list of titles
+     * corresponding to the parameters provided. If one cannot be found, then it
+     * will return {@code null}.
+     *
+     * @param titlesQueryString a {@link String} that is the query string for
+     * requesting titles; only applicable for {@code fetchTitles}
+     * @return the response file as a {@link JSONObject}
+     * @see NetflixLibrary#getTitlesQueryString()
+     */
+    private JSONObject loadMatchingResponseQuery(String titlesQueryString) {
+        LOGGER.log(Level.INFO, "Looking for a response with a matching query string");
+        File[] responses = LIBRARY_PATH.listFiles();
+
+        if (responses != null) {
+            for (File response : responses) {
+                String filename = response.getName();
+                if (filename.startsWith("fetchTitles")) {
+                    JSONObject r = loadSavedResponse(filename);
+                    if (r.getString("Q-STRING").equals(titlesQueryString)) {
+                        return r;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Load the saved response.
+     *
+     * @param queryType must be either {@code fetchGenres}, {@code fetchTitles},
+     * or {@code fetchAvailableRegions}
+     * @param titlesQueryString a {@link String} that is the query string for
+     * requesting titles; only applicable for {@code fetchTitles}
+     * @return a {@link JSONArray} of the requested data
+     */
+    public JSONArray getSavedResponse(String queryType, String titlesQueryString) {
+        LOGGER.log(Level.FINE, "Looking for saved responses to use...");
+        JSONObject response = null;
+
+        if (queryType.equals("fetchTitles")) {
+            response = loadMatchingResponseQuery(titlesQueryString);
+        } else {
+            response = loadSavedResponse(queryType + ".json");
+        }
+
+        if (response != null) {
+            return verifySavedResponse(response);
+        }
+
+        return null;
     }
 
     /**
@@ -240,12 +313,12 @@ public class LocalLibrary {
      * {@code ITEMS} is present.
      *
      * @param response the {@link JSONObject} parsed from the file
-     * @param queryType must be either {@code fetchGenres},
-     * {@code fetchRegions}, or {@code fetchAvailableRegions}
+     * @param queryType must be either {@code fetchGenres}, {@code fetchTitles},
+     * or {@code fetchAvailableRegions}
      * @return the content of response as a {@code JSONArray} if the response is
      * valid; {@code null} otherwise
      */
-    private JSONArray verifySavedResponse(JSONObject response, String queryType) {
+    private JSONArray verifySavedResponse(JSONObject response) {
 
         if (isUpToDate(response)) {
             return NetflixLibrary.verifyResponse(response);

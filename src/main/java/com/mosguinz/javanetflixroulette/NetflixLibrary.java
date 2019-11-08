@@ -202,15 +202,15 @@ public class NetflixLibrary {
      * for responses saved in the local machine first. If that is not available,
      * then it will send a request to the uNoGS API to obtain the data.
      *
-     * @param queryType must be either {@code fetchGenres},
-     * {@code fetchRegions}, or {@code fetchAvailableRegions}
+     * @param queryType must be either {@code fetchGenres}, {@code fetchTitles},
+     * or {@code fetchAvailableRegions}
      * @return a {@link JSONArray} of the requested data
      */
     private JSONArray fetchData(String queryType) {
         LOGGER.log(Level.INFO, "Fetching data for queryType: {0}", queryType);
 
         // Look for saved responses first.
-        JSONArray data = localLibrary.loadSavedResponse(queryType, titlesQueryString);
+        JSONArray data = localLibrary.getSavedResponse(queryType, titlesQueryString);
 
         if (data == null) {
             LOGGER.log(Level.INFO, "Can't find a valid response to use... sending a query to uNoGS API instead...");
@@ -233,8 +233,8 @@ public class NetflixLibrary {
      * <li><b>write the response to file</b>, so that it can be used later.</li>
      * </ul>
      *
-     * @param queryType must be either {@code fetchGenres},
-     * {@code fetchRegions}, or {@code fetchAvailableRegions}
+     * @param queryType must be either {@code fetchGenres}, {@code fetchTitles},
+     * or {@code fetchAvailableRegions}
      * @return a {@link JSONArray} of the requested data if the response was
      * successfully validated and extracted; {@code null} otherwise
      */
@@ -415,8 +415,8 @@ public class NetflixLibrary {
      *
      * @param response the raw response in the form of {@link JSONArray} from
      * the API
-     * @param queryType must be either {@code fetchGenres},
-     * {@code fetchRegions}, or {@code fetchAvailableRegions}
+     * @param queryType must be either {@code fetchGenres}, {@code fetchTitles},
+     * or {@code fetchAvailableRegions}
      * @return a {@link JSONArray} of an extracted response if successful;
      * {@code null} otherwise
      * @throws NoSuchFieldException if the response is not in the expected
@@ -568,8 +568,8 @@ public class NetflixLibrary {
     /**
      * Get endpoint URL for the specified query type.
      *
-     * @param queryType must be either {@code fetchGenres},
-     * {@code fetchRegions}, or {@code fetchAvailableRegions}
+     * @param queryType must be either {@code fetchGenres}, {@code fetchTitles},
+     * or {@code fetchAvailableRegions}
      * @return The endpoint URL
      */
     private String getEndpoint(String queryType) {
