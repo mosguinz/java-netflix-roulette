@@ -168,7 +168,7 @@ public class NetflixLibrary {
     /**
      * Set the title type to be used for querying titles.
      *
-     * @param genres the type selected by user from
+     * @param titleType the type selected by user from
      * {@link HomeGUI#getSelectedTitleType()}
      */
     public void setQueryTitleType(String titleType) {

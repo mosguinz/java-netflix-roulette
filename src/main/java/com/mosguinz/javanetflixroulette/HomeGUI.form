@@ -285,6 +285,9 @@
             </Property>
             <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="Any"/>
+            <Property name="actionCommand" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="&quot;Any&quot;" type="code"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JRadioButton" name="moviesButton">
@@ -293,6 +296,9 @@
               <ComponentRef name="typeButtonGroup"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Movie"/>
+            <Property name="actionCommand" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="&quot;Movie&quot;" type="code"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JRadioButton" name="seriesButton">
@@ -301,6 +307,9 @@
               <ComponentRef name="typeButtonGroup"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Series"/>
+            <Property name="actionCommand" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="&quot;Series&quot;" type="code"/>
+            </Property>
           </Properties>
         </Component>
       </SubComponents>

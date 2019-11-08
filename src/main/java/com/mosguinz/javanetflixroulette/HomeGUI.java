@@ -253,14 +253,17 @@ public class HomeGUI extends javax.swing.JFrame {
         typeButtonGroup.add(anyTitleTypeButton);
         anyTitleTypeButton.setSelected(true);
         anyTitleTypeButton.setText("Any");
+        anyTitleTypeButton.setActionCommand("Any");
         titleTypeSelectionButtonArea.add(anyTitleTypeButton);
 
         typeButtonGroup.add(moviesButton);
         moviesButton.setText("Movie");
+        moviesButton.setActionCommand("Movie");
         titleTypeSelectionButtonArea.add(moviesButton);
 
         typeButtonGroup.add(seriesButton);
         seriesButton.setText("Series");
+        seriesButton.setActionCommand("Series");
         titleTypeSelectionButtonArea.add(seriesButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
