@@ -184,6 +184,9 @@ public class LocalLibrary {
         JSONObject f = new JSONObject();
         f.put("DATE", LocalDate.now().toString());
         f.put("ITEMS", response);
+        if (queryType.equals("fetchTitles")) {
+            f.put("Q-STRING", titlesQueryString);
+        }
 
         try {
             LOGGER.log(Level.FINE, "Creating file output stream at {0}", LIBRARY_PATH);
@@ -241,6 +244,41 @@ public class LocalLibrary {
     }
 
     /**
+     * Find a response with the matching query string.
+     * <p>
+     * Looks for a saved response for the query type {@code fetchTitles} that
+     * has the matching query string. The query string a {@link String}
+     * constructed from the provided parameters.
+     * <p>
+     * This method will look for a response that contains a list of titles
+     * corresponding to the parameters provided. If one cannot be found, then it
+     * will return {@code null}.
+     *
+     * @param titlesQueryString a {@link String} that is the query string for
+     * requesting titles; only applicable for {@code fetchTitles}
+     * @return the response file as a {@link JSONObject}
+     * @see NetflixLibrary#getTitlesQueryString()
+     */
+    private JSONObject loadMatchingResponseQuery(String titlesQueryString) {
+        LOGGER.log(Level.INFO, "Looking for a response with a matching query string");
+        File[] responses = LIBRARY_PATH.listFiles();
+
+        if (responses != null) {
+            for (File response : responses) {
+                String filename = response.getName();
+                if (filename.startsWith("fetchTitles")) {
+                    JSONObject r = loadSavedResponse(filename);
+                    if (r.getString("Q-STRING").equals(titlesQueryString)) {
+                        return r;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Load the saved response.
      *
      * @param queryType must be either {@code fetchGenres}, {@code fetchTitles},
@@ -251,26 +289,19 @@ public class LocalLibrary {
      */
     public JSONArray getSavedResponse(String queryType, String titlesQueryString) {
         LOGGER.log(Level.FINE, "Looking for saved responses to use...");
+        JSONObject response = null;
 
-        String filename = getResponseFilename(queryType);
-        String filePath = LIBRARY_PATH + File.separator + filename;
-        JSONArray response = null;
-        LOGGER.log(Level.INFO, "Looking for file: {0}", filename);
-
-        try {
-            String f = new Scanner(new File(filePath)).useDelimiter("\\Z").next();
-            JSONObject r = new JSONObject(f);
-            LOGGER.log(Level.FINE, "Found a matching saved response to use");
-
-            response = verifySavedResponse(r, queryType);
-
-        } catch (FileNotFoundException e) {
-            LOGGER.log(Level.INFO, "No saved response found...");
-        } catch (JSONException e) {
-            LoggingUtil.logException(LOGGER, e, "Could not load saved responses...");
+        if (queryType.equals("fetchTitles")) {
+            response = loadMatchingResponseQuery(titlesQueryString);
+        } else {
+            response = loadSavedResponse(queryType + ".json");
         }
 
-        return response;
+        if (response != null) {
+            return verifySavedResponse(response);
+        }
+
+        return null;
     }
 
     /**
@@ -287,7 +318,7 @@ public class LocalLibrary {
      * @return the content of response as a {@code JSONArray} if the response is
      * valid; {@code null} otherwise
      */
-    private JSONArray verifySavedResponse(JSONObject response, String queryType) {
+    private JSONArray verifySavedResponse(JSONObject response) {
 
         if (isUpToDate(response)) {
             return NetflixLibrary.verifyResponse(response);
