@@ -67,6 +67,7 @@ public class NetflixLibrary {
     private String queryRegion;
     private ArrayList<String> queryGenres;
     private String titlesQueryString;
+    private String queryTitleType;
 
     public JSONArray availableRegions;
     public JSONArray availableGenres;
@@ -162,6 +163,17 @@ public class NetflixLibrary {
     public void setQueryGenres(ArrayList<String> genres) {
         LOGGER.log(Level.INFO, "Setting query genres to {0}", genres.toString());
         this.queryGenres = genres;
+    }
+
+    /**
+     * Set the title type to be used for querying titles.
+     *
+     * @param genres the type selected by user from
+     * {@link HomeGUI#getSelectedTitleType()}
+     */
+    public void setQueryTitleType(String titleType) {
+        LOGGER.log(Level.INFO, "Setting query title type to {0}", titleType.toString());
+        this.queryTitleType = titleType;
     }
 
     /**

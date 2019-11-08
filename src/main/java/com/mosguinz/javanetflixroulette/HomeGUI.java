@@ -89,13 +89,13 @@ public class HomeGUI extends javax.swing.JFrame {
         LicenseLabel = new javax.swing.JLabel();
         licenseInfo = new javax.swing.JLabel();
         aboutDialogOKButton = new javax.swing.JButton();
-        titleTypeButtonGroup = new javax.swing.ButtonGroup();
+        typeButtonGroup = new javax.swing.ButtonGroup();
         titleLabel = new javax.swing.JLabel();
         regionSelectionLabel = new javax.swing.JLabel();
         regionSelectionMenu = new javax.swing.JComboBox<>();
-        typeSelectionLabel = new javax.swing.JLabel();
-        TypeSelectionRadio = new javax.swing.JPanel();
-        anyTypeButton = new javax.swing.JRadioButton();
+        titleTypeSelectionLabel = new javax.swing.JLabel();
+        titleTypeSelectionButtonArea = new javax.swing.JPanel();
+        anyTitleTypeButton = new javax.swing.JRadioButton();
         moviesButton = new javax.swing.JRadioButton();
         seriesButton = new javax.swing.JRadioButton();
         genreSelectionLabel = new javax.swing.JLabel();
@@ -239,50 +239,36 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
         getContentPane().add(regionSelectionMenu, gridBagConstraints);
 
-        typeSelectionLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
-        typeSelectionLabel.setText("Type");
+        titleTypeSelectionLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
+        titleTypeSelectionLabel.setText("Type");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 20, 5, 0);
-        getContentPane().add(typeSelectionLabel, gridBagConstraints);
+        getContentPane().add(titleTypeSelectionLabel, gridBagConstraints);
 
-        TypeSelectionRadio.setLayout(new java.awt.GridLayout(3, 0, 0, 10));
+        titleTypeSelectionButtonArea.setLayout(new java.awt.GridLayout(3, 0, 0, 10));
 
-        titleTypeButtonGroup.add(anyTypeButton);
-        anyTypeButton.setText("Any");
-        anyTypeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                anyTypeButtonActionPerformed(evt);
-            }
-        });
-        TypeSelectionRadio.add(anyTypeButton);
+        typeButtonGroup.add(anyTitleTypeButton);
+        anyTitleTypeButton.setSelected(true);
+        anyTitleTypeButton.setText("Any");
+        titleTypeSelectionButtonArea.add(anyTitleTypeButton);
 
-        titleTypeButtonGroup.add(moviesButton);
+        typeButtonGroup.add(moviesButton);
         moviesButton.setText("Movie");
-        moviesButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                moviesButtonActionPerformed(evt);
-            }
-        });
-        TypeSelectionRadio.add(moviesButton);
+        titleTypeSelectionButtonArea.add(moviesButton);
 
-        titleTypeButtonGroup.add(seriesButton);
+        typeButtonGroup.add(seriesButton);
         seriesButton.setText("Series");
-        seriesButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                seriesButtonActionPerformed(evt);
-            }
-        });
-        TypeSelectionRadio.add(seriesButton);
+        titleTypeSelectionButtonArea.add(seriesButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
-        getContentPane().add(TypeSelectionRadio, gridBagConstraints);
+        getContentPane().add(titleTypeSelectionButtonArea, gridBagConstraints);
 
         genreSelectionLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
         genreSelectionLabel.setText("Genres");
@@ -393,10 +379,9 @@ public class HomeGUI extends javax.swing.JFrame {
     private void rollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rollButtonActionPerformed
         LOGGER.log(Level.FINE, "Roll button pressed");
 
-        // Grab the selected Netflix region.
+        // Grab the selected values.
         JSONArray netflixTitles = null;
-        netflixLibrary.setQueryRegion(getSelectedRegion());
-        netflixLibrary.setQueryGenres(getSelectedGenres());
+        setQueryValues();
 
         // Grab the titles for this region.
         netflixTitles = netflixLibrary.fetchTitles();
@@ -440,18 +425,6 @@ public class HomeGUI extends javax.swing.JFrame {
             genre.setSelected(true);
         }
     }//GEN-LAST:event_genreSelectAllButtonActionPerformed
-
-    private void anyTypeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anyTypeButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_anyTypeButtonActionPerformed
-
-    private void moviesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moviesButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_moviesButtonActionPerformed
-
-    private void seriesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seriesButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_seriesButtonActionPerformed
 
     /**
      * Bring up a dialog that displays an error message.
@@ -517,6 +490,27 @@ public class HomeGUI extends javax.swing.JFrame {
     }
 
     /**
+     * Get the selected type from the radio buttons.
+     *
+     * @return a {@link String} that is the selected type; it will be either:
+     * {@code Any}, {@code Movie}, or {@code Series}
+     */
+    private String getSelectedTitleType() {
+        return typeButtonGroup.getSelection().getActionCommand();
+    }
+
+    /**
+     * Set the selected values and set them as the query parameters.
+     */
+    private void setQueryValues() {
+
+        netflixLibrary.setQueryRegion(getSelectedRegion());
+        netflixLibrary.setQueryGenres(getSelectedGenres());
+        netflixLibrary.setQueryTitleType(getSelectedTitleType());
+
+    }
+
+    /**
      * Generate check-boxes for the list of available genres.
      *
      * @return a {@link JCheckBox} array of the genre check-boxes instance.
@@ -579,11 +573,10 @@ public class HomeGUI extends javax.swing.JFrame {
     private javax.swing.JLabel LicenseLabel;
     private javax.swing.JMenuBar MenuBar;
     private javax.swing.JMenuItem SettingsButton;
-    private javax.swing.JPanel TypeSelectionRadio;
     private javax.swing.JDialog aboutDialog;
     private javax.swing.JButton aboutDialogOKButton;
     private javax.swing.JLabel aboutHeader;
-    private javax.swing.JRadioButton anyTypeButton;
+    private javax.swing.JRadioButton anyTitleTypeButton;
     private javax.swing.JLabel disclaimerInfo;
     private javax.swing.JLabel disclaimerLabel;
     private javax.swing.JPanel genreCheckBoxArea;
@@ -598,7 +591,8 @@ public class HomeGUI extends javax.swing.JFrame {
     private javax.swing.JButton rollButton;
     private javax.swing.JRadioButton seriesButton;
     private javax.swing.JLabel titleLabel;
-    private javax.swing.ButtonGroup titleTypeButtonGroup;
-    private javax.swing.JLabel typeSelectionLabel;
+    private javax.swing.JPanel titleTypeSelectionButtonArea;
+    private javax.swing.JLabel titleTypeSelectionLabel;
+    private javax.swing.ButtonGroup typeButtonGroup;
     // End of variables declaration//GEN-END:variables
 }

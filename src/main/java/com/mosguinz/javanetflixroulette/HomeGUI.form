@@ -118,7 +118,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.ButtonGroup" name="titleTypeButtonGroup">
+    <Component class="javax.swing.ButtonGroup" name="typeButtonGroup">
     </Component>
     <Menu class="javax.swing.JMenuBar" name="MenuBar">
       <SubComponents>
@@ -252,7 +252,7 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="javax.swing.JLabel" name="typeSelectionLabel">
+    <Component class="javax.swing.JLabel" name="titleTypeSelectionLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Helvetica Neue World" size="18" style="1"/>
@@ -265,7 +265,7 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Container class="javax.swing.JPanel" name="TypeSelectionRadio">
+    <Container class="javax.swing.JPanel" name="titleTypeSelectionButtonArea">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
           <GridBagConstraints gridX="0" gridY="4" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="20" insetsBottom="0" insetsRight="0" anchor="21" weightX="0.0" weightY="0.0"/>
@@ -278,38 +278,30 @@
         <Property name="verticalGap" type="int" value="10"/>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JRadioButton" name="anyTypeButton">
+        <Component class="javax.swing.JRadioButton" name="anyTitleTypeButton">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-              <ComponentRef name="titleTypeButtonGroup"/>
+              <ComponentRef name="typeButtonGroup"/>
             </Property>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="Any"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="anyTypeButtonActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="moviesButton">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-              <ComponentRef name="titleTypeButtonGroup"/>
+              <ComponentRef name="typeButtonGroup"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Movie"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="moviesButtonActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="seriesButton">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-              <ComponentRef name="titleTypeButtonGroup"/>
+              <ComponentRef name="typeButtonGroup"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Series"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="seriesButtonActionPerformed"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
