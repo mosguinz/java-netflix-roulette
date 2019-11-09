@@ -93,10 +93,14 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         rerollButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("");
         setMinimumSize(new java.awt.Dimension(658, 300));
         setModalExclusionType(null);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         titlePosterImage.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
@@ -198,8 +202,6 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 24);
         getContentPane().add(buttonPanel, gridBagConstraints);
 
-        getAccessibleContext().setAccessibleName("");
-
         setSize(new java.awt.Dimension(676, 347));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -238,6 +240,11 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_watchOnNetflixButtonActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        parentFrame.setEnabled(true);
+        parentFrame.toFront();
+    }//GEN-LAST:event_formWindowClosed
+
     /**
      * @param args the command line arguments
      */
@@ -265,10 +272,8 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SelectedTitleGUI().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new SelectedTitleGUI().setVisible(true);
         });
     }
 

@@ -719,6 +719,7 @@ public class HomeGUI extends javax.swing.JFrame {
             JSONObject selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
             selectedTitleGUI.updateTitleInfo(selectedTitle);
             selectedTitleGUI.setParentFrame(this);
+            this.setEnabled(false);
         }
     }
 
