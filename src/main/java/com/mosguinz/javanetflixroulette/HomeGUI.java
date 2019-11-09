@@ -808,6 +808,26 @@ public class HomeGUI extends javax.swing.JFrame {
     }
 
     /**
+     * Get the selected value for the minimum rating.
+     *
+     * @return a {@link String} that is the selected value to one decimal point
+     * precision
+     */
+    private String getSelectedMinimumRatingValue() {
+        return minimumRatingValueLabel.getText();
+    }
+
+    /**
+     * Get the selected value for the maximum rating.
+     *
+     * @return a {@link String} that is the selected value to one decimal point
+     * precision
+     */
+    private String getSelectedMaximumRatingValue() {
+        return maximumRatingValueLabel.getText();
+    }
+
+    /**
      * Set the selected values and set them as the query parameters.
      */
     private void setQueryValues() {
@@ -815,6 +835,8 @@ public class HomeGUI extends javax.swing.JFrame {
         netflixLibrary.setQueryRegion(getSelectedRegion());
         netflixLibrary.setQueryGenres(getSelectedGenres());
         netflixLibrary.setQueryTitleType(getSelectedTitleType());
+        netflixLibrary.setQueryMinimumRating(getSelectedMinimumRatingValue());
+        netflixLibrary.setQueryMaximumRating(getSelectedMaximumRatingValue());
 
     }
 

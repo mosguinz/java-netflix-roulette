@@ -68,6 +68,8 @@ public class NetflixLibrary {
     private ArrayList<String> queryGenres;
     private String titlesQueryString;
     private String queryTitleType;
+    private String queryMinimumRating;
+    private String queryMaximumRating;
 
     public JSONArray availableRegions;
     public JSONArray availableGenres;
@@ -172,8 +174,30 @@ public class NetflixLibrary {
      * {@link HomeGUI#getSelectedTitleType()}
      */
     public void setQueryTitleType(String titleType) {
-        LOGGER.log(Level.INFO, "Setting query title type to {0}", titleType.toString());
+        LOGGER.log(Level.INFO, "Setting query title type to {0}", titleType);
         this.queryTitleType = titleType;
+    }
+
+    /**
+     * Set the minimum rating value to be used for querying titles.
+     *
+     * @param minimumRating the minimum rating selected by user from
+     * {@link HomeGUI#getSelectedMinimumRatingValue()}
+     */
+    public void setQueryMinimumRating(String minimumRating) {
+        LOGGER.log(Level.INFO, "Setting minimum rating to {0}", minimumRating);
+        this.queryMinimumRating = minimumRating;
+    }
+
+    /**
+     * Set the maximum rating value to be used for querying titles.
+     *
+     * @param maximumRating the maximum rating selected by user from
+     * {@link HomeGUI#getSelectedMaximumRatingValue()}
+     */
+    public void setQueryMaximumRating(String maximumRating) {
+        LOGGER.log(Level.INFO, "Setting maximum rating to {0}", maximumRating);
+        this.queryMaximumRating = maximumRating;
     }
 
     /**
