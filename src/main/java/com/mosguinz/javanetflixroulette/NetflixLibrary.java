@@ -67,6 +67,7 @@ public class NetflixLibrary {
     private String queryRegion;
     private ArrayList<String> queryGenres;
     private String titlesQueryString;
+    private String queryTitleType;
 
     public JSONArray availableRegions;
     public JSONArray availableGenres;
@@ -162,6 +163,17 @@ public class NetflixLibrary {
     public void setQueryGenres(ArrayList<String> genres) {
         LOGGER.log(Level.INFO, "Setting query genres to {0}", genres.toString());
         this.queryGenres = genres;
+    }
+
+    /**
+     * Set the title type to be used for querying titles.
+     *
+     * @param titleType the type selected by user from
+     * {@link HomeGUI#getSelectedTitleType()}
+     */
+    public void setQueryTitleType(String titleType) {
+        LOGGER.log(Level.INFO, "Setting query title type to {0}", titleType.toString());
+        this.queryTitleType = titleType;
     }
 
     /**
@@ -524,20 +536,20 @@ public class NetflixLibrary {
      * <p>
      * Most of which, can be ignored for the purpose of this application. They
      * have all been hard-coded to include all of the titles, so that the only
-     * two parameters that will be set by this application -- i.e., region and
-     * genres -- will be the only factors that filters out the titles. Which
-     * boils the parameters down to:
+     * three parameters that will be set by this application -- i.e., region,
+     * genres, and title type -- will be the only factors that filters out the
+     * titles. Which boils the parameters down to:
      * <p>
-     * {@code q=-!0,3000-!0,10-!0,10-!{GENRE_IDs}-!Any-!Any-!Any-!-!&t=ns&cl={COUNTRY_LIST}&st=adv&ob=Relevance&p=1&sa=or},
+     * {@code q=-!0,3000-!0,10-!0,10-!{GENRE_IDs}-!{TITLE_TYPE}-!Any-!Any-!-!&t=ns&cl={COUNTRY_LIST}&st=adv&ob=Relevance&p=1&sa=or},
      * where:
      * <ul>
      * <li>{@code GENRE_IDs} is a list of selected genres, represented by their
-     * IDs and separated by a comma; and
+     * IDs and separated by a comma;
      * <ul>
      * <li>if all genres are selected, the ID is {@code 0}</li>
      * </ul></li>
      * <li>{@code COUNTRY_LIST} is a list of selected regions, represented by
-     * their IDs and separated by a comma
+     * their IDs and separated by a comma; and
      * <ul>
      * <li>if all regions are selected, the ID is {@code all}</li>
      * <li>from this application, users can only choose to include all regions
@@ -545,22 +557,34 @@ public class NetflixLibrary {
      * would need to filter for two or more specific regions</li>
      * <li>note that these country codes are <b>not</b> the two-letter ISO
      * 3166-1 alpha-2 codes, such as {@code US}, {@code NZ}, {@code AU}, etc.,
-     * as noted in the API documentation
+     * as noted in the API documentation</li>
+     * </ul></li>
+     * <li>{@code TITLE_TYPE} is the type of title to include in the results
+     * <ul>
+     * <li>this value is either {@code Any}, {@code Movie}, or
+     * {@code Series}</li>
      * </ul></li>
      * </ul>
      *
      * @return a {@link String} that is the query string for requesting titles
-     * available in the specified regions (per {@link #queryRegion queryRegion})
+     * with the parameters specified as
      * @see
      * <a href="https://rapidapi.com/unogs/api/unogs?endpoint=5690bcdee4b0e203818a6518">
      * https://rapidapi.com/unogs/api/unogs?endpoint=5690bcdee4b0e203818a6518</a>
      * for this endpoint's documentation
      */
     private void getTitlesQueryString() {
-        LOGGER.log(Level.INFO, "Creating a query string to look for titles that are available in: {0}.", queryRegion);
+        LOGGER.log(Level.INFO, "Creating a query string to look for titles that matches the following parameters:\n"
+                + "Netflix region: {0}\n"
+                + "Genres: {1}\n"
+                + "Title type: {2}",
+                new Object[]{queryRegion, queryGenres.toString(), queryTitleType});
+
         String genreIDs = getGenreIDs();
         String regionID = getRegionID();
-        titlesQueryString = ("q=-!0%2C3000-!0%2C10-!0%2C10-!" + genreIDs + "-!Any-!"
+
+        // Note the query title type does not need to be decoded into IDs
+        titlesQueryString = ("q=-!0%2C3000-!0%2C10-!0%2C10-!" + genreIDs + "-!" + queryTitleType + "-!"
                 + "Any-!Any-!-!&t=ns&cl=" + regionID + "&st=adv&ob=Relevance&p=1&sa=or");
 
     }
