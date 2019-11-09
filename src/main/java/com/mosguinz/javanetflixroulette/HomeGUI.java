@@ -23,6 +23,10 @@
  */
 package com.mosguinz.javanetflixroulette;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -59,7 +63,7 @@ public class HomeGUI extends javax.swing.JFrame {
             + "<br><br>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
             + "<br><br>THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</html>";
 
-    private JCheckBox[] genreCheckBoxes;
+    private final JCheckBox[] genreCheckBoxes;
 
     /**
      * Creates new form {@link HomeGUI}.
@@ -90,6 +94,21 @@ public class HomeGUI extends javax.swing.JFrame {
         licenseInfo = new javax.swing.JLabel();
         aboutDialogOKButton = new javax.swing.JButton();
         typeButtonGroup = new javax.swing.ButtonGroup();
+        howToUseDialog = new javax.swing.JDialog();
+        helpHeader = new javax.swing.JLabel();
+        howToUseLabel = new javax.swing.JLabel();
+        howToUseInfo = new javax.swing.JLabel();
+        faqLabel1 = new javax.swing.JLabel();
+        faqInfo1 = new javax.swing.JLabel();
+        faqLabel2 = new javax.swing.JLabel();
+        faqInfo2 = new javax.swing.JLabel();
+        faqLabel3 = new javax.swing.JLabel();
+        faqInfo3 = new javax.swing.JLabel();
+        goToIssueTrackerButton = new javax.swing.JButton();
+        faqLabel4 = new javax.swing.JLabel();
+        faqInfo4 = new javax.swing.JLabel();
+        goToRepoButton = new javax.swing.JButton();
+        howToUseDialogOKButton = new javax.swing.JButton();
         titleLabel = new javax.swing.JLabel();
         regionSelectionLabel = new javax.swing.JLabel();
         regionSelectionMenu = new javax.swing.JComboBox<>();
@@ -105,8 +124,6 @@ public class HomeGUI extends javax.swing.JFrame {
         genreCheckBoxArea = new javax.swing.JPanel();
         rollButton = new javax.swing.JButton();
         MenuBar = new javax.swing.JMenuBar();
-        FileMenu = new javax.swing.JMenu();
-        SettingsButton = new javax.swing.JMenuItem();
         HelpMenu = new javax.swing.JMenu();
         HowToUseButton = new javax.swing.JMenuItem();
         AboutButton = new javax.swing.JMenuItem();
@@ -193,6 +210,191 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
         aboutDialog.getContentPane().add(aboutDialogOKButton, gridBagConstraints);
 
+        howToUseDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        howToUseDialog.setTitle("Help");
+        howToUseDialog.setMinimumSize(new java.awt.Dimension(1000, 640));
+        howToUseDialog.setPreferredSize(new java.awt.Dimension(1000, 640));
+        howToUseDialog.setResizable(false);
+        howToUseDialog.setType(java.awt.Window.Type.POPUP);
+        howToUseDialog.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        helpHeader.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
+        helpHeader.setText("Help");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.ipady = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        howToUseDialog.getContentPane().add(helpHeader, gridBagConstraints);
+
+        howToUseLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
+        howToUseLabel.setText("How to use");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        howToUseDialog.getContentPane().add(howToUseLabel, gridBagConstraints);
+
+        howToUseInfo.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
+        howToUseInfo.setText("<html>Don't know what to watch tonight?<br>Simply choose your Netflix region and the genres that you are interested in and click \"Roll\" -- then we'll choose a title for you!</html>");
+        howToUseInfo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        howToUseInfo.setMinimumSize(new java.awt.Dimension(500, 10));
+        howToUseInfo.setPreferredSize(new java.awt.Dimension(500, 10));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.ipadx = 410;
+        gridBagConstraints.ipady = 40;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        howToUseDialog.getContentPane().add(howToUseInfo, gridBagConstraints);
+
+        faqLabel1.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
+        faqLabel1.setText("I clicked on \"Watch on Netflix\" but nothing happened!");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        howToUseDialog.getContentPane().add(faqLabel1, gridBagConstraints);
+
+        faqInfo1.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
+        faqInfo1.setText("<html>Make sure to select the region that you are watching Netflix on before pressing \"Roll.\"<br>Due to licensing and copyright issues, not all titles on Netflix are available in every region. Choose the region that you are watching Netflix from to make sure that you are able to watch the titles that are selected!</html>");
+        faqInfo1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        faqInfo1.setMinimumSize(new java.awt.Dimension(500, 35));
+        faqInfo1.setName(""); // NOI18N
+        faqInfo1.setPreferredSize(new java.awt.Dimension(500, 35));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.ipadx = 410;
+        gridBagConstraints.ipady = 40;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        howToUseDialog.getContentPane().add(faqInfo1, gridBagConstraints);
+
+        faqLabel2.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
+        faqLabel2.setText("I got a \"No matching titles\" message");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        howToUseDialog.getContentPane().add(faqLabel2, gridBagConstraints);
+
+        faqInfo2.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
+        faqInfo2.setText("<html>You must have a distinct taste!<br>This means that there were no titles on the Netflix catalogue that matches your filter. Try broadening your search by including more genres.</html>");
+        faqInfo2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        faqInfo2.setMinimumSize(new java.awt.Dimension(500, 10));
+        faqInfo2.setPreferredSize(new java.awt.Dimension(500, 10));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.ipadx = 410;
+        gridBagConstraints.ipady = 40;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        howToUseDialog.getContentPane().add(faqInfo2, gridBagConstraints);
+
+        faqLabel3.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
+        faqLabel3.setText("Something doesn't look right...");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        howToUseDialog.getContentPane().add(faqLabel3, gridBagConstraints);
+
+        faqInfo3.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
+        faqInfo3.setText("<html>Notice something strange, think something is broken, or got a suggestion in mind? Create an issue on our issue tracker and let us know!");
+        faqInfo3.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        faqInfo3.setMinimumSize(new java.awt.Dimension(500, 0));
+        faqInfo3.setPreferredSize(new java.awt.Dimension(500, 0));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.ipadx = 410;
+        gridBagConstraints.ipady = 30;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        howToUseDialog.getContentPane().add(faqInfo3, gridBagConstraints);
+
+        goToIssueTrackerButton.setText("Go to issue tracker");
+        goToIssueTrackerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                goToIssueTrackerButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        howToUseDialog.getContentPane().add(goToIssueTrackerButton, gridBagConstraints);
+
+        faqLabel4.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
+        faqLabel4.setText("<html>Where can I find your source code, so I can <i>finally</i> mark it?</html>");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        howToUseDialog.getContentPane().add(faqLabel4, gridBagConstraints);
+
+        faqInfo4.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
+        faqInfo4.setText("<html>Find the source code to this project at <a href=\"https://github.com/mosguinz/java-netflix-roulette\">github.com/mosguinz/java-netflix-roulette</a>.");
+        faqInfo4.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        faqInfo4.setMinimumSize(new java.awt.Dimension(500, 0));
+        faqInfo4.setPreferredSize(new java.awt.Dimension(500, 0));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.ipadx = 410;
+        gridBagConstraints.ipady = 30;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        howToUseDialog.getContentPane().add(faqInfo4, gridBagConstraints);
+
+        goToRepoButton.setText("Go to GitHub repo");
+        goToRepoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                goToRepoButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        howToUseDialog.getContentPane().add(goToRepoButton, gridBagConstraints);
+
+        howToUseDialogOKButton.setText("Close");
+        howToUseDialogOKButton.setToolTipText("");
+        howToUseDialogOKButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                howToUseDialogOKButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
+        howToUseDialog.getContentPane().add(howToUseDialogOKButton, gridBagConstraints);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Netflix roulette");
         setMinimumSize(new java.awt.Dimension(1000, 650));
@@ -221,16 +423,10 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 0);
         getContentPane().add(regionSelectionLabel, gridBagConstraints);
 
-        regionSelectionMenu.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
         regionSelectionMenu.setModel(getRegionNames());
-        regionSelectionMenu.setToolTipText("Select your Netflix region");
+        regionSelectionMenu.setToolTipText("<html>Select your Netflix region<br>\nSee the help menu (F1) for more info");
         regionSelectionMenu.setMinimumSize(new java.awt.Dimension(200, 32));
         regionSelectionMenu.setPreferredSize(new java.awt.Dimension(200, 32));
-        regionSelectionMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                regionSelectionMenuActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -253,16 +449,19 @@ public class HomeGUI extends javax.swing.JFrame {
         typeButtonGroup.add(anyTitleTypeButton);
         anyTitleTypeButton.setSelected(true);
         anyTitleTypeButton.setText("Any");
+        anyTitleTypeButton.setToolTipText("Include any type of titles");
         anyTitleTypeButton.setActionCommand("Any");
         titleTypeSelectionButtonArea.add(anyTitleTypeButton);
 
         typeButtonGroup.add(moviesButton);
         moviesButton.setText("Movie");
+        moviesButton.setToolTipText("Only include titles that are movies");
         moviesButton.setActionCommand("Movie");
         titleTypeSelectionButtonArea.add(moviesButton);
 
         typeButtonGroup.add(seriesButton);
         seriesButton.setText("Series");
+        seriesButton.setToolTipText("Only include titles that are series");
         seriesButton.setActionCommand("Series");
         titleTypeSelectionButtonArea.add(seriesButton);
 
@@ -285,6 +484,7 @@ public class HomeGUI extends javax.swing.JFrame {
         genreSelectionToggle.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
 
         genreSelectAllButton.setText("Select all");
+        genreSelectAllButton.setToolTipText("Select all available genres");
         genreSelectAllButton.setMaximumSize(new java.awt.Dimension(117, 25));
         genreSelectAllButton.setMinimumSize(new java.awt.Dimension(117, 25));
         genreSelectAllButton.setOpaque(false);
@@ -297,6 +497,7 @@ public class HomeGUI extends javax.swing.JFrame {
         genreSelectionToggle.add(genreSelectAllButton);
 
         genreClearSelectionButton.setText("Clear selection");
+        genreClearSelectionButton.setToolTipText("<html>Unselect all available genres<br>Helpful when you're looking for specific genres");
         genreClearSelectionButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 genreClearSelectionButtonActionPerformed(evt);
@@ -325,8 +526,10 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
         getContentPane().add(genreCheckBoxArea, gridBagConstraints);
 
-        rollButton.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
         rollButton.setText("Roll");
+        rollButton.setMaximumSize(new java.awt.Dimension(100, 35));
+        rollButton.setMinimumSize(new java.awt.Dimension(100, 35));
+        rollButton.setPreferredSize(new java.awt.Dimension(100, 35));
         rollButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rollButtonActionPerformed(evt);
@@ -339,18 +542,6 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 0);
         getContentPane().add(rollButton, gridBagConstraints);
-
-        FileMenu.setText("File");
-
-        SettingsButton.setText("Settings");
-        SettingsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SettingsButtonActionPerformed(evt);
-            }
-        });
-        FileMenu.add(SettingsButton);
-
-        MenuBar.add(FileMenu);
 
         HelpMenu.setText("Help");
 
@@ -381,28 +572,19 @@ public class HomeGUI extends javax.swing.JFrame {
 
     private void rollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rollButtonActionPerformed
         LOGGER.log(Level.FINE, "Roll button pressed");
-
-        // Grab the selected values.
-        JSONArray netflixTitles = null;
+        rollButton.setText("Rolling...");
+        rollButton.setEnabled(false);
+        rollButton.paintImmediately(rollButton.getVisibleRect());
         setQueryValues();
-
-        // Grab the titles for this region.
-        netflixTitles = netflixLibrary.fetchTitles();
-
-        // Pick a title and display it.
-        if (netflixTitles != null) {
-            JSONObject selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
-            selectedTitleGUI.updateTitleInfo(selectedTitle);
-        }
+        getNetflixTitle();
+        rollButton.setText("Roll");
+        rollButton.setEnabled(true);
     }//GEN-LAST:event_rollButtonActionPerformed
 
     private void HowToUseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HowToUseButtonActionPerformed
-        // TODO add your handling code here:
+        howToUseDialog.setVisible(true);
+        howToUseDialog.setLocationRelativeTo(null);
     }//GEN-LAST:event_HowToUseButtonActionPerformed
-
-    private void SettingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SettingsButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SettingsButtonActionPerformed
 
     private void AboutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutButtonActionPerformed
         aboutDialog.setVisible(true);
@@ -412,10 +594,6 @@ public class HomeGUI extends javax.swing.JFrame {
     private void aboutDialogOKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutDialogOKButtonActionPerformed
         aboutDialog.dispose();
     }//GEN-LAST:event_aboutDialogOKButtonActionPerformed
-
-    private void regionSelectionMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regionSelectionMenuActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_regionSelectionMenuActionPerformed
 
     private void genreClearSelectionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genreClearSelectionButtonActionPerformed
         for (JCheckBox genre : genreCheckBoxes) {
@@ -428,6 +606,28 @@ public class HomeGUI extends javax.swing.JFrame {
             genre.setSelected(true);
         }
     }//GEN-LAST:event_genreSelectAllButtonActionPerformed
+
+    private void howToUseDialogOKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_howToUseDialogOKButtonActionPerformed
+        howToUseDialog.dispose();
+    }//GEN-LAST:event_howToUseDialogOKButtonActionPerformed
+
+    private void goToIssueTrackerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToIssueTrackerButtonActionPerformed
+        try {
+            LOGGER.log(Level.FINE, "Opening URL in browser...");
+            Desktop.getDesktop().browse(new URL("https://github.com/mosguinz/java-netflix-roulette/issues").toURI());
+        } catch (IOException | URISyntaxException e) {
+            LoggingUtil.logException(LOGGER, e, "Something went wrong. Could not open broswer.");
+        }
+    }//GEN-LAST:event_goToIssueTrackerButtonActionPerformed
+
+    private void goToRepoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToRepoButtonActionPerformed
+        try {
+            LOGGER.log(Level.FINE, "Opening URL in browser...");
+            Desktop.getDesktop().browse(new URL("https://github.com/mosguinz/java-netflix-roulette/").toURI());
+        } catch (IOException | URISyntaxException e) {
+            LoggingUtil.logException(LOGGER, e, "Something went wrong. Could not open broswer.");
+        }
+    }//GEN-LAST:event_goToRepoButtonActionPerformed
 
     /**
      * Bring up a dialog that displays an error message.
@@ -484,7 +684,7 @@ public class HomeGUI extends javax.swing.JFrame {
             }
         }
 
-        if (selectedGenres.size() == 0) {
+        if (selectedGenres.isEmpty()) {
             displayErrorMessage("Please select at least one genre.", "Invalid input");
             return null;
         }
@@ -511,6 +711,22 @@ public class HomeGUI extends javax.swing.JFrame {
         netflixLibrary.setQueryGenres(getSelectedGenres());
         netflixLibrary.setQueryTitleType(getSelectedTitleType());
 
+    }
+
+    /**
+     * Get Netflix title with the selected values.
+     */
+    public void getNetflixTitle() {
+        JSONArray netflixTitles;
+        netflixTitles = netflixLibrary.fetchTitles();
+
+        // Pick a title and display it.
+        if (netflixTitles != null) {
+            JSONObject selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
+            selectedTitleGUI.updateTitleInfo(selectedTitle);
+            selectedTitleGUI.setParentFrame(this);
+            this.setEnabled(false);
+        }
     }
 
     /**
@@ -545,7 +761,7 @@ public class HomeGUI extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -561,32 +777,43 @@ public class HomeGUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new HomeGUI().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new HomeGUI().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AboutButton;
-    private javax.swing.JMenu FileMenu;
     private javax.swing.JMenu HelpMenu;
     private javax.swing.JMenuItem HowToUseButton;
     private javax.swing.JLabel LicenseLabel;
     private javax.swing.JMenuBar MenuBar;
-    private javax.swing.JMenuItem SettingsButton;
     private javax.swing.JDialog aboutDialog;
     private javax.swing.JButton aboutDialogOKButton;
     private javax.swing.JLabel aboutHeader;
     private javax.swing.JRadioButton anyTitleTypeButton;
     private javax.swing.JLabel disclaimerInfo;
     private javax.swing.JLabel disclaimerLabel;
+    private javax.swing.JLabel faqInfo1;
+    private javax.swing.JLabel faqInfo2;
+    private javax.swing.JLabel faqInfo3;
+    private javax.swing.JLabel faqInfo4;
+    private javax.swing.JLabel faqLabel1;
+    private javax.swing.JLabel faqLabel2;
+    private javax.swing.JLabel faqLabel3;
+    private javax.swing.JLabel faqLabel4;
     private javax.swing.JPanel genreCheckBoxArea;
     private javax.swing.JButton genreClearSelectionButton;
     private javax.swing.JButton genreSelectAllButton;
     private javax.swing.JLabel genreSelectionLabel;
     private javax.swing.JPanel genreSelectionToggle;
+    private javax.swing.JButton goToIssueTrackerButton;
+    private javax.swing.JButton goToRepoButton;
+    private javax.swing.JLabel helpHeader;
+    private javax.swing.JDialog howToUseDialog;
+    private javax.swing.JButton howToUseDialogOKButton;
+    private javax.swing.JLabel howToUseInfo;
+    private javax.swing.JLabel howToUseLabel;
     private javax.swing.JLabel licenseInfo;
     private javax.swing.JRadioButton moviesButton;
     private javax.swing.JLabel regionSelectionLabel;

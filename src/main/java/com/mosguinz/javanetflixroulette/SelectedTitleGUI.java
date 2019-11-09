@@ -35,6 +35,7 @@ import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import org.json.JSONObject;
@@ -51,6 +52,8 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
      * The {@link Logger} object for the class.
      */
     private static final Logger LOGGER = Logger.getLogger(SelectedTitleGUI.class.getName());
+
+    private static HomeGUI parentFrame;
 
     String netflixID;
     String title;
@@ -84,18 +87,26 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         titleSubtext = new javax.swing.JLabel();
         titleName = new javax.swing.JLabel();
         titleSynopsis = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        buttonPanel = new javax.swing.JPanel();
         watchOnNetflixButton = new javax.swing.JButton();
         returnToMainButton = new javax.swing.JButton();
+        rerollButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(658, 300));
+        setModalExclusionType(null);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         titlePosterImage.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
         titlePosterImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titlePosterImage.setText("Title poster image");
+        titlePosterImage.setToolTipText("Poster image");
         titlePosterImage.setPreferredSize(new java.awt.Dimension(166, 233));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -125,7 +136,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 24);
@@ -143,7 +154,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 24);
         getContentPane().add(titleSynopsis, gridBagConstraints);
 
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        buttonPanel.setLayout(new java.awt.GridBagLayout());
 
         watchOnNetflixButton.setText("Watch on Netflix");
         watchOnNetflixButton.addActionListener(new java.awt.event.ActionListener() {
@@ -154,31 +165,65 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.BASELINE_LEADING;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 12);
-        jPanel1.add(watchOnNetflixButton, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.BASELINE_TRAILING;
+        buttonPanel.add(watchOnNetflixButton, gridBagConstraints);
 
         returnToMainButton.setText("Return to Main");
+        returnToMainButton.setToolTipText("Return to main menu to select new filters");
+        returnToMainButton.setMaximumSize(new java.awt.Dimension(125, 25));
+        returnToMainButton.setMinimumSize(new java.awt.Dimension(125, 25));
+        returnToMainButton.setPreferredSize(new java.awt.Dimension(125, 25));
         returnToMainButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 returnToMainButtonActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.BASELINE_TRAILING;
+        buttonPanel.add(returnToMainButton, gridBagConstraints);
+
+        rerollButton.setText("Reroll");
+        rerollButton.setToolTipText("Roll again...");
+        rerollButton.setMaximumSize(new java.awt.Dimension(110, 50));
+        rerollButton.setMinimumSize(new java.awt.Dimension(110, 50));
+        rerollButton.setPreferredSize(new java.awt.Dimension(110, 50));
+        rerollButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rerollButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(returnToMainButton, gridBagConstraints);
+        gridBagConstraints.gridheight = 2;
+        buttonPanel.add(rerollButton, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(jPanel1, gridBagConstraints);
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 24);
+        getContentPane().add(buttonPanel, gridBagConstraints);
 
         setSize(new java.awt.Dimension(676, 347));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * Upon clicking "Return to Menu" button.
+     * <p>
+     * This will dispose the window.
+     *
+     * @param evt The action event
+     */
+    private void returnToMainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnToMainButtonActionPerformed
+        LOGGER.log(Level.FINE, "\"{0}\" button pressed\n{1}", new Object[]{evt.getActionCommand(), evt.paramString()});
+        dispose();
+    }//GEN-LAST:event_returnToMainButtonActionPerformed
 
     /**
      * Upon clicking "Watch on Netflix" button.
@@ -202,17 +247,19 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_watchOnNetflixButtonActionPerformed
 
-    /**
-     * Upon clicking "Return to Menu" button.
-     * <p>
-     * This will dispose the window.
-     *
-     * @param evt The action event
-     */
-    private void returnToMainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnToMainButtonActionPerformed
-        LOGGER.log(Level.FINE, "\"{0}\" button pressed\n{1}", new Object[]{evt.getActionCommand(), evt.paramString()});
-        dispose();
-    }//GEN-LAST:event_returnToMainButtonActionPerformed
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        parentFrame.setEnabled(true);
+        parentFrame.toFront();
+    }//GEN-LAST:event_formWindowClosed
+
+    private void rerollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rerollButtonActionPerformed
+        rerollButton.setText("Rolling...");
+        rerollButton.setEnabled(false);
+        rerollButton.paintImmediately(rerollButton.getVisibleRect());
+        parentFrame.getNetflixTitle();
+        rerollButton.setText("Reroll");
+        rerollButton.setEnabled(true);
+    }//GEN-LAST:event_rerollButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,7 +272,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -241,10 +288,8 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SelectedTitleGUI().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new SelectedTitleGUI().setVisible(true);
         });
     }
 
@@ -267,6 +312,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         // Display poster image for selected title.
         setTitleInfo();
         setTitlePosterImage();
+        updateTextLabels();
         this.setVisible(true);
     }
 
@@ -326,6 +372,16 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         titleSubtext.setText(subtext);
         LOGGER.log(Level.FINER, "Adding synopsis");
         titleSynopsis.setText("<html><p style=\"line-height: 2%;\">" + synopsis + "</p></html>");
+
+    }
+
+    /**
+     * Update the window title and tooltip texts.
+     */
+    private void updateTextLabels() {
+        watchOnNetflixButton.setToolTipText("<html>Watch <i>" + title + "</i> on Netflix");
+        titlePosterImage.setToolTipText("<html>Poster image for <i>" + title + "</i>");
+        this.setTitle("Selected title: " + title);
 
     }
 
@@ -397,8 +453,21 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Set the parent frame to this frame.
+     * <p>
+     * This frame must be the home GUI.
+     *
+     * @param frame the parent {@link JFrame} that is the instance of
+     * {@link HomeGUI}
+     */
+    public void setParentFrame(HomeGUI frame) {
+        parentFrame = frame;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel buttonPanel;
+    private javax.swing.JButton rerollButton;
     private javax.swing.JButton returnToMainButton;
     private javax.swing.JLabel titleName;
     private javax.swing.JLabel titlePosterImage;
