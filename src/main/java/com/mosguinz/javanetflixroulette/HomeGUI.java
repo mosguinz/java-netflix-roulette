@@ -63,7 +63,7 @@ public class HomeGUI extends javax.swing.JFrame {
             + "<br><br>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
             + "<br><br>THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</html>";
 
-    private JCheckBox[] genreCheckBoxes;
+    private final JCheckBox[] genreCheckBoxes;
 
     /**
      * Creates new form {@link HomeGUI}.
@@ -571,19 +571,8 @@ public class HomeGUI extends javax.swing.JFrame {
 
     private void rollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rollButtonActionPerformed
         LOGGER.log(Level.FINE, "Roll button pressed");
-
-        // Grab the selected values.
-        JSONArray netflixTitles = null;
         setQueryValues();
-
-        // Grab the titles for this region.
-        netflixTitles = netflixLibrary.fetchTitles();
-
-        // Pick a title and display it.
-        if (netflixTitles != null) {
-            JSONObject selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
-            selectedTitleGUI.updateTitleInfo(selectedTitle);
-        }
+        getNetflixTitle();
     }//GEN-LAST:event_rollButtonActionPerformed
 
     private void HowToUseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HowToUseButtonActionPerformed
@@ -689,7 +678,7 @@ public class HomeGUI extends javax.swing.JFrame {
             }
         }
 
-        if (selectedGenres.size() == 0) {
+        if (selectedGenres.isEmpty()) {
             displayErrorMessage("Please select at least one genre.", "Invalid input");
             return null;
         }
@@ -716,6 +705,21 @@ public class HomeGUI extends javax.swing.JFrame {
         netflixLibrary.setQueryGenres(getSelectedGenres());
         netflixLibrary.setQueryTitleType(getSelectedTitleType());
 
+    }
+
+    /**
+     * Get Netflix title with the selected values.
+     */
+    private void getNetflixTitle() {
+        JSONArray netflixTitles;
+        netflixTitles = netflixLibrary.fetchTitles();
+
+        // Pick a title and display it.
+        if (netflixTitles != null) {
+            JSONObject selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
+            selectedTitleGUI.updateTitleInfo(selectedTitle);
+            selectedTitleGUI.setParentFrame(this);
+        }
     }
 
     /**
@@ -766,10 +770,8 @@ public class HomeGUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new HomeGUI().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new HomeGUI().setVisible(true);
         });
     }
 
