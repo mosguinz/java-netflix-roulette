@@ -123,12 +123,14 @@ public class HomeGUI extends javax.swing.JFrame {
         genreClearSelectionButton = new javax.swing.JButton();
         genreCheckBoxArea = new javax.swing.JPanel();
         rollButton = new javax.swing.JButton();
-        titleTypeSelectionLabel4 = new javax.swing.JLabel();
-        ratingSelectionArea = new javax.swing.JPanel();
-        titleTypeSelectionLabel3 = new javax.swing.JLabel();
-        titleTypeSelectionLabel2 = new javax.swing.JLabel();
-        jSlider1 = new javax.swing.JSlider();
-        jSlider2 = new javax.swing.JSlider();
+        RatingsSelectionLabel = new javax.swing.JLabel();
+        ratingsSelectionArea = new javax.swing.JPanel();
+        minimumRatingLabel = new javax.swing.JLabel();
+        minimumRatingValueLabel = new javax.swing.JLabel();
+        minimumRatingSlider = new javax.swing.JSlider();
+        maximumRatingLabel = new javax.swing.JLabel();
+        maximumRatingValueLabel = new javax.swing.JLabel();
+        maximumRatingSlider = new javax.swing.JSlider();
         MenuBar = new javax.swing.JMenuBar();
         HelpMenu = new javax.swing.JMenu();
         HowToUseButton = new javax.swing.JMenuItem();
@@ -549,56 +551,87 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 0);
         getContentPane().add(rollButton, gridBagConstraints);
 
-        titleTypeSelectionLabel4.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
-        titleTypeSelectionLabel4.setText("Viewer ratings");
+        RatingsSelectionLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
+        RatingsSelectionLabel.setText("Viewer ratings");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 20, 5, 0);
-        getContentPane().add(titleTypeSelectionLabel4, gridBagConstraints);
+        getContentPane().add(RatingsSelectionLabel, gridBagConstraints);
 
-        ratingSelectionArea.setLayout(new java.awt.GridBagLayout());
+        ratingsSelectionArea.setLayout(new java.awt.GridBagLayout());
 
-        titleTypeSelectionLabel3.setFont(new java.awt.Font("Helvetica Neue World", 0, 14)); // NOI18N
-        titleTypeSelectionLabel3.setText("Maximum");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
-        ratingSelectionArea.add(titleTypeSelectionLabel3, gridBagConstraints);
-
-        titleTypeSelectionLabel2.setFont(new java.awt.Font("Helvetica Neue World", 0, 14)); // NOI18N
-        titleTypeSelectionLabel2.setText("Minimum");
+        minimumRatingLabel.setFont(new java.awt.Font("Helvetica Neue World", 0, 14)); // NOI18N
+        minimumRatingLabel.setText("Minimum");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
-        ratingSelectionArea.add(titleTypeSelectionLabel2, gridBagConstraints);
+        ratingsSelectionArea.add(minimumRatingLabel, gridBagConstraints);
 
-        jSlider1.setMajorTickSpacing(5);
-        jSlider1.setMaximum(10);
-        jSlider1.setMinorTickSpacing(1);
-        jSlider1.setPaintTicks(true);
+        minimumRatingValueLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
+        minimumRatingValueLabel.setText("0.0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
-        ratingSelectionArea.add(jSlider1, gridBagConstraints);
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        ratingsSelectionArea.add(minimumRatingValueLabel, gridBagConstraints);
 
-        jSlider2.setMajorTickSpacing(5);
-        jSlider2.setMaximum(10);
-        jSlider2.setMinorTickSpacing(1);
-        jSlider2.setPaintTicks(true);
-        jSlider2.setMaximumSize(new java.awt.Dimension(200, 36));
-        jSlider2.setMinimumSize(new java.awt.Dimension(200, 36));
+        minimumRatingSlider.setMajorTickSpacing(5);
+        minimumRatingSlider.setMaximum(10);
+        minimumRatingSlider.setMinorTickSpacing(1);
+        minimumRatingSlider.setPaintTicks(true);
+        minimumRatingSlider.setValue(0);
+        minimumRatingSlider.setMaximumSize(new java.awt.Dimension(200, 36));
+        minimumRatingSlider.setMinimumSize(new java.awt.Dimension(200, 36));
+        minimumRatingSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                minimumRatingSliderStateChanged(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        ratingSelectionArea.add(jSlider2, gridBagConstraints);
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        ratingsSelectionArea.add(minimumRatingSlider, gridBagConstraints);
+
+        maximumRatingLabel.setFont(new java.awt.Font("Helvetica Neue World", 0, 14)); // NOI18N
+        maximumRatingLabel.setText("Maximum");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 0);
+        ratingsSelectionArea.add(maximumRatingLabel, gridBagConstraints);
+
+        maximumRatingValueLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
+        maximumRatingValueLabel.setText("10.0");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        ratingsSelectionArea.add(maximumRatingValueLabel, gridBagConstraints);
+
+        maximumRatingSlider.setMajorTickSpacing(5);
+        maximumRatingSlider.setMaximum(10);
+        maximumRatingSlider.setMinorTickSpacing(1);
+        maximumRatingSlider.setPaintTicks(true);
+        maximumRatingSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                maximumRatingSliderStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        ratingsSelectionArea.add(maximumRatingSlider, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -606,7 +639,7 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
-        getContentPane().add(ratingSelectionArea, gridBagConstraints);
+        getContentPane().add(ratingsSelectionArea, gridBagConstraints);
 
         HelpMenu.setText("Help");
 
@@ -693,6 +726,14 @@ public class HomeGUI extends javax.swing.JFrame {
             LoggingUtil.logException(LOGGER, e, "Something went wrong. Could not open broswer.");
         }
     }//GEN-LAST:event_goToRepoButtonActionPerformed
+
+    private void minimumRatingSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_minimumRatingSliderStateChanged
+        minimumRatingValueLabel.setText(String.format("%.1f", (float) minimumRatingSlider.getValue()));
+    }//GEN-LAST:event_minimumRatingSliderStateChanged
+
+    private void maximumRatingSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_maximumRatingSliderStateChanged
+        maximumRatingValueLabel.setText(String.format("%.1f", (float) maximumRatingSlider.getValue()));
+    }//GEN-LAST:event_maximumRatingSliderStateChanged
 
     /**
      * Bring up a dialog that displays an error message.
@@ -853,6 +894,7 @@ public class HomeGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem HowToUseButton;
     private javax.swing.JLabel LicenseLabel;
     private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JLabel RatingsSelectionLabel;
     private javax.swing.JDialog aboutDialog;
     private javax.swing.JButton aboutDialogOKButton;
     private javax.swing.JLabel aboutHeader;
@@ -879,11 +921,15 @@ public class HomeGUI extends javax.swing.JFrame {
     private javax.swing.JButton howToUseDialogOKButton;
     private javax.swing.JLabel howToUseInfo;
     private javax.swing.JLabel howToUseLabel;
-    private javax.swing.JSlider jSlider1;
-    private javax.swing.JSlider jSlider2;
     private javax.swing.JLabel licenseInfo;
+    private javax.swing.JLabel maximumRatingLabel;
+    private javax.swing.JSlider maximumRatingSlider;
+    private javax.swing.JLabel maximumRatingValueLabel;
+    private javax.swing.JLabel minimumRatingLabel;
+    private javax.swing.JSlider minimumRatingSlider;
+    private javax.swing.JLabel minimumRatingValueLabel;
     private javax.swing.JRadioButton moviesButton;
-    private javax.swing.JPanel ratingSelectionArea;
+    private javax.swing.JPanel ratingsSelectionArea;
     private javax.swing.JLabel regionSelectionLabel;
     private javax.swing.JComboBox<String> regionSelectionMenu;
     private javax.swing.JButton rollButton;
@@ -891,9 +937,6 @@ public class HomeGUI extends javax.swing.JFrame {
     private javax.swing.JLabel titleLabel;
     private javax.swing.JPanel titleTypeSelectionButtonArea;
     private javax.swing.JLabel titleTypeSelectionLabel;
-    private javax.swing.JLabel titleTypeSelectionLabel2;
-    private javax.swing.JLabel titleTypeSelectionLabel3;
-    private javax.swing.JLabel titleTypeSelectionLabel4;
     private javax.swing.ButtonGroup typeButtonGroup;
     // End of variables declaration//GEN-END:variables
 }
