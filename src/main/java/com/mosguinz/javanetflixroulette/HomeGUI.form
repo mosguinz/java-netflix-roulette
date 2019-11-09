@@ -456,7 +456,7 @@
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="getRegionNames()" type="code"/>
         </Property>
-        <Property name="toolTipText" type="java.lang.String" value="Select your Netflix region"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Select your Netflix region&lt;br&gt;&#xa;See the help menu (F1) for more info"/>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[200, 32]"/>
         </Property>
@@ -506,6 +506,7 @@
             </Property>
             <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="Any"/>
+            <Property name="toolTipText" type="java.lang.String" value="Include any type of titles"/>
             <Property name="actionCommand" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="&quot;Any&quot;" type="code"/>
             </Property>
@@ -517,6 +518,7 @@
               <ComponentRef name="typeButtonGroup"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Movie"/>
+            <Property name="toolTipText" type="java.lang.String" value="Only include titles that are movies"/>
             <Property name="actionCommand" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="&quot;Movie&quot;" type="code"/>
             </Property>
@@ -528,6 +530,7 @@
               <ComponentRef name="typeButtonGroup"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Series"/>
+            <Property name="toolTipText" type="java.lang.String" value="Only include titles that are series"/>
             <Property name="actionCommand" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="&quot;Series&quot;" type="code"/>
             </Property>
@@ -564,6 +567,7 @@
         <Component class="javax.swing.JButton" name="genreSelectAllButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Select all"/>
+            <Property name="toolTipText" type="java.lang.String" value="Select all available genres"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[117, 25]"/>
             </Property>
@@ -582,6 +586,7 @@
         <Component class="javax.swing.JButton" name="genreClearSelectionButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Clear selection"/>
+            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Unselect all available genres&lt;br&gt;Helpful when you&apos;re looking for specific genres"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="genreClearSelectionButtonActionPerformed"/>

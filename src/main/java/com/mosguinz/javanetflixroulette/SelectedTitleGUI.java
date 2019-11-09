@@ -96,6 +96,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         titlePosterImage.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
         titlePosterImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titlePosterImage.setText("Title poster image");
+        titlePosterImage.setToolTipText("Poster image");
         titlePosterImage.setPreferredSize(new java.awt.Dimension(166, 233));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

@@ -425,7 +425,7 @@ public class HomeGUI extends javax.swing.JFrame {
 
         regionSelectionMenu.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
         regionSelectionMenu.setModel(getRegionNames());
-        regionSelectionMenu.setToolTipText("Select your Netflix region");
+        regionSelectionMenu.setToolTipText("<html>Select your Netflix region<br>\nSee the help menu (F1) for more info");
         regionSelectionMenu.setMinimumSize(new java.awt.Dimension(200, 32));
         regionSelectionMenu.setPreferredSize(new java.awt.Dimension(200, 32));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -450,16 +450,19 @@ public class HomeGUI extends javax.swing.JFrame {
         typeButtonGroup.add(anyTitleTypeButton);
         anyTitleTypeButton.setSelected(true);
         anyTitleTypeButton.setText("Any");
+        anyTitleTypeButton.setToolTipText("Include any type of titles");
         anyTitleTypeButton.setActionCommand("Any");
         titleTypeSelectionButtonArea.add(anyTitleTypeButton);
 
         typeButtonGroup.add(moviesButton);
         moviesButton.setText("Movie");
+        moviesButton.setToolTipText("Only include titles that are movies");
         moviesButton.setActionCommand("Movie");
         titleTypeSelectionButtonArea.add(moviesButton);
 
         typeButtonGroup.add(seriesButton);
         seriesButton.setText("Series");
+        seriesButton.setToolTipText("Only include titles that are series");
         seriesButton.setActionCommand("Series");
         titleTypeSelectionButtonArea.add(seriesButton);
 
@@ -482,6 +485,7 @@ public class HomeGUI extends javax.swing.JFrame {
         genreSelectionToggle.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
 
         genreSelectAllButton.setText("Select all");
+        genreSelectAllButton.setToolTipText("Select all available genres");
         genreSelectAllButton.setMaximumSize(new java.awt.Dimension(117, 25));
         genreSelectAllButton.setMinimumSize(new java.awt.Dimension(117, 25));
         genreSelectAllButton.setOpaque(false);
@@ -494,6 +498,7 @@ public class HomeGUI extends javax.swing.JFrame {
         genreSelectionToggle.add(genreSelectAllButton);
 
         genreClearSelectionButton.setText("Clear selection");
+        genreClearSelectionButton.setToolTipText("<html>Unselect all available genres<br>Helpful when you're looking for specific genres");
         genreClearSelectionButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 genreClearSelectionButtonActionPerformed(evt);
