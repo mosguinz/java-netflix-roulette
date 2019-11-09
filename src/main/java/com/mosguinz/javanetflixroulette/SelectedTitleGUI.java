@@ -169,6 +169,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         buttonPanel.add(watchOnNetflixButton, gridBagConstraints);
 
         returnToMainButton.setText("Return to Main");
+        returnToMainButton.setToolTipText("Return to main menu to select new filters");
         returnToMainButton.setMaximumSize(new java.awt.Dimension(125, 25));
         returnToMainButton.setMinimumSize(new java.awt.Dimension(125, 25));
         returnToMainButton.setPreferredSize(new java.awt.Dimension(125, 25));
@@ -184,9 +185,10 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         buttonPanel.add(returnToMainButton, gridBagConstraints);
 
         rerollButton.setText("Reroll");
-        rerollButton.setMaximumSize(new java.awt.Dimension(79, 50));
-        rerollButton.setMinimumSize(new java.awt.Dimension(79, 50));
-        rerollButton.setPreferredSize(new java.awt.Dimension(79, 50));
+        rerollButton.setToolTipText("Roll again...");
+        rerollButton.setMaximumSize(new java.awt.Dimension(110, 50));
+        rerollButton.setMinimumSize(new java.awt.Dimension(110, 50));
+        rerollButton.setPreferredSize(new java.awt.Dimension(110, 50));
         rerollButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rerollButtonActionPerformed(evt);
@@ -251,7 +253,13 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void rerollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rerollButtonActionPerformed
+
+        rerollButton.setText("Rolling...");
+        rerollButton.setEnabled(false);
+        rerollButton.paintImmediately(rerollButton.getVisibleRect());
         parentFrame.getNetflixTitle();
+        rerollButton.setText("Reroll");
+        rerollButton.setEnabled(true);
     }//GEN-LAST:event_rerollButtonActionPerformed
 
     /**

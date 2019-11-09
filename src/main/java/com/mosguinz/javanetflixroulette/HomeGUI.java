@@ -529,6 +529,9 @@ public class HomeGUI extends javax.swing.JFrame {
 
         rollButton.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
         rollButton.setText("Roll");
+        rollButton.setMaximumSize(new java.awt.Dimension(100, 35));
+        rollButton.setMinimumSize(new java.awt.Dimension(100, 35));
+        rollButton.setPreferredSize(new java.awt.Dimension(100, 35));
         rollButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rollButtonActionPerformed(evt);
@@ -571,8 +574,13 @@ public class HomeGUI extends javax.swing.JFrame {
 
     private void rollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rollButtonActionPerformed
         LOGGER.log(Level.FINE, "Roll button pressed");
+        rollButton.setText("Rolling...");
+        rollButton.setEnabled(false);
+        rollButton.paintImmediately(rollButton.getVisibleRect());
         setQueryValues();
         getNetflixTitle();
+        rollButton.setText("Roll");
+        rollButton.setEnabled(true);
     }//GEN-LAST:event_rollButtonActionPerformed
 
     private void HowToUseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HowToUseButtonActionPerformed
