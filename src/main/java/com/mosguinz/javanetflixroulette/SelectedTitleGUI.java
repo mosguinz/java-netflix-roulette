@@ -253,7 +253,6 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void rerollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rerollButtonActionPerformed
-
         rerollButton.setText("Rolling...");
         rerollButton.setEnabled(false);
         rerollButton.paintImmediately(rerollButton.getVisibleRect());

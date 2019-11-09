@@ -423,7 +423,6 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 0);
         getContentPane().add(regionSelectionLabel, gridBagConstraints);
 
-        regionSelectionMenu.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
         regionSelectionMenu.setModel(getRegionNames());
         regionSelectionMenu.setToolTipText("<html>Select your Netflix region<br>\nSee the help menu (F1) for more info");
         regionSelectionMenu.setMinimumSize(new java.awt.Dimension(200, 32));
@@ -527,7 +526,6 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
         getContentPane().add(genreCheckBoxArea, gridBagConstraints);
 
-        rollButton.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
         rollButton.setText("Roll");
         rollButton.setMaximumSize(new java.awt.Dimension(100, 35));
         rollButton.setMinimumSize(new java.awt.Dimension(100, 35));
