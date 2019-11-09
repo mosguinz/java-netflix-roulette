@@ -569,10 +569,17 @@ public class NetflixLibrary {
      * for this endpoint's documentation
      */
     private void getTitlesQueryString() {
-        LOGGER.log(Level.INFO, "Creating a query string to look for titles that are available in: {0}.", queryRegion);
+        LOGGER.log(Level.INFO, "Creating a query string to look for titles that matches the following parameters:\n"
+                + "Netflix region: {0}\n"
+                + "Genres: {1}\n"
+                + "Title type: {2}",
+                new Object[]{queryRegion, queryGenres.toString(), queryTitleType});
+
         String genreIDs = getGenreIDs();
         String regionID = getRegionID();
-        titlesQueryString = ("q=-!0%2C3000-!0%2C10-!0%2C10-!" + genreIDs + "-!Any-!"
+
+        // Note the query title type does not need to be decoded into IDs
+        titlesQueryString = ("q=-!0%2C3000-!0%2C10-!0%2C10-!" + genreIDs + "-!" + queryTitleType + "-!"
                 + "Any-!Any-!-!&t=ns&cl=" + regionID + "&st=adv&ob=Relevance&p=1&sa=or");
 
     }
