@@ -581,9 +581,8 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         ratingsSelectionArea.add(minimumRatingValueLabel, gridBagConstraints);
 
-        minimumRatingSlider.setMajorTickSpacing(5);
-        minimumRatingSlider.setMaximum(10);
-        minimumRatingSlider.setMinorTickSpacing(1);
+        minimumRatingSlider.setMajorTickSpacing(50);
+        minimumRatingSlider.setMinorTickSpacing(10);
         minimumRatingSlider.setPaintTicks(true);
         minimumRatingSlider.setValue(0);
         minimumRatingSlider.setMaximumSize(new java.awt.Dimension(200, 36));
@@ -617,10 +616,10 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         ratingsSelectionArea.add(maximumRatingValueLabel, gridBagConstraints);
 
-        maximumRatingSlider.setMajorTickSpacing(5);
-        maximumRatingSlider.setMaximum(10);
-        maximumRatingSlider.setMinorTickSpacing(1);
+        maximumRatingSlider.setMajorTickSpacing(50);
+        maximumRatingSlider.setMinorTickSpacing(10);
         maximumRatingSlider.setPaintTicks(true);
+        maximumRatingSlider.setValue(100);
         maximumRatingSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 maximumRatingSliderStateChanged(evt);
@@ -728,11 +727,11 @@ public class HomeGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_goToRepoButtonActionPerformed
 
     private void minimumRatingSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_minimumRatingSliderStateChanged
-        minimumRatingValueLabel.setText(String.format("%.1f", (float) minimumRatingSlider.getValue()));
+        minimumRatingValueLabel.setText(String.format("%.1f", (float) minimumRatingSlider.getValue() / 10));
     }//GEN-LAST:event_minimumRatingSliderStateChanged
 
     private void maximumRatingSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_maximumRatingSliderStateChanged
-        maximumRatingValueLabel.setText(String.format("%.1f", (float) maximumRatingSlider.getValue()));
+        maximumRatingValueLabel.setText(String.format("%.1f", (float) maximumRatingSlider.getValue() / 10));
     }//GEN-LAST:event_maximumRatingSliderStateChanged
 
     /**

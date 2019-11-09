@@ -685,9 +685,8 @@
         </Component>
         <Component class="javax.swing.JSlider" name="minimumRatingSlider">
           <Properties>
-            <Property name="majorTickSpacing" type="int" value="5"/>
-            <Property name="maximum" type="int" value="10"/>
-            <Property name="minorTickSpacing" type="int" value="1"/>
+            <Property name="majorTickSpacing" type="int" value="50"/>
+            <Property name="minorTickSpacing" type="int" value="10"/>
             <Property name="paintTicks" type="boolean" value="true"/>
             <Property name="value" type="int" value="0"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -734,10 +733,10 @@
         </Component>
         <Component class="javax.swing.JSlider" name="maximumRatingSlider">
           <Properties>
-            <Property name="majorTickSpacing" type="int" value="5"/>
-            <Property name="maximum" type="int" value="10"/>
-            <Property name="minorTickSpacing" type="int" value="1"/>
+            <Property name="majorTickSpacing" type="int" value="50"/>
+            <Property name="minorTickSpacing" type="int" value="10"/>
             <Property name="paintTicks" type="boolean" value="true"/>
+            <Property name="value" type="int" value="100"/>
           </Properties>
           <Events>
             <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="maximumRatingSliderStateChanged"/>
