@@ -710,7 +710,7 @@ public class HomeGUI extends javax.swing.JFrame {
     /**
      * Get Netflix title with the selected values.
      */
-    private void getNetflixTitle() {
+    public void getNetflixTitle() {
         JSONArray netflixTitles;
         netflixTitles = netflixLibrary.fetchTitles();
 

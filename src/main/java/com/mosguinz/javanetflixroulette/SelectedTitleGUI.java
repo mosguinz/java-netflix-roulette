@@ -53,7 +53,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
      */
     private static final Logger LOGGER = Logger.getLogger(SelectedTitleGUI.class.getName());
 
-    private static JFrame parentFrame;
+    private static HomeGUI parentFrame;
 
     String netflixID;
     String title;
@@ -187,6 +187,11 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         rerollButton.setMaximumSize(new java.awt.Dimension(79, 50));
         rerollButton.setMinimumSize(new java.awt.Dimension(79, 50));
         rerollButton.setPreferredSize(new java.awt.Dimension(79, 50));
+        rerollButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rerollButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -244,6 +249,10 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         parentFrame.setEnabled(true);
         parentFrame.toFront();
     }//GEN-LAST:event_formWindowClosed
+
+    private void rerollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rerollButtonActionPerformed
+        parentFrame.getNetflixTitle();
+    }//GEN-LAST:event_rerollButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -434,7 +443,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
      * @param frame the parent {@link JFrame} that is the instance of
      * {@link HomeGUI}
      */
-    public void setParentFrame(JFrame frame) {
+    public void setParentFrame(HomeGUI frame) {
         parentFrame = frame;
     }
 
