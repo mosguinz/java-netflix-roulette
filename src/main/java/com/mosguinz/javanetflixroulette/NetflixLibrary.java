@@ -559,12 +559,13 @@ public class NetflixLibrary {
      * {@code q={query}-!{syear},{eyear}-!{snfrate},{enfrate}-!{simdbrate},{eimdbrate}-!{genreid}-!{vtype}-!{audio}-!{subtitle}-!{imdbvotes}-!{downloadable}&t=ns&cl={clist}&st=adv&ob={sortby}&p={page}&sa={andor}}
      * <p>
      * Most of which, can be ignored for the purpose of this application. They
-     * have all been hard-coded to include all of the titles, so that the only
-     * three parameters that will be set by this application -- i.e., region,
-     * genres, and title type -- will be the only factors that filters out the
-     * titles. Which boils the parameters down to:
+     * have all been hard-coded to include all of the titles, so that only the
+     * five parameters that will be set by this application -- i.e., region,
+     * genres, title type, minimum IMDB rating, and maximum IMDB rating -- will
+     * be the only factors that filters out the titles. Which boils the
+     * parameters down to:
      * <p>
-     * {@code q=-!0,3000-!0,10-!0,10-!{GENRE_IDs}-!{TITLE_TYPE}-!Any-!Any-!-!&t=ns&cl={COUNTRY_LIST}&st=adv&ob=Relevance&p=1&sa=or},
+     * {@code q=-!0,3000-!0,10-!{MIN_IMDB_RATING},{MAX_IMDB_RATING}-!{GENRE_IDs}-!{TITLE_TYPE}-!Any-!Any-!-!&t=ns&cl={COUNTRY_LIST}&st=adv&ob=Relevance&p=1&sa=or},
      * where:
      * <ul>
      * <li>{@code GENRE_IDs} is a list of selected genres, represented by their
@@ -573,7 +574,7 @@ public class NetflixLibrary {
      * <li>if all genres are selected, the ID is {@code 0}</li>
      * </ul></li>
      * <li>{@code COUNTRY_LIST} is a list of selected regions, represented by
-     * their IDs and separated by a comma; and
+     * their IDs and separated by a comma;
      * <ul>
      * <li>if all regions are selected, the ID is {@code all}</li>
      * <li>from this application, users can only choose to include all regions
@@ -583,10 +584,17 @@ public class NetflixLibrary {
      * 3166-1 alpha-2 codes, such as {@code US}, {@code NZ}, {@code AU}, etc.,
      * as noted in the API documentation</li>
      * </ul></li>
-     * <li>{@code TITLE_TYPE} is the type of title to include in the results
+     * <li>{@code TITLE_TYPE} is the type of title to include in the results;
+     * and
      * <ul>
      * <li>this value is either {@code Any}, {@code Movie}, or
      * {@code Series}</li>
+     * </ul></li>
+     * <li>{@code MIN_IMDB_RATING} and {@code MAX_IMDB_RATING} are the minimum
+     * and maximum IMDB rating values to include in the results
+     * <ul>
+     * <li>this value is between {@code 0.0} to {@code 10.0} in one decimal
+     * point accuracy (tenths)</li>
      * </ul></li>
      * </ul>
      *
@@ -601,15 +609,17 @@ public class NetflixLibrary {
         LOGGER.log(Level.INFO, "Creating a query string to look for titles that matches the following parameters:\n"
                 + "Netflix region: {0}\n"
                 + "Genres: {1}\n"
-                + "Title type: {2}",
-                new Object[]{queryRegion, queryGenres.toString(), queryTitleType});
+                + "Title type: {2}"
+                + "Minimum rating: {3}"
+                + "Maximum rating: {4}",
+                new Object[]{queryRegion, queryGenres.toString(), queryTitleType, queryMinimumRating, queryMaximumRating});
 
         String genreIDs = getGenreIDs();
         String regionID = getRegionID();
 
-        // Note the query title type does not need to be decoded into IDs
-        titlesQueryString = ("q=-!0%2C3000-!0%2C10-!0%2C10-!" + genreIDs + "-!" + queryTitleType + "-!"
-                + "Any-!Any-!-!&t=ns&cl=" + regionID + "&st=adv&ob=Relevance&p=1&sa=or");
+        // Note that only the genre and regions are needed to be turned into IDs
+        titlesQueryString = ("q=-!0%2C3000-!0%2C10-!" + queryMinimumRating + "%2C" + queryMaximumRating + "-!"
+                + genreIDs + "-!" + queryTitleType + "-!" + "Any-!Any-!-!&t=ns&cl=" + regionID + "&st=adv&ob=Relevance&p=1&sa=or");
 
     }
 
