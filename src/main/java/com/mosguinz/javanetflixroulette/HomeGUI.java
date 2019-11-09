@@ -117,6 +117,14 @@ public class HomeGUI extends javax.swing.JFrame {
         anyTitleTypeButton = new javax.swing.JRadioButton();
         moviesButton = new javax.swing.JRadioButton();
         seriesButton = new javax.swing.JRadioButton();
+        RatingsSelectionLabel = new javax.swing.JLabel();
+        ratingsSelectionArea = new javax.swing.JPanel();
+        minimumRatingLabel = new javax.swing.JLabel();
+        minimumRatingValueLabel = new javax.swing.JLabel();
+        minimumRatingSlider = new javax.swing.JSlider();
+        maximumRatingLabel = new javax.swing.JLabel();
+        maximumRatingValueLabel = new javax.swing.JLabel();
+        maximumRatingSlider = new javax.swing.JSlider();
         genreSelectionLabel = new javax.swing.JLabel();
         genreSelectionToggle = new javax.swing.JPanel();
         genreSelectAllButton = new javax.swing.JButton();
@@ -213,7 +221,6 @@ public class HomeGUI extends javax.swing.JFrame {
         howToUseDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         howToUseDialog.setTitle("Help");
         howToUseDialog.setMinimumSize(new java.awt.Dimension(1000, 640));
-        howToUseDialog.setPreferredSize(new java.awt.Dimension(1000, 640));
         howToUseDialog.setResizable(false);
         howToUseDialog.setType(java.awt.Window.Type.POPUP);
         howToUseDialog.getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -468,15 +475,105 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
         getContentPane().add(titleTypeSelectionButtonArea, gridBagConstraints);
+
+        RatingsSelectionLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
+        RatingsSelectionLabel.setText("Viewer ratings");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 20, 5, 0);
+        getContentPane().add(RatingsSelectionLabel, gridBagConstraints);
+
+        ratingsSelectionArea.setLayout(new java.awt.GridBagLayout());
+
+        minimumRatingLabel.setFont(new java.awt.Font("Helvetica Neue World", 0, 14)); // NOI18N
+        minimumRatingLabel.setText("Minimum");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        ratingsSelectionArea.add(minimumRatingLabel, gridBagConstraints);
+
+        minimumRatingValueLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
+        minimumRatingValueLabel.setText("0.0");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        ratingsSelectionArea.add(minimumRatingValueLabel, gridBagConstraints);
+
+        minimumRatingSlider.setMajorTickSpacing(50);
+        minimumRatingSlider.setMinorTickSpacing(10);
+        minimumRatingSlider.setPaintTicks(true);
+        minimumRatingSlider.setValue(0);
+        minimumRatingSlider.setMaximumSize(new java.awt.Dimension(200, 36));
+        minimumRatingSlider.setMinimumSize(new java.awt.Dimension(200, 36));
+        minimumRatingSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                minimumRatingSliderStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        ratingsSelectionArea.add(minimumRatingSlider, gridBagConstraints);
+
+        maximumRatingLabel.setFont(new java.awt.Font("Helvetica Neue World", 0, 14)); // NOI18N
+        maximumRatingLabel.setText("Maximum");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 0);
+        ratingsSelectionArea.add(maximumRatingLabel, gridBagConstraints);
+
+        maximumRatingValueLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
+        maximumRatingValueLabel.setText("10.0");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        ratingsSelectionArea.add(maximumRatingValueLabel, gridBagConstraints);
+
+        maximumRatingSlider.setMajorTickSpacing(50);
+        maximumRatingSlider.setMinorTickSpacing(10);
+        maximumRatingSlider.setPaintTicks(true);
+        maximumRatingSlider.setValue(100);
+        maximumRatingSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                maximumRatingSliderStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        ratingsSelectionArea.add(maximumRatingSlider, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        getContentPane().add(ratingsSelectionArea, gridBagConstraints);
 
         genreSelectionLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
         genreSelectionLabel.setText("Genres");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 20, 5, 0);
         getContentPane().add(genreSelectionLabel, gridBagConstraints);
@@ -507,7 +604,7 @@ public class HomeGUI extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 0);
         getContentPane().add(genreSelectionToggle, gridBagConstraints);
@@ -520,7 +617,7 @@ public class HomeGUI extends javax.swing.JFrame {
         genreCheckBoxArea.setLayout(new java.awt.GridLayout(5, 4, -2, -2));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
@@ -537,7 +634,7 @@ public class HomeGUI extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 0);
@@ -629,6 +726,14 @@ public class HomeGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_goToRepoButtonActionPerformed
 
+    private void minimumRatingSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_minimumRatingSliderStateChanged
+        minimumRatingValueLabel.setText(String.format("%.1f", (float) minimumRatingSlider.getValue() / 10));
+    }//GEN-LAST:event_minimumRatingSliderStateChanged
+
+    private void maximumRatingSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_maximumRatingSliderStateChanged
+        maximumRatingValueLabel.setText(String.format("%.1f", (float) maximumRatingSlider.getValue() / 10));
+    }//GEN-LAST:event_maximumRatingSliderStateChanged
+
     /**
      * Bring up a dialog that displays an error message.
      *
@@ -703,6 +808,26 @@ public class HomeGUI extends javax.swing.JFrame {
     }
 
     /**
+     * Get the selected value for the minimum rating.
+     *
+     * @return a {@link String} that is the selected value to one decimal point
+     * precision
+     */
+    private String getSelectedMinimumRatingValue() {
+        return minimumRatingValueLabel.getText();
+    }
+
+    /**
+     * Get the selected value for the maximum rating.
+     *
+     * @return a {@link String} that is the selected value to one decimal point
+     * precision
+     */
+    private String getSelectedMaximumRatingValue() {
+        return maximumRatingValueLabel.getText();
+    }
+
+    /**
      * Set the selected values and set them as the query parameters.
      */
     private void setQueryValues() {
@@ -710,6 +835,8 @@ public class HomeGUI extends javax.swing.JFrame {
         netflixLibrary.setQueryRegion(getSelectedRegion());
         netflixLibrary.setQueryGenres(getSelectedGenres());
         netflixLibrary.setQueryTitleType(getSelectedTitleType());
+        netflixLibrary.setQueryMinimumRating(getSelectedMinimumRatingValue());
+        netflixLibrary.setQueryMaximumRating(getSelectedMaximumRatingValue());
 
     }
 
@@ -788,6 +915,7 @@ public class HomeGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem HowToUseButton;
     private javax.swing.JLabel LicenseLabel;
     private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JLabel RatingsSelectionLabel;
     private javax.swing.JDialog aboutDialog;
     private javax.swing.JButton aboutDialogOKButton;
     private javax.swing.JLabel aboutHeader;
@@ -815,7 +943,14 @@ public class HomeGUI extends javax.swing.JFrame {
     private javax.swing.JLabel howToUseInfo;
     private javax.swing.JLabel howToUseLabel;
     private javax.swing.JLabel licenseInfo;
+    private javax.swing.JLabel maximumRatingLabel;
+    private javax.swing.JSlider maximumRatingSlider;
+    private javax.swing.JLabel maximumRatingValueLabel;
+    private javax.swing.JLabel minimumRatingLabel;
+    private javax.swing.JSlider minimumRatingSlider;
+    private javax.swing.JLabel minimumRatingValueLabel;
     private javax.swing.JRadioButton moviesButton;
+    private javax.swing.JPanel ratingsSelectionArea;
     private javax.swing.JLabel regionSelectionLabel;
     private javax.swing.JComboBox<String> regionSelectionMenu;
     private javax.swing.JButton rollButton;
