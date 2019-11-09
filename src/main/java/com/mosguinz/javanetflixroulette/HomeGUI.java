@@ -117,12 +117,6 @@ public class HomeGUI extends javax.swing.JFrame {
         anyTitleTypeButton = new javax.swing.JRadioButton();
         moviesButton = new javax.swing.JRadioButton();
         seriesButton = new javax.swing.JRadioButton();
-        genreSelectionLabel = new javax.swing.JLabel();
-        genreSelectionToggle = new javax.swing.JPanel();
-        genreSelectAllButton = new javax.swing.JButton();
-        genreClearSelectionButton = new javax.swing.JButton();
-        genreCheckBoxArea = new javax.swing.JPanel();
-        rollButton = new javax.swing.JButton();
         RatingsSelectionLabel = new javax.swing.JLabel();
         ratingsSelectionArea = new javax.swing.JPanel();
         minimumRatingLabel = new javax.swing.JLabel();
@@ -131,6 +125,12 @@ public class HomeGUI extends javax.swing.JFrame {
         maximumRatingLabel = new javax.swing.JLabel();
         maximumRatingValueLabel = new javax.swing.JLabel();
         maximumRatingSlider = new javax.swing.JSlider();
+        genreSelectionLabel = new javax.swing.JLabel();
+        genreSelectionToggle = new javax.swing.JPanel();
+        genreSelectAllButton = new javax.swing.JButton();
+        genreClearSelectionButton = new javax.swing.JButton();
+        genreCheckBoxArea = new javax.swing.JPanel();
+        rollButton = new javax.swing.JButton();
         MenuBar = new javax.swing.JMenuBar();
         HelpMenu = new javax.swing.JMenu();
         HowToUseButton = new javax.swing.JMenuItem();
@@ -480,77 +480,6 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
         getContentPane().add(titleTypeSelectionButtonArea, gridBagConstraints);
 
-        genreSelectionLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
-        genreSelectionLabel.setText("Genres");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 20, 5, 0);
-        getContentPane().add(genreSelectionLabel, gridBagConstraints);
-
-        genreSelectionToggle.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
-
-        genreSelectAllButton.setText("Select all");
-        genreSelectAllButton.setToolTipText("Select all available genres");
-        genreSelectAllButton.setMaximumSize(new java.awt.Dimension(117, 25));
-        genreSelectAllButton.setMinimumSize(new java.awt.Dimension(117, 25));
-        genreSelectAllButton.setOpaque(false);
-        genreSelectAllButton.setPreferredSize(new java.awt.Dimension(117, 25));
-        genreSelectAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genreSelectAllButtonActionPerformed(evt);
-            }
-        });
-        genreSelectionToggle.add(genreSelectAllButton);
-
-        genreClearSelectionButton.setText("Clear selection");
-        genreClearSelectionButton.setToolTipText("<html>Unselect all available genres<br>Helpful when you're looking for specific genres");
-        genreClearSelectionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genreClearSelectionButtonActionPerformed(evt);
-            }
-        });
-        genreSelectionToggle.add(genreClearSelectionButton);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 0);
-        getContentPane().add(genreSelectionToggle, gridBagConstraints);
-
-        genreCheckBoxArea.setAlignmentX(0.0F);
-        genreCheckBoxArea.setAlignmentY(0.0F);
-        genreCheckBoxArea.setMinimumSize(new java.awt.Dimension(850, 150));
-        genreCheckBoxArea.setName(""); // NOI18N
-        genreCheckBoxArea.setPreferredSize(new java.awt.Dimension(850, 150));
-        genreCheckBoxArea.setLayout(new java.awt.GridLayout(5, 4, -2, -2));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
-        getContentPane().add(genreCheckBoxArea, gridBagConstraints);
-
-        rollButton.setText("Roll");
-        rollButton.setMaximumSize(new java.awt.Dimension(100, 35));
-        rollButton.setMinimumSize(new java.awt.Dimension(100, 35));
-        rollButton.setPreferredSize(new java.awt.Dimension(100, 35));
-        rollButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rollButtonActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 0);
-        getContentPane().add(rollButton, gridBagConstraints);
-
         RatingsSelectionLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
         RatingsSelectionLabel.setText("Viewer ratings");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -639,6 +568,77 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
         getContentPane().add(ratingsSelectionArea, gridBagConstraints);
+
+        genreSelectionLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 18)); // NOI18N
+        genreSelectionLabel.setText("Genres");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 20, 5, 0);
+        getContentPane().add(genreSelectionLabel, gridBagConstraints);
+
+        genreSelectionToggle.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
+
+        genreSelectAllButton.setText("Select all");
+        genreSelectAllButton.setToolTipText("Select all available genres");
+        genreSelectAllButton.setMaximumSize(new java.awt.Dimension(117, 25));
+        genreSelectAllButton.setMinimumSize(new java.awt.Dimension(117, 25));
+        genreSelectAllButton.setOpaque(false);
+        genreSelectAllButton.setPreferredSize(new java.awt.Dimension(117, 25));
+        genreSelectAllButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genreSelectAllButtonActionPerformed(evt);
+            }
+        });
+        genreSelectionToggle.add(genreSelectAllButton);
+
+        genreClearSelectionButton.setText("Clear selection");
+        genreClearSelectionButton.setToolTipText("<html>Unselect all available genres<br>Helpful when you're looking for specific genres");
+        genreClearSelectionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genreClearSelectionButtonActionPerformed(evt);
+            }
+        });
+        genreSelectionToggle.add(genreClearSelectionButton);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 0);
+        getContentPane().add(genreSelectionToggle, gridBagConstraints);
+
+        genreCheckBoxArea.setAlignmentX(0.0F);
+        genreCheckBoxArea.setAlignmentY(0.0F);
+        genreCheckBoxArea.setMinimumSize(new java.awt.Dimension(850, 150));
+        genreCheckBoxArea.setName(""); // NOI18N
+        genreCheckBoxArea.setPreferredSize(new java.awt.Dimension(850, 150));
+        genreCheckBoxArea.setLayout(new java.awt.GridLayout(5, 4, -2, -2));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        getContentPane().add(genreCheckBoxArea, gridBagConstraints);
+
+        rollButton.setText("Roll");
+        rollButton.setMaximumSize(new java.awt.Dimension(100, 35));
+        rollButton.setMinimumSize(new java.awt.Dimension(100, 35));
+        rollButton.setPreferredSize(new java.awt.Dimension(100, 35));
+        rollButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rollButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 0);
+        getContentPane().add(rollButton, gridBagConstraints);
 
         HelpMenu.setText("Help");
 

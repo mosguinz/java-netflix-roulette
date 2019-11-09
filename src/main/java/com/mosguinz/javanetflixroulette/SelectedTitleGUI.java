@@ -83,10 +83,10 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        titlePosterImage = new javax.swing.JLabel();
-        titleSubtext = new javax.swing.JLabel();
         titleName = new javax.swing.JLabel();
+        titleSubtext = new javax.swing.JLabel();
         titleSynopsis = new javax.swing.JLabel();
+        titlePosterImage = new javax.swing.JLabel();
         buttonPanel = new javax.swing.JPanel();
         watchOnNetflixButton = new javax.swing.JButton();
         returnToMainButton = new javax.swing.JButton();
@@ -103,32 +103,6 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        titlePosterImage.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
-        titlePosterImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        titlePosterImage.setText("Title poster image");
-        titlePosterImage.setToolTipText("Poster image");
-        titlePosterImage.setPreferredSize(new java.awt.Dimension(166, 233));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 24, 0, 24);
-        getContentPane().add(titlePosterImage, gridBagConstraints);
-
-        titleSubtext.setFont(new java.awt.Font("Helvetica Neue World", 0, 14)); // NOI18N
-        titleSubtext.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        titleSubtext.setText("Year · runtime");
-        titleSubtext.setPreferredSize(new java.awt.Dimension(420, 27));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 24);
-        getContentPane().add(titleSubtext, gridBagConstraints);
-
         titleName.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
         titleName.setText("Title name");
         titleName.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
@@ -142,6 +116,18 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 24);
         getContentPane().add(titleName, gridBagConstraints);
 
+        titleSubtext.setFont(new java.awt.Font("Helvetica Neue World", 0, 14)); // NOI18N
+        titleSubtext.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        titleSubtext.setText("Year · runtime");
+        titleSubtext.setPreferredSize(new java.awt.Dimension(420, 27));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 24);
+        getContentPane().add(titleSubtext, gridBagConstraints);
+
         titleSynopsis.setFont(new java.awt.Font("Helvetica Neue World", 0, 14)); // NOI18N
         titleSynopsis.setText("Title synopsis");
         titleSynopsis.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -153,6 +139,20 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 24);
         getContentPane().add(titleSynopsis, gridBagConstraints);
+
+        titlePosterImage.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
+        titlePosterImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titlePosterImage.setText("Title poster image");
+        titlePosterImage.setToolTipText("Poster image");
+        titlePosterImage.setPreferredSize(new java.awt.Dimension(166, 233));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 24, 0, 24);
+        getContentPane().add(titlePosterImage, gridBagConstraints);
 
         buttonPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -201,9 +201,8 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         buttonPanel.add(rerollButton, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 24);
