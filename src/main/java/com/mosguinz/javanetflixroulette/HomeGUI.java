@@ -124,8 +124,6 @@ public class HomeGUI extends javax.swing.JFrame {
         genreCheckBoxArea = new javax.swing.JPanel();
         rollButton = new javax.swing.JButton();
         MenuBar = new javax.swing.JMenuBar();
-        FileMenu = new javax.swing.JMenu();
-        SettingsButton = new javax.swing.JMenuItem();
         HelpMenu = new javax.swing.JMenu();
         HowToUseButton = new javax.swing.JMenuItem();
         AboutButton = new javax.swing.JMenuItem();
@@ -430,11 +428,6 @@ public class HomeGUI extends javax.swing.JFrame {
         regionSelectionMenu.setToolTipText("Select your Netflix region");
         regionSelectionMenu.setMinimumSize(new java.awt.Dimension(200, 32));
         regionSelectionMenu.setPreferredSize(new java.awt.Dimension(200, 32));
-        regionSelectionMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                regionSelectionMenuActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -544,18 +537,6 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 0);
         getContentPane().add(rollButton, gridBagConstraints);
 
-        FileMenu.setText("File");
-
-        SettingsButton.setText("Settings");
-        SettingsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SettingsButtonActionPerformed(evt);
-            }
-        });
-        FileMenu.add(SettingsButton);
-
-        MenuBar.add(FileMenu);
-
         HelpMenu.setText("Help");
 
         HowToUseButton.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
@@ -605,10 +586,6 @@ public class HomeGUI extends javax.swing.JFrame {
         howToUseDialog.setLocationRelativeTo(null);
     }//GEN-LAST:event_HowToUseButtonActionPerformed
 
-    private void SettingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SettingsButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SettingsButtonActionPerformed
-
     private void AboutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutButtonActionPerformed
         aboutDialog.setVisible(true);
         aboutDialog.setLocationRelativeTo(null);
@@ -617,10 +594,6 @@ public class HomeGUI extends javax.swing.JFrame {
     private void aboutDialogOKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutDialogOKButtonActionPerformed
         aboutDialog.dispose();
     }//GEN-LAST:event_aboutDialogOKButtonActionPerformed
-
-    private void regionSelectionMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regionSelectionMenuActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_regionSelectionMenuActionPerformed
 
     private void genreClearSelectionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genreClearSelectionButtonActionPerformed
         for (JCheckBox genre : genreCheckBoxes) {
@@ -797,12 +770,10 @@ public class HomeGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AboutButton;
-    private javax.swing.JMenu FileMenu;
     private javax.swing.JMenu HelpMenu;
     private javax.swing.JMenuItem HowToUseButton;
     private javax.swing.JLabel LicenseLabel;
     private javax.swing.JMenuBar MenuBar;
-    private javax.swing.JMenuItem SettingsButton;
     private javax.swing.JDialog aboutDialog;
     private javax.swing.JButton aboutDialogOKButton;
     private javax.swing.JLabel aboutHeader;
