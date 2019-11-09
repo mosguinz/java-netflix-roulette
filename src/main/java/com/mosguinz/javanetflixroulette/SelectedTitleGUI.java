@@ -305,6 +305,7 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         // Display poster image for selected title.
         setTitleInfo();
         setTitlePosterImage();
+        updateTextLabels();
         this.setVisible(true);
     }
 
@@ -364,6 +365,16 @@ public class SelectedTitleGUI extends javax.swing.JFrame {
         titleSubtext.setText(subtext);
         LOGGER.log(Level.FINER, "Adding synopsis");
         titleSynopsis.setText("<html><p style=\"line-height: 2%;\">" + synopsis + "</p></html>");
+
+    }
+
+    /**
+     * Update the window title and tooltip texts.
+     */
+    private void updateTextLabels() {
+        watchOnNetflixButton.setToolTipText("<html>Watch <i>" + title + "</i> on Netflix");
+        titlePosterImage.setToolTipText("<html>Poster image for <i>" + title + "</i>");
+        this.setTitle("Selected title: " + title);
 
     }
 
