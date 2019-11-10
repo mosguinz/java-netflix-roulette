@@ -853,7 +853,11 @@ public class HomeGUI extends javax.swing.JFrame {
         rollButton.setEnabled(false);
         rollButton.paintImmediately(rollButton.getVisibleRect());
         setQueryValues();
-        getNetflixTitle();
+
+        if (ratingValuesIsValid()) {
+            getNetflixTitle();
+        }
+
         rollButton.setText("Roll");
         rollButton.setEnabled(true);
     }//GEN-LAST:event_rollButtonActionPerformed
@@ -1029,6 +1033,20 @@ public class HomeGUI extends javax.swing.JFrame {
      */
     private String getSelectedMaximumRatingValue() {
         return maximumRatingValueLabel.getText();
+    }
+
+    /**
+     * Verify if the provided input for ratings are valid.
+     *
+     * @return {@code true} if valid; {@code false} otherwise
+     */
+    private boolean ratingValuesIsValid() {
+        if (minimumRatingSlider.getValue() > maximumRatingSlider.getValue()) {
+            displayErrorMessage("The minimum rating value must be less than the maximum rating value.",
+                    "Invalid input");
+            return false;
+        }
+        return true;
     }
 
     /**
