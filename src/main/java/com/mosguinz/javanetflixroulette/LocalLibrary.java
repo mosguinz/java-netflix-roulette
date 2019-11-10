@@ -60,18 +60,18 @@ public class LocalLibrary {
      * <p>
      * This application's local library will live under this directory.
      *
-     * @see #getHomePath()
+     * @see #createHomePath()
      */
-    private static final File HOME_PATH = getHomePath();
+    private static final File HOME_PATH = createHomePath();
 
     /**
      * This application's local library directory.
      * <p>
      * Responses from the API will be read and written here.
      *
-     * @see #getLibraryPath()
+     * @see #createLibraryPath()
      */
-    private static final File LIBRARY_PATH = getLibraryPath();
+    private static final File LIBRARY_PATH = createLibraryPath();
 
     /**
      * The maximum age of a response in days.
@@ -92,13 +92,32 @@ public class LocalLibrary {
     }
 
     /**
+     * Create the user's home directory.
+     *
+     * @return The {@link File} object to the user's home directory
+     */
+    private static File createHomePath() {
+        LOGGER.log(Level.FINE, "Getting user's home path...");
+        return new File(System.getProperty("user.home"));
+    }
+
+    /**
+     * Create the home directory for this application.
+     *
+     * @return The {@link File} object to this application's home directory
+     */
+    private static File createLibraryPath() {
+        LOGGER.log(Level.FINE, "Creating the path for this library...");
+        return new File(HOME_PATH, "netflixRoulette");
+    }
+
+    /**
      * Get the user's home directory.
      *
      * @return The {@link File} object to the user's home directory
      */
-    private static File getHomePath() {
-        LOGGER.log(Level.FINE, "Getting user's home path...");
-        return new File(System.getProperty("user.home"));
+    public static File getHomePath() {
+        return HOME_PATH;
     }
 
     /**
@@ -106,9 +125,8 @@ public class LocalLibrary {
      *
      * @return The {@link File} object to this application's home directory
      */
-    private static File getLibraryPath() {
-        LOGGER.log(Level.FINE, "Creating the path for this library...");
-        return new File(HOME_PATH, "netflixRoulette");
+    public static File getLibraryPath() {
+        return LIBRARY_PATH;
     }
 
     /**
@@ -231,9 +249,11 @@ public class LocalLibrary {
         JSONObject responseFile = null;
 
         try {
-            String f = new Scanner(new File(LIBRARY_PATH, filename)).useDelimiter("\\Z").next();
-            responseFile = new JSONObject(f);
-            LOGGER.log(Level.FINE, "Found a matching saved response to use");
+            try (Scanner f = new Scanner(new File(LIBRARY_PATH, filename)).useDelimiter("\\Z")) {
+                String r = f.next();
+                responseFile = new JSONObject(r);
+                LOGGER.log(Level.FINE, "Found a matching saved response to use");
+            }
         } catch (FileNotFoundException e) {
             LOGGER.log(Level.INFO, "No saved response found...");
         } catch (JSONException e) {
@@ -369,6 +389,50 @@ public class LocalLibrary {
 
         return responseAge < MAX_RESPONSE_AGE;
 
+    }
+
+    /**
+     * Get the file count in the library folder.
+     * <p>
+     * Assumes that all files in the folder are the JSON files of the responses
+     * from the uNoGS API.
+     *
+     * @return number of files present in the library folder,
+     * {@link #LIBRARY_PATH}.
+     */
+    public static int getLibraryFileCount() {
+        LOGGER.log(Level.INFO, "Calculating the number of responses in the library folder...");
+        return LIBRARY_PATH.listFiles().length;
+    }
+
+    /**
+     * Get the size of the library folder, in bytes.
+     *
+     * @return the size of the library folder, in bytes
+     */
+    public static long getLibraryFolderSize() {
+        LOGGER.log(Level.INFO, "Calculating the size of the library folder...");
+        long length = 0;
+        for (File file : LIBRARY_PATH.listFiles()) {
+            if (file.isFile()) {
+                length += file.length();
+            } // else {
+//              length += getFolderSize(file);
+//          }   Could probably make this recursive if there are nested folders...
+//              not required for now, though.
+        }
+
+        return length;
+    }
+
+    /**
+     * Delete everything in the library folder.
+     */
+    public static void clearLibraryFolder() {
+        LOGGER.log(Level.INFO, "Clearing the library folder...");
+        for (File file : LIBRARY_PATH.listFiles()) {
+            file.delete();
+        }
     }
 
 }
