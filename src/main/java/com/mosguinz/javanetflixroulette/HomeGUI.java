@@ -155,6 +155,7 @@ public class HomeGUI extends javax.swing.JFrame {
         settingsDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         settingsDialog.setTitle("Help");
         settingsDialog.setMinimumSize(new java.awt.Dimension(1100, 400));
+        settingsDialog.setModal(true);
         settingsDialog.setPreferredSize(new java.awt.Dimension(1100, 400));
         settingsDialog.setResizable(false);
         settingsDialog.setType(java.awt.Window.Type.POPUP);
@@ -305,7 +306,7 @@ public class HomeGUI extends javax.swing.JFrame {
         aboutDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         aboutDialog.setTitle("About Netflix roulette");
         aboutDialog.setMinimumSize(new java.awt.Dimension(1000, 900));
-        aboutDialog.setModalExclusionType(null);
+        aboutDialog.setModal(true);
         aboutDialog.setType(java.awt.Window.Type.POPUP);
         aboutDialog.getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -388,6 +389,7 @@ public class HomeGUI extends javax.swing.JFrame {
         howToUseDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         howToUseDialog.setTitle("Help");
         howToUseDialog.setMinimumSize(new java.awt.Dimension(1000, 640));
+        howToUseDialog.setModal(true);
         howToUseDialog.setResizable(false);
         howToUseDialog.setType(java.awt.Window.Type.POPUP);
         howToUseDialog.getContentPane().setLayout(new java.awt.GridBagLayout());
