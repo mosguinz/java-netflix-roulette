@@ -155,6 +155,7 @@ public class HomeGUI extends javax.swing.JFrame {
         settingsDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         settingsDialog.setTitle("Help");
         settingsDialog.setMinimumSize(new java.awt.Dimension(1100, 400));
+        settingsDialog.setModal(true);
         settingsDialog.setPreferredSize(new java.awt.Dimension(1100, 400));
         settingsDialog.setResizable(false);
         settingsDialog.setType(java.awt.Window.Type.POPUP);
@@ -305,7 +306,7 @@ public class HomeGUI extends javax.swing.JFrame {
         aboutDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         aboutDialog.setTitle("About Netflix roulette");
         aboutDialog.setMinimumSize(new java.awt.Dimension(1000, 900));
-        aboutDialog.setModalExclusionType(null);
+        aboutDialog.setModal(true);
         aboutDialog.setType(java.awt.Window.Type.POPUP);
         aboutDialog.getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -388,6 +389,7 @@ public class HomeGUI extends javax.swing.JFrame {
         howToUseDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         howToUseDialog.setTitle("Help");
         howToUseDialog.setMinimumSize(new java.awt.Dimension(1000, 640));
+        howToUseDialog.setModal(true);
         howToUseDialog.setResizable(false);
         howToUseDialog.setType(java.awt.Window.Type.POPUP);
         howToUseDialog.getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -857,13 +859,13 @@ public class HomeGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_rollButtonActionPerformed
 
     private void HowToUseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HowToUseButtonActionPerformed
-        howToUseDialog.setVisible(true);
         howToUseDialog.setLocationRelativeTo(null);
+        howToUseDialog.setVisible(true);
     }//GEN-LAST:event_HowToUseButtonActionPerformed
 
     private void AboutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutButtonActionPerformed
-        aboutDialog.setVisible(true);
         aboutDialog.setLocationRelativeTo(null);
+        aboutDialog.setVisible(true);
     }//GEN-LAST:event_AboutButtonActionPerformed
 
     private void aboutDialogOKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutDialogOKButtonActionPerformed
@@ -917,9 +919,9 @@ public class HomeGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_howToUseDialogOKButtonActionPerformed
 
     private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsButtonActionPerformed
-        settingsDialog.setVisible(true);
         settingsDialog.setLocationRelativeTo(null);
         updateLocalLibraryMetrics();
+        settingsDialog.setVisible(true);
     }//GEN-LAST:event_settingsButtonActionPerformed
 
     private void clearLocalCacheButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearLocalCacheButtonActionPerformed
@@ -1052,9 +1054,8 @@ public class HomeGUI extends javax.swing.JFrame {
         // Pick a title and display it.
         if (netflixTitles != null) {
             JSONObject selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
-            selectedTitleGUI.updateTitleInfo(selectedTitle);
             selectedTitleGUI.setParentFrame(this);
-            this.setEnabled(false);
+            selectedTitleGUI.updateTitleInfo(selectedTitle);
         }
     }
 
