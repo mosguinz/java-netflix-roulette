@@ -60,18 +60,18 @@ public class LocalLibrary {
      * <p>
      * This application's local library will live under this directory.
      *
-     * @see #getHomePath()
+     * @see #createHomePath()
      */
-    private static final File HOME_PATH = getHomePath();
+    private static final File HOME_PATH = createHomePath();
 
     /**
      * This application's local library directory.
      * <p>
      * Responses from the API will be read and written here.
      *
-     * @see #getLibraryPath()
+     * @see #createLibraryPath()
      */
-    private static final File LIBRARY_PATH = getLibraryPath();
+    private static final File LIBRARY_PATH = createLibraryPath();
 
     /**
      * The maximum age of a response in days.
@@ -92,13 +92,32 @@ public class LocalLibrary {
     }
 
     /**
+     * Create the user's home directory.
+     *
+     * @return The {@link File} object to the user's home directory
+     */
+    private static File createHomePath() {
+        LOGGER.log(Level.FINE, "Getting user's home path...");
+        return new File(System.getProperty("user.home"));
+    }
+
+    /**
+     * Create the home directory for this application.
+     *
+     * @return The {@link File} object to this application's home directory
+     */
+    private static File createLibraryPath() {
+        LOGGER.log(Level.FINE, "Creating the path for this library...");
+        return new File(HOME_PATH, "netflixRoulette");
+    }
+
+    /**
      * Get the user's home directory.
      *
      * @return The {@link File} object to the user's home directory
      */
-    private static File getHomePath() {
-        LOGGER.log(Level.FINE, "Getting user's home path...");
-        return new File(System.getProperty("user.home"));
+    public static File getHomePath() {
+        return HOME_PATH;
     }
 
     /**
@@ -106,9 +125,8 @@ public class LocalLibrary {
      *
      * @return The {@link File} object to this application's home directory
      */
-    private static File getLibraryPath() {
-        LOGGER.log(Level.FINE, "Creating the path for this library...");
-        return new File(HOME_PATH, "netflixRoulette");
+    public static File getLibraryPath() {
+        return LIBRARY_PATH;
     }
 
     /**

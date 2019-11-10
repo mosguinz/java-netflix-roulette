@@ -205,7 +205,7 @@ public class HomeGUI extends javax.swing.JFrame {
         settingsDialog.getContentPane().add(locationLabel, gridBagConstraints);
 
         locationValue.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
-        locationValue.setText("Folder location");
+        locationValue.setText("Getting folder location...");
         locationValue.setMinimumSize(new java.awt.Dimension(500, 10));
         locationValue.setPreferredSize(new java.awt.Dimension(500, 10));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -235,7 +235,7 @@ public class HomeGUI extends javax.swing.JFrame {
         settingsDialog.getContentPane().add(responsesLabel, gridBagConstraints);
 
         responsesValue.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
-        responsesValue.setText("Folder location");
+        responsesValue.setText("Calculating number of responses saved...");
         responsesValue.setMinimumSize(new java.awt.Dimension(500, 10));
         responsesValue.setPreferredSize(new java.awt.Dimension(500, 10));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -257,7 +257,7 @@ public class HomeGUI extends javax.swing.JFrame {
         settingsDialog.getContentPane().add(cacheSizeLabel, gridBagConstraints);
 
         cacheSizeValue.setFont(new java.awt.Font("Helvetica Neue World", 0, 13)); // NOI18N
-        cacheSizeValue.setText("Cache size");
+        cacheSizeValue.setText("Calculating cache size...");
         cacheSizeValue.setMinimumSize(new java.awt.Dimension(500, 10));
         cacheSizeValue.setPreferredSize(new java.awt.Dimension(500, 10));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -294,6 +294,7 @@ public class HomeGUI extends javax.swing.JFrame {
         aboutDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         aboutDialog.setTitle("About Netflix roulette");
         aboutDialog.setMinimumSize(new java.awt.Dimension(1000, 900));
+        aboutDialog.setModalExclusionType(null);
         aboutDialog.setType(java.awt.Window.Type.POPUP);
         aboutDialog.getContentPane().setLayout(new java.awt.GridBagLayout());
 
