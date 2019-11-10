@@ -96,11 +96,6 @@ public class SelectedTitleGUI extends javax.swing.JDialog {
         setMinimumSize(new java.awt.Dimension(658, 300));
         setModal(true);
         setResizable(false);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
-        });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         titleName.setFont(new java.awt.Font("Helvetica Neue World", 1, 24)); // NOI18N
@@ -245,11 +240,6 @@ public class SelectedTitleGUI extends javax.swing.JDialog {
             LoggingUtil.logException(LOGGER, e, "Something went wrong. Could not open broswer.");
         }
     }//GEN-LAST:event_watchOnNetflixButtonActionPerformed
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        parentFrame.setEnabled(true);
-        parentFrame.toFront();
-    }//GEN-LAST:event_formWindowClosed
 
     private void rerollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rerollButtonActionPerformed
         rerollButton.setText("Rolling...");

@@ -1054,9 +1054,8 @@ public class HomeGUI extends javax.swing.JFrame {
         // Pick a title and display it.
         if (netflixTitles != null) {
             JSONObject selectedTitle = NetflixLibrary.selectRandomTitle(netflixTitles);
-            selectedTitleGUI.updateTitleInfo(selectedTitle);
             selectedTitleGUI.setParentFrame(this);
-            this.setEnabled(false);
+            selectedTitleGUI.updateTitleInfo(selectedTitle);
         }
     }
 
