@@ -249,9 +249,11 @@ public class LocalLibrary {
         JSONObject responseFile = null;
 
         try {
-            String f = new Scanner(new File(LIBRARY_PATH, filename)).useDelimiter("\\Z").next();
-            responseFile = new JSONObject(f);
-            LOGGER.log(Level.FINE, "Found a matching saved response to use");
+            try (Scanner f = new Scanner(new File(LIBRARY_PATH, filename)).useDelimiter("\\Z")) {
+                String r = f.next();
+                responseFile = new JSONObject(r);
+                LOGGER.log(Level.FINE, "Found a matching saved response to use");
+            }
         } catch (FileNotFoundException e) {
             LOGGER.log(Level.INFO, "No saved response found...");
         } catch (JSONException e) {
@@ -427,6 +429,7 @@ public class LocalLibrary {
      * Delete everything in the library folder.
      */
     public static void clearLibraryFolder() {
+        LOGGER.log(Level.INFO, "Clearing the library folder...");
         for (File file : LIBRARY_PATH.listFiles()) {
             file.delete();
         }
