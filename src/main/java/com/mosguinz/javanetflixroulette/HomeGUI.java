@@ -24,6 +24,7 @@
 package com.mosguinz.javanetflixroulette;
 
 import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -92,7 +93,7 @@ public class HomeGUI extends javax.swing.JFrame {
         localFilesDescription = new javax.swing.JLabel();
         locationLabel = new javax.swing.JLabel();
         locationValue = new javax.swing.JLabel();
-        openFolderLocationValue = new javax.swing.JButton();
+        openFolderLocationButton = new javax.swing.JButton();
         responsesLabel = new javax.swing.JLabel();
         responsesValue = new javax.swing.JLabel();
         cacheSizeLabel = new javax.swing.JLabel();
@@ -217,13 +218,13 @@ public class HomeGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
         settingsDialog.getContentPane().add(locationValue, gridBagConstraints);
 
-        openFolderLocationValue.setText("Open folder location");
+        openFolderLocationButton.setText("Open folder location");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(2, 20, 0, 0);
-        settingsDialog.getContentPane().add(openFolderLocationValue, gridBagConstraints);
+        settingsDialog.getContentPane().add(openFolderLocationButton, gridBagConstraints);
 
         responsesLabel.setFont(new java.awt.Font("Helvetica Neue World", 1, 14)); // NOI18N
         responsesLabel.setText("Responses");
@@ -561,7 +562,6 @@ public class HomeGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Netflix roulette");
         setMinimumSize(new java.awt.Dimension(1000, 650));
-        setPreferredSize(new java.awt.Dimension(1000, 650));
         setResizable(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -909,6 +909,12 @@ public class HomeGUI extends javax.swing.JFrame {
     private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsButtonActionPerformed
         settingsDialog.setVisible(true);
         settingsDialog.setLocationRelativeTo(null);
+
+        File libraryPath = LocalLibrary.getLibraryPath();
+        locationValue.setText(libraryPath.getAbsolutePath());
+        responsesValue.setText(String.valueOf(LocalLibrary.getLibraryFileCount()));
+        cacheSizeValue.setText(String.format("%d bytes", LocalLibrary.getLibraryFolderSize()));
+
     }//GEN-LAST:event_settingsButtonActionPerformed
 
     /**
@@ -1135,7 +1141,7 @@ public class HomeGUI extends javax.swing.JFrame {
     private javax.swing.JSlider minimumRatingSlider;
     private javax.swing.JLabel minimumRatingValueLabel;
     private javax.swing.JRadioButton moviesButton;
-    private javax.swing.JButton openFolderLocationValue;
+    private javax.swing.JButton openFolderLocationButton;
     private javax.swing.JPanel ratingsSelectionArea;
     private javax.swing.JLabel regionSelectionLabel;
     private javax.swing.JComboBox<String> regionSelectionMenu;

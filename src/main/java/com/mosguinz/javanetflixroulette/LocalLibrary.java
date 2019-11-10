@@ -389,4 +389,38 @@ public class LocalLibrary {
 
     }
 
+    /**
+     * Get the file count in the library folder.
+     * <p>
+     * Assumes that all files in the folder are the JSON files of the responses
+     * from the uNoGS API.
+     *
+     * @return number of files present in the library folder,
+     * {@link #LIBRARY_PATH}.
+     */
+    public static int getLibraryFileCount() {
+        LOGGER.log(Level.INFO, "Calculating the number of responses in the library folder...");
+        return LIBRARY_PATH.listFiles().length;
+    }
+
+    /**
+     * Get the size of the library folder, in bytes.
+     *
+     * @return the size of the library folder, in bytes
+     */
+    public static long getLibraryFolderSize() {
+        LOGGER.log(Level.INFO, "Calculating the size of the library folder...");
+        long length = 0;
+        for (File file : LIBRARY_PATH.listFiles()) {
+            if (file.isFile()) {
+                length += file.length();
+            } // else {
+//              length += getFolderSize(file);
+//          }   Could probably make this recursive if there are nested folders...
+//              not required for now, though.
+        }
+
+        return length;
+    }
+
 }
