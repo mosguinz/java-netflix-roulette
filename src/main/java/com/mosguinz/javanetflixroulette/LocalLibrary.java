@@ -423,4 +423,13 @@ public class LocalLibrary {
         return length;
     }
 
+    /**
+     * Delete everything in the library folder.
+     */
+    public static void clearLibraryFolder() {
+        for (File file : LIBRARY_PATH.listFiles()) {
+            file.delete();
+        }
+    }
+
 }

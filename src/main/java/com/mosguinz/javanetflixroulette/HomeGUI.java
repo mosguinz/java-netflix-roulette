@@ -219,6 +219,11 @@ public class HomeGUI extends javax.swing.JFrame {
         settingsDialog.getContentPane().add(locationValue, gridBagConstraints);
 
         openFolderLocationButton.setText("Open folder location");
+        openFolderLocationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openFolderLocationButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -271,6 +276,11 @@ public class HomeGUI extends javax.swing.JFrame {
         settingsDialog.getContentPane().add(cacheSizeValue, gridBagConstraints);
 
         clearLocalCacheButton.setText("Clear local cache");
+        clearLocalCacheButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearLocalCacheButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
@@ -909,13 +919,22 @@ public class HomeGUI extends javax.swing.JFrame {
     private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsButtonActionPerformed
         settingsDialog.setVisible(true);
         settingsDialog.setLocationRelativeTo(null);
-
-        File libraryPath = LocalLibrary.getLibraryPath();
-        locationValue.setText(libraryPath.getAbsolutePath());
-        responsesValue.setText(String.valueOf(LocalLibrary.getLibraryFileCount()));
-        cacheSizeValue.setText(String.format("%d bytes", LocalLibrary.getLibraryFolderSize()));
-
+        updateLocalLibraryMetrics();
     }//GEN-LAST:event_settingsButtonActionPerformed
+
+    private void clearLocalCacheButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearLocalCacheButtonActionPerformed
+        LocalLibrary.clearLibraryFolder();
+        updateLocalLibraryMetrics();
+    }//GEN-LAST:event_clearLocalCacheButtonActionPerformed
+
+    private void openFolderLocationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFolderLocationButtonActionPerformed
+        try {
+            Desktop.getDesktop().open(LocalLibrary.getLibraryPath());
+        } catch (IOException e) {
+            LoggingUtil.logException(LOGGER, e);
+            displayErrorMessage("Uh oh, something went wrong", "Could not open library folder.", e);
+        }
+    }//GEN-LAST:event_openFolderLocationButtonActionPerformed
 
     /**
      * Bring up a dialog that displays an error message.
@@ -1058,6 +1077,19 @@ public class HomeGUI extends javax.swing.JFrame {
         }
 
         return jCheckBoxArray;
+    }
+
+    /**
+     * Update metrics of the local library.
+     * <p>
+     * These metrics include file count, folder size, and its location. These
+     * are displayed in the settings dialog.
+     */
+    private void updateLocalLibraryMetrics() {
+        File libraryPath = LocalLibrary.getLibraryPath();
+        locationValue.setText(libraryPath.getAbsolutePath());
+        responsesValue.setText(String.valueOf(LocalLibrary.getLibraryFileCount()));
+        cacheSizeValue.setText(String.format("%.2f MB", LocalLibrary.getLibraryFolderSize() / 1e+6));
     }
 
     /**
