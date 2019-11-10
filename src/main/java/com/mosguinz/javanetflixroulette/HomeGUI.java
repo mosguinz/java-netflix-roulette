@@ -859,13 +859,13 @@ public class HomeGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_rollButtonActionPerformed
 
     private void HowToUseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HowToUseButtonActionPerformed
-        howToUseDialog.setVisible(true);
         howToUseDialog.setLocationRelativeTo(null);
+        howToUseDialog.setVisible(true);
     }//GEN-LAST:event_HowToUseButtonActionPerformed
 
     private void AboutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutButtonActionPerformed
-        aboutDialog.setVisible(true);
         aboutDialog.setLocationRelativeTo(null);
+        aboutDialog.setVisible(true);
     }//GEN-LAST:event_AboutButtonActionPerformed
 
     private void aboutDialogOKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutDialogOKButtonActionPerformed
@@ -919,9 +919,9 @@ public class HomeGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_howToUseDialogOKButtonActionPerformed
 
     private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsButtonActionPerformed
-        settingsDialog.setVisible(true);
         settingsDialog.setLocationRelativeTo(null);
         updateLocalLibraryMetrics();
+        settingsDialog.setVisible(true);
     }//GEN-LAST:event_settingsButtonActionPerformed
 
     private void clearLocalCacheButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearLocalCacheButtonActionPerformed
