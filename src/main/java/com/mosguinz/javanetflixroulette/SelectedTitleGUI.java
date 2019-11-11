@@ -50,16 +50,76 @@ public class SelectedTitleGUI extends javax.swing.JDialog {
      */
     private static final Logger LOGGER = Logger.getLogger(SelectedTitleGUI.class.getName());
 
+    /**
+     * The reference frame to the main menu.
+     */
     private static HomeGUI parentFrame;
 
-    String netflixID;
-    String title;
-    String imageURL;
-    String synopsis;
-    String rating;
-    String type;
-    String releaseYear;
-    String runtime;
+    /**
+     * The Netflix ID of the selected title.
+     *
+     * @see #updateTitleInfo(org.json.JSONObject)
+     * @see HomeGUI#getNetflixTitle()
+     */
+    private static String netflixID;
+
+    /**
+     * The name of the selected title.
+     *
+     * @see #updateTitleInfo(org.json.JSONObject)
+     * @see HomeGUI#getNetflixTitle()
+     */
+    private static String title;
+
+    /**
+     * The URL of the poster image for the selected title.
+     *
+     * @see #updateTitleInfo(org.json.JSONObject)
+     * @see HomeGUI#getNetflixTitle()
+     */
+    private static String imageURL;
+
+    /**
+     * The synopsis of the selected title.
+     *
+     * @see #updateTitleInfo(org.json.JSONObject)
+     * @see HomeGUI#getNetflixTitle()
+     */
+    private static String synopsis;
+
+    /**
+     * The rating of the selected title.
+     *
+     * @see #updateTitleInfo(org.json.JSONObject)
+     * @see HomeGUI#getNetflixTitle()
+     */
+    private static String rating;
+
+    /**
+     * The type of the selected title. Etiher {@code Movie} or {@code Series}.
+     *
+     * @see #updateTitleInfo(org.json.JSONObject)
+     * @see HomeGUI#getNetflixTitle()
+     */
+    private static String type;
+
+    /**
+     * The release year of the selected title.
+     *
+     * @see #updateTitleInfo(org.json.JSONObject)
+     * @see HomeGUI#getNetflixTitle()
+     */
+    private static String releaseYear;
+
+    /**
+     * The runtime of the selected title.
+     * <p>
+     * Only applicable to titles of {@code Series} type.
+     *
+     * @see #updateTitleInfo(org.json.JSONObject)
+     * @see HomeGUI#getNetflixTitle()
+     */
+    private static String runtime;
 
     /**
      * Creates new form {@link SelectedTitleGUI}.
