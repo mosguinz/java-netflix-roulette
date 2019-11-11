@@ -63,7 +63,16 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
 /target/
+!target/
+
+target/*
+!target/site
+
+target/site/*
+!target/site/apidocs/
+
 /nbproject/
 
 # Git commit logs
