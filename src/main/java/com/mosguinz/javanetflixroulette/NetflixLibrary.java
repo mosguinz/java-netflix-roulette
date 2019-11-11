@@ -393,7 +393,7 @@ public class NetflixLibrary {
      * listed FIRST and starts with the word "All".
      * <p>
      * For example, the SUPERCATEGORY of "Action" titles may contain
-     * SUBCATEGORIES, such as "Action Comedies," "Action Sci-Fi & Fantasy,"
+     * SUBCATEGORIES, such as "Action Comedies," "Action Sci-Fi &amp; Fantasy,"
      * "Action Thrillers," etc.
      * <p>
      * So, the list of IDs that includes those SUBCATEGORIES genres will be
@@ -535,8 +535,7 @@ public class NetflixLibrary {
      * {@link NetflixLibrary#queryRegion queryRegion}, to be used in the query
      * string.
      * @see
-     * <a href="https://rapidapi.com/unogs/api/unogs?endpoint=56770144e4b0c2a9f0e83c8e">
-     * https://rapidapi.com/unogs/api/unogs?endpoint=56770144e4b0c2a9f0e83c8e</a>
+     * <a href="https://rapidapi.com/unogs/api/unogs?endpoint=56770144e4b0c2a9f0e83c8e">https://rapidapi.com/unogs/api/unogs?endpoint=56770144e4b0c2a9f0e83c8e</a>
      * for more info about region IDs
      */
     private String getRegionID() {
@@ -561,12 +560,11 @@ public class NetflixLibrary {
      * {@link NetflixLibrary#queryGenres queryGenres}, to be used in the query
      * string; the IDs for the genres are a comma-separated string
      * @see
-     * <a href="https://rapidapi.com/unogs/api/unogs?endpoint=5676f219e4b04efee9356e43">
-     * https://rapidapi.com/unogs/api/unogs?endpoint=5676f219e4b04efee9356e43</a>
+     * <a href="https://rapidapi.com/unogs/api/unogs?endpoint=5676f219e4b04efee9356e43">https://rapidapi.com/unogs/api/unogs?endpoint=5676f219e4b04efee9356e43</a>
      * for more info about genre IDs
      * <p>
-     * {@link #extractAvailableRegions() extractSupercategoryGenres} on how
-     * genres are extracted and handled in this application
+     * {@link #extractSupercategoryGenres(org.json.JSONArray)} on how genres are
+     * extracted and handled in this application
      */
     private String getGenreIDs() {
         JSONObject idReference = availableGenres.getJSONObject(0);

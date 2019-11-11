@@ -274,7 +274,7 @@ public class LocalLibrary {
      * @param titlesQueryString a {@link String} that is the query string for
      * requesting titles; only applicable for {@code fetchTitles}
      * @return the response file as a {@link JSONObject}
-     * @see NetflixLibrary#getTitlesQueryString()
+     * @see NetflixLibrary#setTitlesQueryString()
      */
     private JSONObject loadMatchingResponseQuery(String titlesQueryString) {
         LOGGER.log(Level.INFO, "Looking for a response with a matching query string");
