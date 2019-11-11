@@ -50,19 +50,35 @@ public class HomeGUI extends javax.swing.JFrame {
      */
     private static final Logger LOGGER = Logger.getLogger(HomeGUI.class.getName());
 
+    /**
+     * The instance of the Netflix library.
+     */
     private final NetflixLibrary netflixLibrary;
+
+    /**
+     * The instance of the dialog for displaying titles.
+     */
     private final SelectedTitleGUI selectedTitleGUI = new SelectedTitleGUI();
 
+    /**
+     * The disclaimer as a HTML-formatted string.
+     */
     private static final String DISCLAIMER = "<html>Data obtained about titles and catalogue are provided by a third-party API provider, Unofficial Netflix Online Global Search (“uNoGS”) via RapidAPI."
             + "<br><br>This application is not endorsed by, directly affiliated with, maintained, authorized, or sponsored by Netflix, Inc., uNoGS, or RapidAPI. All product names, trademarks, and registered trademarks are property of their respective owners. All company, product and service names used in this application are for identification purposes only. Use of these names, trademarks, and brands does not imply endorsement."
             + "<br><br>Poster images are owned by their respective publisher or creator of the work depicted. The images used are for demonstration purposes only and not solely for illustrations. These images are of low resolution and may qualify as fair use or fair dealing for educational purposes.</html>";
 
+    /**
+     * The license notice as a HTML-formatted string.
+     */
     private static final String LICENSE = "<html>MIT License"
             + "<br><br>Copyright (c) 2019 mosguinz"
             + "<br><br>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
             + "<br><br>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
             + "<br><br>THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</html>";
 
+    /**
+     * The array of checkboxes displayed for genres.
+     */
     private final JCheckBox[] genreCheckBoxes;
 
     /**

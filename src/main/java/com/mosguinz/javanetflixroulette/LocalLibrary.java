@@ -238,6 +238,7 @@ public class LocalLibrary {
      * <p>
      * Load and return the response file as a {@link JSONObject}.
      *
+     * @param filename the name of the JSON file
      * @return the response file as a {@link JSONObject}
      */
     private JSONObject loadSavedResponse(String filename) {
@@ -273,7 +274,7 @@ public class LocalLibrary {
      * @param titlesQueryString a {@link String} that is the query string for
      * requesting titles; only applicable for {@code fetchTitles}
      * @return the response file as a {@link JSONObject}
-     * @see NetflixLibrary#getTitlesQueryString()
+     * @see NetflixLibrary#setTitlesQueryString()
      */
     private JSONObject loadMatchingResponseQuery(String titlesQueryString) {
         LOGGER.log(Level.INFO, "Looking for a response with a matching query string");
@@ -305,7 +306,7 @@ public class LocalLibrary {
      */
     public JSONArray getSavedResponse(String queryType, String titlesQueryString) {
         LOGGER.log(Level.FINE, "Looking for saved responses to use...");
-        JSONObject response = null;
+        JSONObject response;
 
         if (queryType.equals("fetchTitles")) {
             response = loadMatchingResponseQuery(titlesQueryString);
@@ -329,8 +330,6 @@ public class LocalLibrary {
      * {@code ITEMS} is present.
      *
      * @param response the {@link JSONObject} parsed from the file
-     * @param queryType must be either {@code fetchGenres}, {@code fetchTitles},
-     * or {@code fetchAvailableRegions}
      * @return the content of response as a {@code JSONArray} if the response is
      * valid; {@code null} otherwise
      */

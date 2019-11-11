@@ -61,17 +61,76 @@ public class NetflixLibrary {
      * @see #getXRapidAPIKey()
      */
     private final String X_RAPID_API_KEY;
+
+    /**
+     * The instance of the {@link LocalLibrary} handler.
+     */
     private final LocalLibrary localLibrary = new LocalLibrary();
 
+    /**
+     * An array-wrapped list of available Netflix regions.
+     *
+     * @see #fetchRegions()
+     */
+    public JSONArray availableRegions;
+
+    /**
+     * An array-wrapped list of available genres.
+     *
+     * @see #fetchGenres()
+     */
+    public JSONArray availableGenres;
+
+    // Below are the query parameters for sending requests. These values are
+    // set by the user, and are used to requests titles to the uNoGS API.
+    /**
+     * The Netflix region selected by the user.
+     *
+     * @see HomeGUI#getSelectedRegion()
+     */
     private String queryRegion;
+
+    /**
+     * The list of genres selected by the user.
+     *
+     * @see HomeGUI#getSelectedGenres()
+     */
     private ArrayList<String> queryGenres;
-    private String titlesQueryString;
+
+    /**
+     * The title type selected by the user.
+     *
+     * @see HomeGUI#getSelectedTitleType()
+     */
     private String queryTitleType;
+
+    /**
+     * The minimum rating selected by the user.
+     *
+     * @see HomeGUI#getSelectedMinimumRatingValue()
+     */
     private String queryMinimumRating;
+
+    /**
+     * The maximum rating selected by the user.
+     *
+     * @see HomeGUI#getSelectedMaximumRatingValue()
+     */
     private String queryMaximumRating;
 
-    public JSONArray availableRegions;
-    public JSONArray availableGenres;
+    /**
+     * The query string to use to send the request.
+     * <p>
+     * This string is constructed using the query values set by the user.
+     *
+     * @see #setTitlesQueryString()
+     * @see #queryRegion
+     * @see #queryGenres
+     * @see #queryTitleType
+     * @see #queryMinimumRating
+     * @see #queryMaximumRating
+     */
+    private String titlesQueryString;
 
     /**
      * Set up an instance of {@link NetflixLibrary}.
@@ -206,7 +265,7 @@ public class NetflixLibrary {
      */
     public JSONArray fetchTitles() {
         LOGGER.log(Level.INFO, "Fetching Netflix titles available in: {0}", queryRegion);
-        getTitlesQueryString();
+        setTitlesQueryString();
         return fetchData("fetchTitles");
     }
 
@@ -215,7 +274,7 @@ public class NetflixLibrary {
      *
      * @return a {@link JSONArray} of available genres
      */
-    public JSONArray fetchGenres() {
+    private JSONArray fetchGenres() {
         LOGGER.log(Level.INFO, "Fetching list of genres...");
         return fetchData("fetchGenres");
     }
@@ -225,7 +284,7 @@ public class NetflixLibrary {
      *
      * @return a {@link JSONArray} of available regions
      */
-    public JSONArray fetchRegions() {
+    private JSONArray fetchRegions() {
         LOGGER.log(Level.INFO, "Fetching list of available regions...");
         return fetchData("fetchAvailableRegions");
     }
@@ -334,7 +393,7 @@ public class NetflixLibrary {
      * listed FIRST and starts with the word "All".
      * <p>
      * For example, the SUPERCATEGORY of "Action" titles may contain
-     * SUBCATEGORIES, such as "Action Comedies," "Action Sci-Fi & Fantasy,"
+     * SUBCATEGORIES, such as "Action Comedies," "Action Sci-Fi &amp; Fantasy,"
      * "Action Thrillers," etc.
      * <p>
      * So, the list of IDs that includes those SUBCATEGORIES genres will be
@@ -476,8 +535,7 @@ public class NetflixLibrary {
      * {@link NetflixLibrary#queryRegion queryRegion}, to be used in the query
      * string.
      * @see
-     * <a href="https://rapidapi.com/unogs/api/unogs?endpoint=56770144e4b0c2a9f0e83c8e">
-     * https://rapidapi.com/unogs/api/unogs?endpoint=56770144e4b0c2a9f0e83c8e</a>
+     * <a href="https://rapidapi.com/unogs/api/unogs?endpoint=56770144e4b0c2a9f0e83c8e">https://rapidapi.com/unogs/api/unogs?endpoint=56770144e4b0c2a9f0e83c8e</a>
      * for more info about region IDs
      */
     private String getRegionID() {
@@ -502,12 +560,11 @@ public class NetflixLibrary {
      * {@link NetflixLibrary#queryGenres queryGenres}, to be used in the query
      * string; the IDs for the genres are a comma-separated string
      * @see
-     * <a href="https://rapidapi.com/unogs/api/unogs?endpoint=5676f219e4b04efee9356e43">
-     * https://rapidapi.com/unogs/api/unogs?endpoint=5676f219e4b04efee9356e43</a>
+     * <a href="https://rapidapi.com/unogs/api/unogs?endpoint=5676f219e4b04efee9356e43">https://rapidapi.com/unogs/api/unogs?endpoint=5676f219e4b04efee9356e43</a>
      * for more info about genre IDs
      * <p>
-     * {@link #extractAvailableRegions() extractSupercategoryGenres} on how
-     * genres are extracted and handled in this application
+     * {@link #extractSupercategoryGenres(org.json.JSONArray)} on how genres are
+     * extracted and handled in this application
      */
     private String getGenreIDs() {
         JSONObject idReference = availableGenres.getJSONObject(0);
@@ -522,11 +579,11 @@ public class NetflixLibrary {
             ArrayList<String> genreIDs = new ArrayList<>();
 
             // Lookup IDs for the genre and concat.
-            for (String genre : queryGenres) {
+            queryGenres.forEach((genre) -> {
                 String ids = idReference.getJSONArray(genre).join(",");
                 genreIDs.add(ids);
                 LOGGER.log(Level.FINEST, "Genre IDs for {0} are {1}", new Object[]{genre, ids});
-            }
+            });
 
             // Concat the IDs from all selected genres into a longer string.
             String q = String.join(",", genreIDs);
@@ -538,7 +595,7 @@ public class NetflixLibrary {
     }
 
     /**
-     * Construct a query string to use for requesting titles.
+     * Construct and set a query string to use for requesting titles.
      * <p>
      * Because the way parameters are passed with this API is just so f*cking
      * abhorrent, the query string just look absolutely disgusting and
@@ -597,14 +654,12 @@ public class NetflixLibrary {
      * </ul></li>
      * </ul>
      *
-     * @return a {@link String} that is the query string for requesting titles
-     * with the parameters specified as
      * @see
      * <a href="https://rapidapi.com/unogs/api/unogs?endpoint=5690bcdee4b0e203818a6518">
      * https://rapidapi.com/unogs/api/unogs?endpoint=5690bcdee4b0e203818a6518</a>
      * for this endpoint's documentation
      */
-    private void getTitlesQueryString() {
+    private void setTitlesQueryString() {
         LOGGER.log(Level.INFO, "Creating a query string to look for titles that matches the following parameters:\n"
                 + "Netflix region: {0}\n"
                 + "Genres: {1}\n"
