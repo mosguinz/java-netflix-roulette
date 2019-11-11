@@ -23,13 +23,12 @@
  */
 package com.mosguinz.javanetflixroulette;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 /**
  * A logging utility class for this program, because the default logging library

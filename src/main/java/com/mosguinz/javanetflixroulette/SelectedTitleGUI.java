@@ -23,21 +23,18 @@
  */
 package com.mosguinz.javanetflixroulette;
 
-import java.util.logging.Logger;
-import java.util.logging.Level;
-
-import java.net.URL;
-import java.io.IOException;
-import java.awt.Image;
 import java.awt.Desktop;
 import java.awt.Font;
+import java.awt.Image;
+import java.io.IOException;
 import java.net.URISyntaxException;
-
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 
