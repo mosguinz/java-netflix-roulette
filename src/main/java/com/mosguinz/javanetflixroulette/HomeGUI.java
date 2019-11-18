@@ -82,6 +82,11 @@ public class HomeGUI extends javax.swing.JFrame {
     private final JCheckBox[] genreCheckBoxes;
 
     /**
+     * Whether the given input is valid.
+     */
+    private boolean inputIsValid;
+
+    /**
      * Creates new form {@link HomeGUI}.
      */
     public HomeGUI() {
@@ -869,7 +874,7 @@ public class HomeGUI extends javax.swing.JFrame {
         rollButton.paintImmediately(rollButton.getVisibleRect());
         setQueryValues();
 
-        if (ratingValuesIsValid()) {
+        if (inputIsValid) {
             getNetflixTitle();
         }
 
@@ -1012,11 +1017,6 @@ public class HomeGUI extends javax.swing.JFrame {
             }
         }
 
-        if (selectedGenres.isEmpty()) {
-            displayErrorMessage("Please select at least one genre.", "Invalid input");
-            return null;
-        }
-
         return selectedGenres;
     }
 
@@ -1051,6 +1051,19 @@ public class HomeGUI extends javax.swing.JFrame {
     }
 
     /**
+     * Verify if the provided genre selection is valid.
+     *
+     * @return {@code true} if valid; {@code false} otherwise
+     */
+    private boolean genreSelectionIsValid(ArrayList<String> selectedGenres) {
+        if (selectedGenres.isEmpty()) {
+            displayErrorMessage("Please select at least one genre.", "Invalid input");
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Verify if the provided input for ratings are valid.
      *
      * @return {@code true} if valid; {@code false} otherwise
@@ -1070,10 +1083,18 @@ public class HomeGUI extends javax.swing.JFrame {
     private void setQueryValues() {
 
         netflixLibrary.setQueryRegion(getSelectedRegion());
-        netflixLibrary.setQueryGenres(getSelectedGenres());
+        ArrayList<String> g = getSelectedGenres();
+        netflixLibrary.setQueryGenres(g);
         netflixLibrary.setQueryTitleType(getSelectedTitleType());
         netflixLibrary.setQueryMinimumRating(getSelectedMinimumRatingValue());
         netflixLibrary.setQueryMaximumRating(getSelectedMaximumRatingValue());
+
+        // Check if the values are valid.
+        if (ratingValuesIsValid() && genreSelectionIsValid(g)) {
+            inputIsValid = true;
+        } else {
+            inputIsValid = false;
+        }
 
     }
 
