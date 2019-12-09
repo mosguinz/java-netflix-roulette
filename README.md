@@ -30,4 +30,4 @@ images used are for demonstration purposes only and not solely for illustrations
 are of low resolution and may qualify as fair use or fair dealing for educational purposes.
 
 ## License
-This repository is licensed under the [MIT License](https://github.com/mosguinz/java-netflix-roulette/blob/master/LICENSE.md)
+This repository is licensed under the [MIT License](https://github.com/mosguinz/java-netflix-roulette/blob/master/LICENSE.md).
