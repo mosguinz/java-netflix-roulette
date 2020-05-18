@@ -11,9 +11,9 @@ Selects a random Netflix title for you, so that you don't have to.
 ## Disclaimer
 Made for demonstrational purposes only. Not for distribution.
 
-Made in compliance with [AS91901 (2019, version 1)](https://www.nzqa.govt.nz/nqfdocs/ncea-resource/achievements/2019/as91901.pdf),
-[AS91906 (2019, version 1)](https://www.nzqa.govt.nz/nqfdocs/ncea-resource/achievements/2019/as91906.pdf), and
-[AS91907 (2019, version 1)](https://www.nzqa.govt.nz/nqfdocs/ncea-resource/achievements/2019/as91907.pdf).
+Made in compliance with [AS91901 (2019, version 1)](https://mosguinz.github.io/java-netflix-roulette/com/mosguinz/javanetflixroulette/as91901.pdf),
+[AS91906 (2019, version 1)](https://mosguinz.github.io/java-netflix-roulette/com/mosguinz/javanetflixroulette/as91906.pdf), and
+[AS91907 (2019, version 1)](https://mosguinz.github.io/java-netflix-roulette/com/mosguinz/javanetflixroulette/as91907.pdf).
 
 ## Data and intellectual property
 The data obtained about titles and catalogue are provided by a third-party API provider,
